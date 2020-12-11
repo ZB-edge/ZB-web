@@ -1,0 +1,659 @@
+<!doctype html>
+<html>
+<head>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>设备管理中心</title>
+<link type="text/css" href="css/public.css" rel="stylesheet">
+<link type="text/css" href="css/icon.css" rel="stylesheet">
+<link type="text/css" href="css/index.css" rel="stylesheet">
+<script type="text/javascript">
+        document.documentElement.style.fontSize = document.documentElement.clientWidth /768*100 + 'px';
+</script>
+
+<script src="js/echarts.min.js"></script>
+</head>
+<style>
+
+</style>
+
+<body>
+<div class="bg">
+	<div class="title">设备管理中心</div>
+    <div class="leftMain">
+    	<div class="leftMain_top">
+        	<div class="leftMain_topIn">
+            	<ul>
+                	<li>
+                        <div class="liIn">
+                            <h3>管辖单位</h3>
+                            <p class="shu"><span class="shu1">12</span><i>个</i></p>
+                            <div class="zi"><span class="span1">单位级别：个数</span><span>单位级别：个数</span></div>
+                            <span class="border_bg_leftTop"></span>
+                            <span class="border_bg_rightTop"></span>
+                            <span class="border_bg_leftBottom"></span>
+                            <span class="border_bg_rightBottom"></span>
+                        </div>
+                    </li>
+                	<li>
+                        <div class="liIn">
+                            <h3>士兵数量</h3>
+                            <p class="shu"><span class="shu2">12354</span><i>人</i></p>
+                            <div class="zi"><span class="span1">士兵级别：个数</span><span>士兵级别：个数</span></div>
+                            <span class="border_bg_leftTop"></span>
+                            <span class="border_bg_rightTop"></span>
+                            <span class="border_bg_leftBottom"></span>
+                            <span class="border_bg_rightBottom"></span>
+                        </div>
+                    </li>
+                	<li>
+                        <div class="liIn">
+                            <h3>装备数量</h3>
+                            <p class="shu"><span class="shu3">520</span><i>个</i></p>
+                            <div class="zi"><span class="span1">枪支：数量</span><span>坦克：数量</span></div>
+                            <span class="border_bg_leftTop"></span>
+                            <span class="border_bg_rightTop"></span>
+                            <span class="border_bg_leftBottom"></span>
+                            <span class="border_bg_rightBottom"></span>
+                        </div>
+                    </li>
+                	<li>
+                        <div class="liIn">
+                            <h3>器材数量</h3>
+                            <p class="shu"><span class="shu4">5200</span><i>个</i></p>
+                            <div class="zi"><span class="span1">子弹：个数</span><span>护膝：个数</span></div>
+                            <span class="border_bg_leftTop"></span>
+                            <span class="border_bg_rightTop"></span>
+                            <span class="border_bg_leftBottom"></span>
+                            <span class="border_bg_rightBottom"></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="leftMain_middle">
+        	<div class="leftMain_middle_left">
+            	<div class="leftMain_middle_leftIn">
+                	<h3>枪支使用情况</h3>
+                    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                    <div class="biaoge" style="width:100%; height:25vh" id="chartmain"></div>
+                    <script type="text/javascript">
+					//window.onload = function () {
+								//指定图表的配置项和数据
+								var dataAxis = ['1日', '2日', '3日', '4日', '5日', '6日', '7日', '8日', '9日', '10日', '11日', '12日', '13日', '14日', '15日'];
+								var data = [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 200];
+								var yMax = 500;
+								var dataShadow = [];
+								
+								for (var i = 0; i < data.length; i++) {
+									dataShadow.push(yMax);
+								}
+								
+								option = {
+									title: {
+										text: '',
+										subtext: ''
+									},
+									grid:{
+										x:40,
+										y:40,
+										x2:20,
+										y2:20,
+										
+									},
+									xAxis: {
+										data: dataAxis,
+										axisLabel: {
+											/*inside: true,*/
+											interval:0,
+											textStyle: {
+												color: '#fff',
+												fontSize: 12
+												
+											}
+										},
+										axisTick: {
+											show: false,
+										},
+										axisLine: {
+											show: true,
+											symbol:['none', 'arrow'],
+											symbolOffset: 12,
+											lineStyle:{
+												color: '#fff',
+											}
+										},
+										z: 10
+									},
+									yAxis: {
+										type: 'value',
+										name: '单位：个',
+										axisLine: {
+											show: true,
+											symbol: ['none', 'arrow'],
+											symbolOffset: 12,
+											lineStyle:{
+												color: '#fff',
+											}
+										},
+										axisTick: {
+											show: false
+										},
+										axisLabel: {
+											textStyle: {
+												color: '#fff',
+												fontSize: 12
+											}
+										}
+									},
+
+									dataZoom: [
+										{
+											type: 'inside'
+										}
+									],
+									series: [
+										{ // For shadow
+											type: 'bar',
+											itemStyle: {
+												color: 'rgba(0,0,0,0.05)'
+											},
+											barGap: '-100%',
+											barCategoryGap: '40%',
+											data: dataShadow,
+											animation: false
+										},
+										{
+											type: 'bar',
+											itemStyle: {
+												color: new echarts.graphic.LinearGradient(
+													0, 0, 0, 1,
+													[
+														{offset: 0, color: '#0efdff'},
+														{offset: 0.5, color: '#188df0'},
+														{offset: 1, color: '#188df0'}
+													]
+												)
+											},
+											emphasis: {
+												itemStyle: {
+													color: new echarts.graphic.LinearGradient(
+														0, 0, 0, 1,
+														[
+															{offset: 0, color: '#2378f7'},
+															{offset: 0.7, color: '#2378f7'},
+															{offset: 1, color: '#0efdff'}
+														]
+													)
+												}
+											},
+											data: data
+										}
+									]
+								};
+								
+								// Enable data zoom when user click bar.
+								/*var zoomSize = 6;
+								myChart.on('click', function (params) {
+									console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+									myChart.dispatchAction({
+										type: 'dataZoom',
+										startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+										endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+									});
+								});*/
+							
+								//获取dom容器
+								var myChart = echarts.init(document.getElementById('chartmain'));
+								// 使用刚指定的配置项和数据显示图表。
+								myChart.setOption(option);
+						//};
+					</script>
+                    <span class="border_bg_leftTop"></span>
+                    <span class="border_bg_rightTop"></span>
+                    <span class="border_bg_leftBottom"></span>
+                    <span class="border_bg_rightBottom"></span>
+                </div>
+            </div>
+        	<div class="leftMain_middle_right">
+            	<div class="leftMain_middle_rightIn">
+                	<h3>装备种类</h3>
+                    <div class="biaoge biaoge_pai" style="width:100%; height:25vh">
+                    	<div class="biaoge_paiIn">
+                        	<ul>
+                            	<li>
+                                	<div class="liIn">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">枪支</span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:98.5%;"></div></div>
+                                        <p class="num">98.5%</p>
+                                    </div>
+                                </li>
+                             	<li>
+                                	<div class="liIn liIn2">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">坦克</span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:88.5%;"></div></div>
+                                        <p class="num">88.5%</p>
+                                    </div>
+                                </li>
+                            	<li>
+                                	<div class="liIn liIn3">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">装甲车</span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:68.5%;"></div></div>
+                                        <p class="num">68.5%</p>
+                                    </div>
+                                </li>
+                            	<li>
+                                	<div class="liIn liIn4">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">大炮</span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:40.5%;"></div></div>
+                                        <p class="num">40.5%</p>
+                                    </div>
+                                </li>
+                            	<li>
+                                	<div class="liIn liIn5">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">其他</span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:22.5%;"></div></div>
+                                        <p class="num">22.5%</p>
+                                    </div>
+                                </li>
+                            	<!-- <li>
+                                	<div class="liIn liIn6">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">第六名</span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:10.5%;"></div></div>
+                                        <p class="num">10.5%</p>
+                                    </div>
+                                </li> -->
+                           </ul>
+                        </div>
+                    </div>
+                    <span class="border_bg_leftTop"></span>
+                    <span class="border_bg_rightTop"></span>
+                    <span class="border_bg_leftBottom"></span>
+                    <span class="border_bg_rightBottom"></span>
+                </div>
+            </div>
+        </div>
+        <div class="leftMain_middle">
+        	<div class="leftMain_middle_left">
+            	<div class="leftMain_middle_leftIn">
+                	<h3>器材使用情况</h3>
+                    <div class="biaoge" style="width:100%; height:25vh" id="chartmain_zhe"></div>
+                    <script type="text/javascript">
+					//window.onload = function (){
+								//指定图表的配置项和数据
+								
+					option = {
+						title: {
+							text: ''
+						},
+						tooltip: {
+							trigger: 'axis'
+						},
+						legend: {
+							textStyle: {
+								color: '#fff',
+								fontSize: 12,
+							},
+							right:'10%',
+							data: ['子弹', '护膝']
+						},
+						grid:{
+								x:40,
+								y:40,
+								x2:20,
+								y2:20,
+							},
+						toolbox: {
+							feature: {
+								//saveAsImage: {}
+							}
+						},
+						xAxis: {
+							type: 'category',
+							boundaryGap: false,
+							axisLabel: {
+											/*inside: true,*/
+											interval:0,
+											textStyle: {
+												color: '#fff',
+												fontSize: 12
+												
+											}
+										},
+										axisTick: {
+											show: false,
+										},
+										axisLine: {
+											show: true,
+											symbol:['none', 'arrow'],
+											symbolOffset: 12,
+											lineStyle:{
+												color: '#fff',
+											}
+										},
+							data: ['12.01', '12.02', '12.03', '12.04', '12.05', '12.06', '12.07']
+						},
+						yAxis: {
+							type: 'value',
+							
+							axisLine: {
+								show: true,
+								symbol: ['none', 'arrow'],
+								symbolOffset: 12,
+								lineStyle:{
+									color: '#fff',
+								}
+							},
+							axisTick: {
+								show: false
+							},
+							axisLabel: {
+								textStyle: {
+									color: '#fff',
+									fontSize: 12
+								}
+							}
+						},
+						series: [
+							{
+								name: '子弹',
+								type: 'line',
+								stack: '总量',
+								data: [280, 102, 191, 134, 390, 230, 210],
+								itemStyle: {
+									 normal: {
+									   color: "#0efdff",//折线点的颜色
+									   lineStyle: {
+									   color: "#0efdff",//折线的颜色
+									   width:2,
+									  }
+									},
+								}
+							},
+							{
+								name: '护膝',
+								type: 'line',
+								stack: '总量',
+								data: [100, 132, 131, 234, 290, 330, 110]
+							},
+						]
+					};		
+								//获取dom容器
+								var myChart = echarts.init(document.getElementById('chartmain_zhe'));
+								// 使用刚指定的配置项和数据显示图表。
+								myChart.setOption(option);
+						//};
+					</script>
+                    <span class="border_bg_leftTop"></span>
+                    <span class="border_bg_rightTop"></span>
+                    <span class="border_bg_leftBottom"></span>
+                    <span class="border_bg_rightBottom"></span>
+                </div>
+            </div>
+        	<div class="leftMain_middle_right">
+            	<div class="leftMain_middle_rightIn">
+                	<h3>今日出入库情况</h3>
+                    <div class="biaoge biaoge_bi" style="width:100%; height:25vh">
+                    	<ul>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu1">520</p>
+                                    <p class="zi">子弹出库</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu2">500</p>
+                                    <p class="zi">枪支出库</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu3">120</p>
+                                    <p class="zi">护膝出库</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu4">500</p>
+                                    <p class="zi">子弹入库</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu5">23</p>
+                                    <p class="zi">枪支入库</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu6">500</p>
+                                    <p class="zi">护膝入库</p>
+                                </div>
+                            </li>
+                        </ul>
+                    
+                    </div>
+                    <span class="border_bg_leftTop"></span>
+                    <span class="border_bg_rightTop"></span>
+                    <span class="border_bg_leftBottom"></span>
+                    <span class="border_bg_rightBottom"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rightMain">
+        <div class="rightMain_top">
+            <div class="rightMain_topIn">
+                <h3>器材种类</h3>
+                <div class="biaoge" style="width:100%; height:30vh" id="chartmain_bing"></div>
+                <script type="text/javascript">
+					option = {
+						title: {
+							text: '数据情况统计',
+							subtext: '',
+							left: 'right',
+							textStyle: {
+								color: '#fff',
+								fontSize: 12
+							}
+						},
+						tooltip: {
+							trigger: 'item',
+							formatter: '{a} <br/>{b} : {c} ({d}%)'
+						},
+						legend: {
+							// orient: 'vertical',
+							// top: 'middle',
+							type: 'scroll',
+							orient: 'vertical',
+							right: 10,
+							top: 40,
+							bottom: 20,
+							left: 'right',
+							data: ['子弹', '护膝', '炸弹', '炮弹', '其他'],
+							textStyle: {
+								color: '#fff',
+								fontSize: 12
+							}
+
+						},
+						grid:{
+							x:'-10%',
+							y:40,
+							x2:20,
+							y2:20,
+						},
+						color : [ '#09d0fb', '#f88cfb', '#95f8fe', '#f9f390',  '#ecfeb7' ],
+						series: [
+							{
+								type: 'pie',
+								radius: '65%',
+								center: ['50%', '50%'],
+								selectedMode: 'single',
+								data: [
+									{value: 1548, name: '子弹',
+									
+							},
+									{value: 535, name: '护膝'},
+									{value: 510, name: '炸弹'},
+									{value: 634, name: '炮弹'},
+									{value: 735, name: '其他'}
+								],
+								emphasis: {
+									itemStyle: {
+										shadowBlur: 10,
+										shadowOffsetX: 0,
+										shadowColor: 'rgba(0, 0, 0, 0.5)'
+									}
+								}
+							}
+						]
+					};
+                //获取dom容器
+								var myChart = echarts.init(document.getElementById('chartmain_bing'));
+								// 使用刚指定的配置项和数据显示图表。
+								myChart.setOption(option);
+                
+                </script>
+                <span class="border_bg_leftTop"></span>
+                <span class="border_bg_rightTop"></span>
+                <span class="border_bg_leftBottom"></span>
+                <span class="border_bg_rightBottom"></span>
+            </div>
+         </div>
+        <div class="rightMain_bottom">
+            <div class="rightMain_bottomIn">
+                <h3>单位详情</h3>
+                <div class="biaoge biaoge_list" style="width:100%; height:36vh">
+                	<div class="biaoge_listIn">
+                    	<ul class="ul_title">
+                        	<li>单位名称</li>
+                            <li>单位级别</li>
+                            <li>士兵个数</li>
+                            <li>将军</li>
+                            <li>大校</li>
+                        </ul>
+                        <div class="ul_list">
+                        	<div class="ul_listIn">
+                                <ul class="ul_con">
+                                    <li>特战一连</li>
+                                    <li>英雄连</li>
+                                    <li>500</li>
+                                    <li>10</li>
+                                    <li>2</li>
+                                </ul>
+                               <ul class="ul_con">
+                                   <li>特战二连</li>
+                                   <li>英雄连</li>
+                                   <li>500</li>
+                                   <li>10</li>
+                                   <li>2</li>
+                               </ul>
+                                <ul class="ul_con">
+                                    <li>特战三连</li>
+                                    <li>英雄连</li>
+                                    <li>500</li>
+                                    <li>10</li>
+                                    <li>2</li>
+                                </ul>
+                               <ul class="ul_con">
+                                   <li>特战四连</li>
+                                   <li>英雄连</li>
+                                   <li>500</li>
+                                   <li>10</li>
+                                   <li>2</li>
+                               </ul>
+                                <ul class="ul_con">
+                                    <li>特战五连</li>
+                                    <li>英雄连</li>
+                                    <li>500</li>
+                                    <li>10</li>
+                                    <li>2</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>特战六连</li>
+                                    <li>英雄连</li>
+                                    <li>500</li>
+                                    <li>10</li>
+                                    <li>2</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>特战七连</li>
+                                    <li>英雄连</li>
+                                    <li>500</li>
+                                    <li>10</li>
+                                    <li>2</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>特战八连</li>
+                                    <li>英雄连</li>
+                                    <li>500</li>
+                                    <li>10</li>
+                                    <li>2</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>特战十连</li>
+                                    <li>英雄连</li>
+                                    <li>500</li>
+                                    <li>10</li>
+                                    <li>2</li>
+                                </ul>
+                                 <ul class="ul_con">
+                                     <li>特战11连</li>
+                                     <li>英雄连</li>
+                                     <li>500</li>
+                                     <li>10</li>
+                                     <li>2</li>
+                                 </ul>
+                                <ul class="ul_con">
+                                    <li>特战12连</li>
+                                    <li>英雄连</li>
+                                    <li>500</li>
+                                    <li>10</li>
+                                    <li>2</li>
+                                </ul>
+                                 <ul class="ul_con">
+                                     <li>特战13连</li>
+                                     <li>英雄连</li>
+                                     <li>500</li>
+                                     <li>10</li>
+                                     <li>2</li>
+                                 </ul>
+                            </div>
+                       </div>
+                   </div>
+                
+                </div>
+                <span class="border_bg_leftTop"></span>
+                <span class="border_bg_rightTop"></span>
+                <span class="border_bg_leftBottom"></span>
+                <span class="border_bg_rightBottom"></span>
+            </div>
+         </div>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+<!--数字增长累加动画-->
+<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="js/jquery.numscroll.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$(".shu1").numScroll();
+	$(".shu2").numScroll();
+	$(".shu3").numScroll();
+	$(".shu4").numScroll();
+	$(".shu5").numScroll();
+	$(".shu6").numScroll();
+
+	/*$(".num2").numScroll({
+		time:5000
+	});*/
+</script>
+
+</body>
+</html>
