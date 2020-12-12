@@ -66,7 +66,8 @@
                 <el-card shadow="hover">
                     <p style="display: inline">单位：</p >
                     <charset></charset>
-                    <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
+                  <div class="schart"><histogram></histogram></div>
+<!--                    <sector></sector>-->
                 </el-card>
             </el-col>
         </el-row>
@@ -75,14 +76,16 @@
                 <el-card shadow="hover">
                     <p style="display: inline">单位：</p >
                     <charset></charset>
-                    <schart class="schart" canvasId="pie" :options="options3"></schart>
+                  <schart class="schart" canvasId="pie1" :options="options2"></schart>
+<!--                <div class="schart"><sector></sector></div>-->
                 </el-card>
             </el-col>
             <el-col :span="12">
                 <el-card shadow="hover">
                     <p style="display: inline">单位：</p >
                     <charset></charset>
-                    <schart class="schart" canvasId="pie1" :options="options3"></schart>
+<!--                  <div class="schart"><histogram></histogram></div>-->
+                    <schart class="schart" canvasId="pie2" :options="options3"></schart>
                 </el-card>
             </el-col>
         </el-row>
@@ -93,6 +96,8 @@
 import Schart from 'vue-schart';
 import bus from '../common/bus';
 import charset from './charset';
+import histogram from "@/components/page/histogram";
+import sector from "@/components/page/sector";
 
 export default {
     name: 'dashboard',
@@ -107,42 +112,12 @@ export default {
                     description: '这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企'
                 }
             ],
-            data: [
-                {
-                    name: '2018/09/04',
-                    value: 1083
-                },
-                {
-                    name: '2018/09/05',
-                    value: 941
-                },
-                {
-                    name: '2018/09/06',
-                    value: 1139
-                },
-                {
-                    name: '2018/09/07',
-                    value: 816
-                },
-                {
-                    name: '2018/09/08',
-                    value: 327
-                },
-                {
-                    name: '2018/09/09',
-                    value: 228
-                },
-                {
-                    name: '2018/09/10',
-                    value: 1065
-                }
-            ],
             options: {
                 type: 'bar',
                 title: {
                     text: '最近一周各品类销售图'
                 },
-                bgColor: '#fbfbfb',
+                // bgColor: '#fbfbfb',
                 labels: ['周一', '周二', '周三', '周四', '周五'],
                 datasets: [
                     {
@@ -160,7 +135,7 @@ export default {
                     }
                 ]
             },
-            options3: {
+            options2: {
                 type: 'pie',
                 title: {
                     text: '服装品类销售饼状图'
@@ -168,7 +143,23 @@ export default {
                 legend: {
                     position: 'left'
                 },
-                bgColor: '#fbfbfb',
+                // bgColor: '#fbfbfb',
+                labels: ['T恤', '牛仔裤', '连衣裙', '毛衣', '七分裤', '短裙', '羽绒服'],
+                datasets: [
+                    {
+                        data: [334, 278, 190, 235, 260, 200, 141]
+                    }
+                ]
+            },
+          options3: {
+                type: 'pie',
+                title: {
+                    text: '服装品类销售饼状图'
+                },
+                legend: {
+                    position: 'left'
+                },
+                // bgColor: '#fbfbfb',
                 labels: ['T恤', '牛仔裤', '连衣裙', '毛衣', '七分裤', '短裙', '羽绒服'],
                 datasets: [
                     {
@@ -179,7 +170,7 @@ export default {
         };
     },
     components: {
-        Schart,charset
+        Schart,charset,histogram,sector
     },
     computed: {
         role() {

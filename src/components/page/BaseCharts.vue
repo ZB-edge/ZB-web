@@ -32,16 +32,18 @@
                 <div class="content-title">环形图</div>
                 <schart class="schart" canvasId="ring" :options="options4"></schart>
             </div>
+                <sector></sector>
         </div>
     </div>
 </template>
 
 <script>
 import Schart from 'vue-schart';
+import sector from "@/components/page/sector";
 export default {
     name: 'basecharts',
     components: {
-        Schart
+        Schart,sector
     },
     data() {
         return {
