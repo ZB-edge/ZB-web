@@ -38,13 +38,13 @@ import request from "@/network/request";
       request({
   url:'/home/multidata'
     }).then(res =>{
-      console.log(res.data.data.banner.list[0].title)
+      // console.log(res.data.data.banner.list[0].title)
               this.options[0].label = res.data.data.banner.list[0].title;
     }).catch(err => {
   alert('获取数据失败！')
     })
 
-      console.log(this.options[0].label)
+      // console.log(this.options[0].label)
     }
   }
 </script>

@@ -1,17 +1,18 @@
 <style scoped>
-  #chart_example{
+  #sector{
     width: 100%;
     height: 300px;
     margin: 0 auto;
   }
 </style>
 <template>
-    <div id="chart_example">
+    <div id="sector">
     </div>
 </template>
 
 <script>
   import echarts from 'echarts'
+  import request from "@/network/request";
   export default {
     name:'sector',
     data() {
@@ -69,15 +70,26 @@
     },
     mounted() {
       let this_ = this;
-      let myChart = echarts.init(document.getElementById('chart_example'));
-      myChart.setOption(this.option);
+      let chart = echarts.init(document.getElementById('sector'));
+      chart.setOption(this.option);
       //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
-      window.addEventListener('resize',function() {myChart.resize()});
+      window.addEventListener('resize',function() {chart.resize()});
     },
     methods: {},
     watch: {},
     created() {
-
+           request({
+  url:'/home/multidata'
+    }).then(res =>{
+      // console.log(res.data.data.banner.list[0].title)
+    }).catch(err => {
+  alert('获取数据失败！')
+    })
+      this.option.series[0].data = [{value: 335, name: '直接访问'},
+                {value: 310, name: '邮件营销'},
+                {value: 234, name: '联盟广告'},
+                {value: 135, name: '视频广告'}]
+      console.log(this.option.series[0].data)
     }
   }
 </script>

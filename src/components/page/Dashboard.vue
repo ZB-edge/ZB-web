@@ -67,7 +67,6 @@
                     <p style="display: inline">单位：</p >
                     <charset></charset>
                   <div class="schart"><histogram></histogram></div>
-<!--                    <sector></sector>-->
                 </el-card>
             </el-col>
         </el-row>
@@ -76,16 +75,14 @@
                 <el-card shadow="hover">
                     <p style="display: inline">单位：</p >
                     <charset></charset>
-                  <schart class="schart" canvasId="pie1" :options="options2"></schart>
-<!--                <div class="schart"><sector></sector></div>-->
+                <div class="schart"><sector></sector></div>
                 </el-card>
             </el-col>
             <el-col :span="12">
                 <el-card shadow="hover">
                     <p style="display: inline">单位：</p >
                     <charset></charset>
-<!--                  <div class="schart"><histogram></histogram></div>-->
-                    <schart class="schart" canvasId="pie2" :options="options3"></schart>
+                    <div class="schart"><sectorequip></sectorequip></div>
                 </el-card>
             </el-col>
         </el-row>
@@ -97,7 +94,8 @@ import Schart from 'vue-schart';
 import bus from '../common/bus';
 import charset from './charset';
 import histogram from "@/components/page/histogram";
-import sector from "@/components/page/sector";
+import sector from "@/components/page/sectorfacility";
+import sectorequip from "@/components/sectorequip";
 
 export default {
     name: 'dashboard',
@@ -112,65 +110,10 @@ export default {
                     description: '这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企'
                 }
             ],
-            options: {
-                type: 'bar',
-                title: {
-                    text: '最近一周各品类销售图'
-                },
-                // bgColor: '#fbfbfb',
-                labels: ['周一', '周二', '周三', '周四', '周五'],
-                datasets: [
-                    {
-                        label: '家电',
-                        fillColor: 'rgba(241, 49, 74, 0.5)',
-                        data: [234, 278, 270, 190, 230]
-                    },
-                    {
-                        label: '百货',
-                        data: [164, 178, 190, 135, 160]
-                    },
-                    {
-                        label: '食品',
-                        data: [144, 198, 150, 235, 120]
-                    }
-                ]
-            },
-            options2: {
-                type: 'pie',
-                title: {
-                    text: '服装品类销售饼状图'
-                },
-                legend: {
-                    position: 'left'
-                },
-                // bgColor: '#fbfbfb',
-                labels: ['T恤', '牛仔裤', '连衣裙', '毛衣', '七分裤', '短裙', '羽绒服'],
-                datasets: [
-                    {
-                        data: [334, 278, 190, 235, 260, 200, 141]
-                    }
-                ]
-            },
-          options3: {
-                type: 'pie',
-                title: {
-                    text: '服装品类销售饼状图'
-                },
-                legend: {
-                    position: 'left'
-                },
-                // bgColor: '#fbfbfb',
-                labels: ['T恤', '牛仔裤', '连衣裙', '毛衣', '七分裤', '短裙', '羽绒服'],
-                datasets: [
-                    {
-                        data: [334, 278, 190, 235, 260, 200, 141]
-                    }
-                ]
-            },
         };
     },
     components: {
-        Schart,charset,histogram,sector
+        Schart,charset,histogram,sector,sectorequip
     },
     computed: {
         role() {

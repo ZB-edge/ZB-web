@@ -14,6 +14,7 @@
 
 <script>
   import echarts from 'echarts'
+  import request from "@/network/request";
   export default {
     name:'histogram',
     data() {
@@ -27,7 +28,7 @@
         color: ['#f44'],
         tooltip : {
           trigger: 'axis',
-          formatter:'{c}%',
+          formatter:'{b} {c}%',
           axisPointer : {
             type : 'shadow'
           }
@@ -94,6 +95,16 @@
     watch: {},
     created() {
 
+           request({
+  url:'/home/multidata'
+    }).then(res =>{
+      // console.log(res.data.data.banner.list[0].title)
+    }).catch(err => {
+  alert('获取数据失败！')
+    })
+           this.option.xAxis[0].data = ["党员", "群众", "其他"];
+           this.option.series[0].data = [58, 26, 36];
+           console.log(this.option.series)
     }
   }
 </script>

@@ -39,7 +39,7 @@
 
 <script>
 import Schart from 'vue-schart';
-import sector from "@/components/page/sector";
+import sector from "@/components/page/sectorfacility";
 export default {
     name: 'basecharts',
     components: {
