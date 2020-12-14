@@ -1,77 +1,77 @@
 <template>
   <div>
     <el-dialog
-        title="装备信息"
-        :visible.sync="centerDialogVisible"
-        width="30%"
-        center>
-        <p style="display: inline">单位：</p>
-      <el-select v-model="value" filterable placeholder="请选择">
+      title='装备信息'
+      :visible.sync='centerDialogVisible'
+      width='30%'
+      center>
+      <p style='display: inline'>单位：</p>
+      <el-select v-model='value' filterable placeholder='请选择'>
         <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+          v-for='item in options'
+          :key='item.value'
+          :label='item.label'
+          :value='item.value'>
         </el-option>
       </el-select>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-    <el-button @click="centerDialogVisible = false">取 消</el-button>
+      <span slot='footer' class='dialog-footer'>
+        <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>
+    <el-button @click='centerDialogVisible = false'>取 消</el-button>
   </span>
     </el-dialog>
-<!--    <div class="crumbs">-->
-<!--      <el-breadcrumb separator="/">-->
-<!--        <el-breadcrumb-item>-->
-<!--          <i class="el-icon-lx-cascades"></i> 基础表格-->
-<!--        </el-breadcrumb-item>-->
-<!--      </el-breadcrumb>-->
-<!--    </div>-->
-    <div class="container">
-      <h3 style="margin-bottom: 20px">单位：{{value}}</h3>
-<!--      <div class="handle-box">-->
-<!--        <el-button-->
-<!--            type="primary"-->
-<!--            icon="el-icon-delete"-->
-<!--            class="handle-del mr10"-->
-<!--            @click="delAllSelection"-->
-<!--        >批量删除-->
-<!--        </el-button>-->
-<!--        <el-select v-model="query.address" placeholder="地址" class="handle-select mr10">-->
-<!--          <el-option key="1" label="广东省" value="广东省"></el-option>-->
-<!--          <el-option key="2" label="湖南省" value="湖南省"></el-option>-->
-<!--        </el-select>-->
-<!--        <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>-->
-<!--        <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>-->
-<!--      </div>-->
+    <!--    <div class="crumbs">-->
+    <!--      <el-breadcrumb separator="/">-->
+    <!--        <el-breadcrumb-item>-->
+    <!--          <i class="el-icon-lx-cascades"></i> 基础表格-->
+    <!--        </el-breadcrumb-item>-->
+    <!--      </el-breadcrumb>-->
+    <!--    </div>-->
+    <div class='container'>
+      <h3 style='margin-bottom: 20px'>单位：{{ value }}</h3>
+      <!--      <div class="handle-box">-->
+      <!--        <el-button-->
+      <!--            type="primary"-->
+      <!--            icon="el-icon-delete"-->
+      <!--            class="handle-del mr10"-->
+      <!--            @click="delAllSelection"-->
+      <!--        >批量删除-->
+      <!--        </el-button>-->
+      <!--        <el-select v-model="query.address" placeholder="地址" class="handle-select mr10">-->
+      <!--          <el-option key="1" label="广东省" value="广东省"></el-option>-->
+      <!--          <el-option key="2" label="湖南省" value="湖南省"></el-option>-->
+      <!--        </el-select>-->
+      <!--        <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>-->
+      <!--        <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>-->
+      <!--      </div>-->
       <el-table
-          :data="tableData"
-          border
-          class="table"
-          ref="multipleTable"
-          header-cell-class-name="table-header"
-          @selection-change="handleSelectionChange"
+        :data='tableData'
+        border
+        class='table'
+        ref='multipleTable'
+        header-cell-class-name='table-header'
+        @selection-change='handleSelectionChange'
       >
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+        <el-table-column type='selection' width='55' align='center'></el-table-column>
+        <el-table-column prop='id' label='ID' width='55' align='center'></el-table-column>
         <!--                <el-table-column prop="name" label="用户名"></el-table-column>-->
         <!--                <el-table-column label="账户余额">-->
         <!--                    <template slot-scope="scope">￥{{scope.row.money}}</template>-->
         <!--                </el-table-column>-->
-        <el-table-column label="图片" align="center">
-          <template slot-scope="scope">
-            <div v-for="item in imgBase64" style="clear: both; display: inline-block">
+        <el-table-column label='图片' align='center'>
+          <template slot-scope='scope'>
+            <div v-for='item in imgBase64' style='clear: both; display: inline-block'>
               <el-image
-                  class="table-td-thumb"
-                  :src="item"
+                class='table-td-thumb'
+                :src='item'
               ></el-image>
             </div>
-            <div class="addbox">
-              <input type="file" @change="getImgBase()">
-              <div class="addbtn">+</div>
+            <div class='addbox'>
+              <input type='file' @change='getImgBase()'>
+              <div class='addbtn'>+</div>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="address" label="描述"></el-table-column>
+        <el-table-column prop='address' label='描述'></el-table-column>
         <!--                <el-table-column label="状态" align="center">-->
         <!--                    <template slot-scope="scope">-->
         <!--                        <el-tag-->
@@ -81,49 +81,49 @@
         <!--                </el-table-column>-->
 
         <!--                <el-table-column prop="date" label="注册时间"></el-table-column>-->
-        <el-table-column label="操作" width="180" align="center">
-          <template slot-scope="scope">
+        <el-table-column label='操作' width='180' align='center'>
+          <template slot-scope='scope'>
             <el-button
-                type="text"
-                icon="el-icon-edit"
-                @click="handleEdit(scope.$index, scope.row)"
+              type='text'
+              icon='el-icon-edit'
+              @click='handleEdit(scope.$index, scope.row)'
             >编辑
             </el-button>
             <el-button
-                type="text"
-                icon="el-icon-delete"
-                class="red"
-                @click="handleDelete(scope.$index, scope.row)"
+              type='text'
+              icon='el-icon-delete'
+              class='red'
+              @click='handleDelete(scope.$index, scope.row)'
             >删除
             </el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div class="pagination">
+      <div class='pagination'>
         <el-pagination
-            background
-            layout="total, prev, pager, next"
-            :current-page="query.pageIndex"
-            :page-size="query.pageSize"
-            :total="pageTotal"
-            @current-change="handlePageChange"
+          background
+          layout='total, prev, pager, next'
+          :current-page='query.pageIndex'
+          :page-size='query.pageSize'
+          :total='pageTotal'
+          @current-change='handlePageChange'
         ></el-pagination>
       </div>
     </div>
 
     <!-- 编辑弹出框 -->
-    <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-      <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="用户名">
-          <el-input v-model="form.name"></el-input>
+    <el-dialog title='编辑' :visible.sync='editVisible' width='30%'>
+      <el-form ref='form' :model='form' label-width='70px'>
+        <el-form-item label='用户名'>
+          <el-input v-model='form.name'></el-input>
         </el-form-item>
-        <el-form-item label="地址">
-          <el-input v-model="form.address"></el-input>
+        <el-form-item label='地址'>
+          <el-input v-model='form.address'></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
+      <span slot='footer' class='dialog-footer'>
+                <el-button @click='editVisible = false'>取 消</el-button>
+                <el-button type='primary' @click='saveEdit'>确 定</el-button>
             </span>
     </el-dialog>
     <!--      <div class="image-view">-->
@@ -142,8 +142,8 @@
 </template>
 
 <script>
-import {fetchData} from '../../api/index';
-import commit from "@/components/page/commit";
+import { fetchData } from '../../api/index';
+import commit from '@/components/page/commit';
 
 export default {
   name: 'basetable',
@@ -161,7 +161,7 @@ export default {
         pageSize: 10
       },
       tableData: [
-        {id: 1, address: '123'}
+        { id: 1, address: '123' }
       ],
       multipleSelection: [],
       delList: [],
@@ -171,19 +171,19 @@ export default {
       idx: -1,
       id: -1,
       options: [{
-          value: '一旅',
-          label: '一旅'
-        }, {
-          value: '二旅',
-          label: '二旅'
-        }, {
-          value: '三旅',
-          label: '三旅'
-        }, {
-          value: '四旅',
-          label: '四旅'
-        }],
-        value: ''
+        value: '一旅',
+        label: '一旅'
+      }, {
+        value: '二旅',
+        label: '二旅'
+      }, {
+        value: '三旅',
+        label: '三旅'
+      }, {
+        value: '四旅',
+        label: '四旅'
+      }],
+      value: ''
     };
   },
   created() {
@@ -209,12 +209,12 @@ export default {
       this.$confirm('确定要删除吗？', '提示', {
         type: 'warning'
       })
-          .then(() => {
-            this.$message.success('删除成功');
-            this.tableData.splice(index, 1);
-          })
-          .catch(() => {
-          });
+        .then(() => {
+          this.$message.success('删除成功');
+          this.tableData.splice(index, 1);
+        })
+        .catch(() => {
+        });
     },
     // 多选操作
     handleSelectionChange(val) {
@@ -254,17 +254,17 @@ export default {
       var file = event.target.files[0];
       var reader = new FileReader();
       //转base64
-      reader.onload = function (e) {
+      reader.onload = function(e) {
         _this.imgBase64.push(e.target.result);
-      }
+      };
       reader.readAsDataURL(file);
-      console.log(this.imgBase64)
+      console.log(this.imgBase64);
     },
     //删除图片
     delImg(index) {
       this.imgBase64.splice(index, 1);
     }
-  },
+  }
 };
 </script>
 
@@ -302,6 +302,7 @@ export default {
   height: 150px;
   clear: both;
 }
+
 .clearboth::after {
   content: "";
   display: block;
