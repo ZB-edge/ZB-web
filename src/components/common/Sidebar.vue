@@ -62,7 +62,7 @@ export default {
         {
           icon: 'el-icon-lx-home',
           index: '0',
-          title: '装备态势感知',
+          title: '态势感知',
           subs: [
             {
               title: '首页',

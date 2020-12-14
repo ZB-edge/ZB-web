@@ -25,15 +25,16 @@
         <el-button @click='dialogFormVisible = false'>取 消</el-button>
       </div>
     </el-dialog>
-    <el-row :gutter='20'>
-      <el-col :span='6' id='speed' style='height: 300px'></el-col>
-      <el-col :span='6' id='rotate_speed' style='height: 300px'></el-col>
-    </el-row>
     <el-row :gutter='20' style='height: 300px'>
-      <el-col :span='6' id='oil_volume_middle' style='height: inherit'></el-col>
-      <el-col :span='6' id='oil_volume_front' style='height: inherit'></el-col>
-      <el-col :span='6' id='engine_water_temperature' style='height: inherit'></el-col>
-      <el-col :span='6' id='engine_oil_temperature' style='height: inherit'></el-col>
+      <el-col :span='6' id='speed' style='height: inherit; width: 300px'></el-col>
+      <el-col :span='6' id='rotate_speed' style='height: inherit; width: 300px'></el-col>
+      <el-col :span='6' id='speed_length' style='height: inherit; '></el-col>
+    </el-row>
+    <el-row :gutter='20' style='height: 300px;'>
+      <el-col :span='4' id='oil_volume_middle' style='height: inherit;'></el-col>
+      <el-col :span='4' id='oil_volume_front' style='height: inherit;'></el-col>
+      <el-col :span='8' id='engine_water_temperature' style='height: inherit;width: 350px'></el-col>
+      <el-col :span='8' id='engine_oil_temperature' style='height: inherit;width: 350px'></el-col>
     </el-row>
   </div>
 </template>
@@ -95,9 +96,50 @@ export default {
           data: [{ value: 600, name: 'rpm' }]
         }]
       },
+      speed_length_option:{
+        title: {
+          text:'里程统计'
+        },
+        color:['red', 'green'],
+        legend: {
+          orient: 'horizontal',
+          top:10,
+          right: 10,
+          data: ['当前量','剩余量']
+        },
+        series: [
+          {
+            name: '访问来源',
+            type: 'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: 20,
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
+              show: false
+            },
+            data: [
+              {value: 10, name: '当前量'},
+              {value: 90, name: '剩余量'},
+            ]
+          }
+        ]
+      },
       oil_volume_middle_option:{
         title: {
           text:'中置油箱油量'
+        },
+        grid:{
+          left: 30
         },
         xAxis: {
           type: 'category',
@@ -133,6 +175,9 @@ export default {
       oil_volume_front_option:{
         title: {
           text:'车首油箱油量'
+        },
+        grid:{
+          left: 30
         },
         xAxis: {
           type: 'category',
@@ -202,6 +247,8 @@ export default {
     SpeedChart.setOption(this.speed_option);
     const RotateSpeedChart = echarts.init(document.getElementById('rotate_speed'));
     RotateSpeedChart.setOption(this.rotate_speed_option)
+    const SpeedLength = echarts.init(document.getElementById('speed_length'));
+    SpeedLength.setOption(this.speed_length_option)
     const OilVolumeMiddle = echarts.init(document.getElementById('oil_volume_middle'));
     OilVolumeMiddle.setOption(this.oil_volume_middle_option)
     const OilVolumeFront = echarts.init(document.getElementById('oil_volume_front'));
