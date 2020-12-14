@@ -1,48 +1,26 @@
 <template>
   <div>
-    <el-dialog
-      title='装备信息'
-      :visible.sync='centerDialogVisible'
-      width='30%'
-      center>
-      <p style='display: inline'>单位：</p>
-      <el-select v-model='value' filterable placeholder='请选择'>
-        <el-option
-          v-for='item in options'
-          :key='item.value'
-          :label='item.label'
-          :value='item.value'>
-        </el-option>
-      </el-select>
-      <span slot='footer' class='dialog-footer'>
-        <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>
-    <el-button @click='centerDialogVisible = false'>取 消</el-button>
-  </span>
-    </el-dialog>
-    <!--    <div class="crumbs">-->
-    <!--      <el-breadcrumb separator="/">-->
-    <!--        <el-breadcrumb-item>-->
-    <!--          <i class="el-icon-lx-cascades"></i> 基础表格-->
-    <!--        </el-breadcrumb-item>-->
-    <!--      </el-breadcrumb>-->
-    <!--    </div>-->
+<!--    <el-dialog-->
+<!--      title='装备信息'-->
+<!--      :visible.sync='centerDialogVisible'-->
+<!--      width='30%'-->
+<!--      center>-->
+<!--      <p style='display: inline'>单位：</p>-->
+<!--      <el-select v-model='value' filterable placeholder='请选择'>-->
+<!--        <el-option-->
+<!--          v-for='item in options'-->
+<!--          :key='item.value'-->
+<!--          :label='item.label'-->
+<!--          :value='item.value'>-->
+<!--        </el-option>-->
+<!--      </el-select>-->
+<!--      <span slot='footer' class='dialog-footer'>-->
+<!--        <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>-->
+<!--    <el-button @click='centerDialogVisible = false'>取 消</el-button>-->
+<!--  </span>-->
+<!--    </el-dialog>-->
     <div class='container'>
-      <h3 style='margin-bottom: 20px'>单位：{{ value }}</h3>
-      <!--      <div class="handle-box">-->
-      <!--        <el-button-->
-      <!--            type="primary"-->
-      <!--            icon="el-icon-delete"-->
-      <!--            class="handle-del mr10"-->
-      <!--            @click="delAllSelection"-->
-      <!--        >批量删除-->
-      <!--        </el-button>-->
-      <!--        <el-select v-model="query.address" placeholder="地址" class="handle-select mr10">-->
-      <!--          <el-option key="1" label="广东省" value="广东省"></el-option>-->
-      <!--          <el-option key="2" label="湖南省" value="湖南省"></el-option>-->
-      <!--        </el-select>-->
-      <!--        <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>-->
-      <!--        <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>-->
-      <!--      </div>-->
+<!--      <h3 style='margin-bottom: 20px'>单位：{{ value }}</h3>-->
       <el-table
         :data='tableData'
         border
@@ -51,12 +29,7 @@
         header-cell-class-name='table-header'
         @selection-change='handleSelectionChange'
       >
-        <el-table-column type='selection' width='55' align='center'></el-table-column>
-        <el-table-column prop='id' label='ID' width='55' align='center'></el-table-column>
-        <!--                <el-table-column prop="name" label="用户名"></el-table-column>-->
-        <!--                <el-table-column label="账户余额">-->
-        <!--                    <template slot-scope="scope">￥{{scope.row.money}}</template>-->
-        <!--                </el-table-column>-->
+        <el-table-column prop='id' label='序号' width='55' align='center'></el-table-column>
         <el-table-column label='图片' align='center'>
           <template slot-scope='scope'>
             <div v-for='item in imgBase64' style='clear: both; display: inline-block'>
@@ -65,79 +38,21 @@
                 :src='item'
               ></el-image>
             </div>
-            <div class='addbox'>
-              <input type='file' @change='getImgBase()'>
-              <div class='addbtn'>+</div>
-            </div>
+<!--            <div class='addbox'>-->
+<!--              <input type='file' @change='getImgBase()'>-->
+<!--              <div class='addbtn'>+</div>-->
+<!--            </div>-->
           </template>
         </el-table-column>
         <el-table-column prop='address' label='描述'></el-table-column>
-        <!--                <el-table-column label="状态" align="center">-->
-        <!--                    <template slot-scope="scope">-->
-        <!--                        <el-tag-->
-        <!--                            :type="scope.row.state==='成功'?'success':(scope.row.state==='失败'?'danger':'')"-->
-        <!--                        >{{scope.row.state}}</el-tag>-->
-        <!--                    </template>-->
-        <!--                </el-table-column>-->
-
-        <!--                <el-table-column prop="date" label="注册时间"></el-table-column>-->
-        <el-table-column label='操作' width='180' align='center'>
-          <template slot-scope='scope'>
-            <el-button
-              type='text'
-              icon='el-icon-edit'
-              @click='handleEdit(scope.$index, scope.row)'
-            >编辑
-            </el-button>
-            <el-button
-              type='text'
-              icon='el-icon-delete'
-              class='red'
-              @click='handleDelete(scope.$index, scope.row)'
-            >删除
-            </el-button>
-          </template>
+        <el-table-column label='单位' width='180' align='center'>
         </el-table-column>
       </el-table>
-      <div class='pagination'>
-        <el-pagination
-          background
-          layout='total, prev, pager, next'
-          :current-page='query.pageIndex'
-          :page-size='query.pageSize'
-          :total='pageTotal'
-          @current-change='handlePageChange'
-        ></el-pagination>
-      </div>
     </div>
-
-    <!-- 编辑弹出框 -->
-    <el-dialog title='编辑' :visible.sync='editVisible' width='30%'>
-      <el-form ref='form' :model='form' label-width='70px'>
-        <el-form-item label='用户名'>
-          <el-input v-model='form.name'></el-input>
-        </el-form-item>
-        <el-form-item label='地址'>
-          <el-input v-model='form.address'></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot='footer' class='dialog-footer'>
-                <el-button @click='editVisible = false'>取 消</el-button>
-                <el-button type='primary' @click='saveEdit'>确 定</el-button>
-            </span>
-    </el-dialog>
-    <!--      <div class="image-view">-->
-    <!--        <div class="addbox">-->
-    <!--            <input type="file" @change="getImgBase()">-->
-    <!--            <div class="addbtn">+</div>-->
-    <!--        </div>-->
-    <!--        <div class="view">-->
-    <!--            <div class="item" v-for="(item, index) in imgBase64">-->
-    <!--                <span class="cancel-btn" @click="delImg(index)">x</span>-->
-    <!--                <img :src="item">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
+      <div class='addbox'>
+              <input type='file' @change='getImgBase()'>
+              <div class='addbtn'>+</div>
+            </div>
   </div>
 </template>
 
@@ -161,7 +76,7 @@ export default {
         pageSize: 10
       },
       tableData: [
-        { id: 1, address: '123' }
+        { id: 1, address: '',description:'损坏严重', institute:'一旅' },
       ],
       multipleSelection: [],
       delList: [],
@@ -298,8 +213,8 @@ export default {
 .table-td-thumb {
   display: block;
   margin: auto;
-  width: 200px;
-  height: 150px;
+  width: 300px;
+  height: 200px;
   clear: both;
 }
 
