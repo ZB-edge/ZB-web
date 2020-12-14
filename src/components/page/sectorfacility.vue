@@ -6,13 +6,23 @@
   }
 </style>
 <template>
+  <div>
+    <p style="display: inline">单位：</p >
+    <el-select v-model="value" filterable placeholder="请选择">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.label">
+    </el-option>
+  </el-select>
     <div id="sector">
     </div>
+  </div>
 </template>
 
 <script>
   import echarts from 'echarts'
-  import request from "@/network/request";
   export default {
     name:'sector',
     data() {
@@ -64,8 +74,46 @@
             }
         }
     ]
-}
-
+},
+        options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
+        value: '龙须面',
+        data:[{
+          label:'北京烤鸭',
+          data:[ {value: 335, name: '直接访问'},
+                {value: 310, name: '邮件营销'},
+                {value: 135, name: '视频广告'},
+                {value: 1548, name: '搜索引擎'}
+               ]
+        },
+         {
+          label:'双皮奶',
+          data:[ {value: 335, name: '直接访问'},
+                {value: 310, name: '邮件营销'},
+                {value: 234, name: '联盟广告'},
+                ]
+        },
+            {
+          label:'龙须面',
+          data:[ {value: 335, name: '直接访问'},
+                {value: 310, name: '邮件营销'},
+               ]
+        },
+        ]
       }
     },
     mounted() {
@@ -76,20 +124,34 @@
       window.addEventListener('resize',function() {chart.resize()});
     },
     methods: {},
-    watch: {},
+    watch: {
+      value:function (newVal,oldVal){
+        for(var i = 0;i < this.data.length;i++)
+      {
+        if(this.data[i].label == newVal){
+          this.option.series[0].data = this.data[i].data;
+          break;
+        }
+        else{
+          this.option.series[0].data = '';
+        }
+      }
+        let this_ = this;
+      let chart = echarts.init(document.getElementById('sector'));
+      chart.setOption(this.option);
+      }
+    },
     created() {
-           request({
-  url:'/home/multidata'
-    }).then(res =>{
-      // console.log(res.data.data.banner.list[0].title)
-    }).catch(err => {
-  alert('获取数据失败！')
-    })
-      this.option.series[0].data = [{value: 335, name: '直接访问'},
-                {value: 310, name: '邮件营销'},
-                {value: 234, name: '联盟广告'},
-                {value: 135, name: '视频广告'}]
-      console.log(this.option.series[0].data)
+        for(var i = 0;i < this.data.length;i++)
+      {
+        console.log(this.data[0].label)
+        if(this.data[i].label == this.value){
+          this.option.series[0].data = this.data[i].data
+        }
+        else{
+          this.option.series[0].data = '';
+        }
+      }
     }
   }
 </script>

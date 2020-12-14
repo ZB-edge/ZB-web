@@ -64,8 +64,8 @@
             </el-col>
             <el-col :span="12">
                 <el-card shadow="hover">
-                    <p style="display: inline">单位：</p >
-                    <charset></charset>
+<!--                    <p style="display: inline">单位：</p >-->
+<!--                    <charset></charset>-->
                   <div class="schart"><histogram></histogram></div>
                 </el-card>
             </el-col>
@@ -73,15 +73,15 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-card shadow="hover">
-                    <p style="display: inline">单位：</p >
-                    <charset></charset>
+<!--                    <p style="display: inline">单位：</p >-->
+<!--                    <charset></charset>-->
                 <div class="schart"><sector></sector></div>
                 </el-card>
             </el-col>
             <el-col :span="12">
                 <el-card shadow="hover">
-                    <p style="display: inline">单位：</p >
-                    <charset></charset>
+<!--                    <p style="display: inline">单位：</p >-->
+<!--                    <charset></charset>-->
                     <div class="schart"><sectorequip></sectorequip></div>
                 </el-card>
             </el-col>
@@ -92,10 +92,9 @@
 <script>
 import Schart from 'vue-schart';
 import bus from '../common/bus';
-import charset from './charset';
 import histogram from "@/components/page/histogram";
 import sector from "@/components/page/sectorfacility";
-import sectorequip from "@/components/sectorequip";
+import sectorequip from "@/components/page/sectorequip";
 
 export default {
     name: 'dashboard',
@@ -113,7 +112,7 @@ export default {
         };
     },
     components: {
-        Schart,charset,histogram,sector,sectorequip
+        Schart,histogram,sector,sectorequip
     },
     computed: {
         role() {
