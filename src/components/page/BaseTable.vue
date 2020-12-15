@@ -32,27 +32,25 @@
         <el-table-column prop='id' label='序号' width='55' align='center'></el-table-column>
         <el-table-column label='图片' align='center'>
           <template slot-scope='scope'>
-            <div v-for='item in imgBase64' style='clear: both; display: inline-block'>
+<!--            <div v-for='item in imgBase64' style='clear: both; display: inline-block'>-->
               <el-image
-                class='table-td-thumb'
-                :src='item'
+                class="table-td-thumb"
+                :src="scope.row.thumb"
+                :preview-src-list="[scope.row.thumb]"
               ></el-image>
-            </div>
-<!--            <div class='addbox'>-->
-<!--              <input type='file' @change='getImgBase()'>-->
-<!--              <div class='addbtn'>+</div>-->
+
 <!--            </div>-->
+            <!--            <div class='addbox'>-->
+            <!--              <input type='file' @change='getImgBase()'>-->
+            <!--              <div class='addbtn'>+</div>-->
+            <!--            </div>-->
           </template>
         </el-table-column>
-        <el-table-column prop='address' label='描述'></el-table-column>
-        <el-table-column label='单位' width='180' align='center'>
+        <el-table-column prop='description' label='描述'></el-table-column>
+        <el-table-column prop='institute' label='单位' width='180' align='center'>
         </el-table-column>
       </el-table>
     </div>
-      <div class='addbox'>
-              <input type='file' @change='getImgBase()'>
-              <div class='addbtn'>+</div>
-            </div>
   </div>
 </template>
 
@@ -76,7 +74,9 @@ export default {
         pageSize: 10
       },
       tableData: [
-        { id: 1, address: '',description:'损坏严重', institute:'一旅' },
+        { id: 1, address: '',description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
+        { id: 2, address: '',description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
+        { id: 3, address: '',description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
       ],
       multipleSelection: [],
       delList: [],
@@ -102,6 +102,8 @@ export default {
     };
   },
   created() {
+    // getData();
+    // console.log(this.tableData)
     this.centerDialogVisible = true;
   },
   methods: {
