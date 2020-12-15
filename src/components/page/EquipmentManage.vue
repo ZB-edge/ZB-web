@@ -1,41 +1,43 @@
 <template>
   <div>
-    <el-dialog title='装备信息' width='40%' :visible.sync='dialogFormVisible' center>
+    <el-dialog title='装备信息' width='40%' :visible.sync='dialogFormVisible' :show-close='false' :close-on-click-modal='false' center>
       <el-form :model='form'>
         <el-form-item label='单位名称' :label-width='formLabelWidth'>
           <el-select v-model='form.institution' placeholder='请选择单位名称'>
             <el-option v-for='institution in form.institutions' :label='institution'
-                       :value='institution'></el-option>
+                       :value='institution' :key='institution'></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label='装备类型' :label-width='formLabelWidth'>
           <el-select v-model='form.equipment' placeholder='请选择装备类型'>
             <el-option v-for='equipment in form.equipments' :label='equipment'
-                       :value='equipment'></el-option>
+                       :value='equipment' :key='equipment'></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label='设备名称' :label-width='formLabelWidth'>
           <el-select v-model='form.name' placeholder='请选择设备名称'>
-            <el-option v-for='name in form.names' :label='name' :value='name'></el-option>
+            <el-option v-for='name in form.names' :label='name' :value='name' :key='name'></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot='footer' class='dialog-footer'>
         <el-button type='primary' @click='dialogFormVisible = false'>确 定</el-button>
-        <el-button @click='dialogFormVisible = false'>取 消</el-button>
+        <el-button @click='dialogFormVisible = false;$router.back()'>取 消</el-button>
       </div>
     </el-dialog>
-    <el-row :gutter='20' style='height: 300px'>
-      <el-col :span='6' id='speed' style='height: inherit; width: 300px'></el-col>
-      <el-col :span='6' id='rotate_speed' style='height: inherit; width: 300px'></el-col>
-      <el-col :span='6' id='speed_length' style='height: inherit; '></el-col>
-    </el-row>
-    <el-row :gutter='20' style='height: 300px;'>
-      <el-col :span='4' id='oil_volume_middle' style='height: inherit;'></el-col>
-      <el-col :span='4' id='oil_volume_front' style='height: inherit;'></el-col>
-      <el-col :span='8' id='engine_water_temperature' style='height: inherit;width: 350px'></el-col>
-      <el-col :span='8' id='engine_oil_temperature' style='height: inherit;width: 350px'></el-col>
-    </el-row>
+    <div v-show='!dialogFormVisible'>
+      <el-row :gutter='20' style='height: 300px'>
+        <el-col :span='6' id='speed' style='height: inherit; width: 300px'></el-col>
+        <el-col :span='6' id='rotate_speed' style='height: inherit; width: 300px'></el-col>
+        <el-col :span='6' id='speed_length' style='height: inherit; '></el-col>
+      </el-row>
+      <el-row :gutter='20' style='height: 300px;'>
+        <el-col :span='4' id='oil_volume_middle' style='height: inherit;'></el-col>
+        <el-col :span='4' id='oil_volume_front' style='height: inherit;'></el-col>
+        <el-col :span='8' id='engine_water_temperature' style='height: inherit;width: 350px'></el-col>
+        <el-col :span='8' id='engine_oil_temperature' style='height: inherit;width: 350px'></el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
@@ -109,7 +111,6 @@ export default {
         },
         series: [
           {
-            name: '访问来源',
             type: 'pie',
             radius: ['50%', '70%'],
             avoidLabelOverlap: false,
@@ -241,7 +242,7 @@ export default {
     };
   },
   mounted() {
-    // this.dialogFormVisible = true;
+    this.dialogFormVisible = true;
     const SpeedChart = echarts.init(document.getElementById('speed'));
     // 使用刚指定的配置项和数据显示图表。
     SpeedChart.setOption(this.speed_option);
