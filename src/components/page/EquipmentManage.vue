@@ -25,18 +25,19 @@
         <el-button @click='dialogFormVisible = false;$router.back()'>取 消</el-button>
       </div>
     </el-dialog>
-    <div v-show='!dialogFormVisible'>
+    <div v-show='!dialogFormVisible' class='container' style='position: relative'>
       <el-row :gutter='20' style='height: 300px'>
-        <el-col :span='6' id='speed' style='height: inherit; width: 300px'></el-col>
-        <el-col :span='6' id='rotate_speed' style='height: inherit; width: 300px'></el-col>
-        <el-col :span='6' id='speed_length' style='height: inherit; '></el-col>
+        <el-col :span='8' id='speed' style='height: inherit; '></el-col>
+        <el-col :span='8' id='speed_length' style='height: inherit; '></el-col>
+        <el-col :span='8' id='rotate_speed' style='height: inherit; '></el-col>
       </el-row>
       <el-row :gutter='20' style='height: 300px;'>
         <el-col :span='4' id='oil_volume_middle' style='height: inherit;'></el-col>
+        <el-col :span='8' id='engine_water_temperature' style='height: inherit;'></el-col>
+        <el-col :span='8' id='engine_oil_temperature' style='height: inherit;'></el-col>
         <el-col :span='4' id='oil_volume_front' style='height: inherit;'></el-col>
-        <el-col :span='8' id='engine_water_temperature' style='height: inherit;width: 350px'></el-col>
-        <el-col :span='8' id='engine_oil_temperature' style='height: inherit;width: 350px'></el-col>
       </el-row>
+      <h2 class='info_content'>{{form.institution}}/{{form.equipment}}/设备名</h2>
     </div>
   </div>
 </template>
@@ -60,7 +61,8 @@ export default {
       },
       speed_option: {
         title: {
-          text:'车速'
+          text:'车速',
+          left: 'center'
         },
         // toolbox: { //可视化的工具箱
         //   show: true,
@@ -87,7 +89,8 @@ export default {
       },
       rotate_speed_option:{
         title: {
-          text:'转速'
+          text:'转速',
+          left: 'center'
         },
         series: [{
           type: 'gauge',
@@ -100,12 +103,13 @@ export default {
       },
       speed_length_option:{
         title: {
-          text:'里程统计'
+          text:'里程统计',
+          left: 'center'
         },
         color:['red', 'green'],
         legend: {
           orient: 'horizontal',
-          top:10,
+          top:20,
           right: 10,
           data: ['当前量','剩余量']
         },
@@ -113,6 +117,7 @@ export default {
           {
             type: 'pie',
             radius: ['50%', '70%'],
+            center: ['50%', '50%'],
             avoidLabelOverlap: false,
             label: {
               show: false,
@@ -137,7 +142,7 @@ export default {
       },
       oil_volume_middle_option:{
         title: {
-          text:'中置油箱油量'
+          text:'中置油箱油量',
         },
         grid:{
           left: 30
@@ -175,7 +180,8 @@ export default {
       },
       oil_volume_front_option:{
         title: {
-          text:'车首油箱油量'
+          text:'车首油箱油量',
+          left: 'right'
         },
         grid:{
           left: 30
@@ -213,7 +219,7 @@ export default {
       },
       engine_water_temperature_option:{
         title: {
-          text:'发动机水温'
+          text:'发动机水温',
         },
         series: [{
           name: '℃',
@@ -227,7 +233,8 @@ export default {
       },
       engine_oil_temperature_option:{
         title: {
-          text:'变速箱油温'
+          text:'变速箱油温',
+          left: 'right'
         },
         series: [{
           name: '℃',
@@ -263,5 +270,12 @@ export default {
 </script>
 
 <style scoped>
-
+.info_content{
+  position: absolute;
+  font-style: italic;
+  top: 50%;
+  right: 50%;
+  transform:translate(50%,0);
+  background-color: #ccc;
+}
 </style>

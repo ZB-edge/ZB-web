@@ -34,7 +34,7 @@
           <div id='material' class='material'></div>
           <el-table :data='tableData' style='width: 100%' height='200'>
             <el-table-column :label='tableHead[0]' prop='ammunition'></el-table-column>
-            <el-table-column :label='tableHead[1]' prop='count' ></el-table-column>
+            <el-table-column :label='tableHead[1]' prop='count'></el-table-column>
           </el-table>
         </el-col>
       </el-row>
@@ -44,7 +44,6 @@
 
 <script>
 import echarts from 'echarts';
-
 export default {
   name: 'LogisticsManage',
   data() {
@@ -83,7 +82,7 @@ export default {
         }
       ],
       material: ['发动机', '水泵', '水散热器', '高压柴油泵', 'HJ-9反坦克导弹', '喷油器', '履带片'],
-      material_data: [10,2,7,30,6,9,20],
+      material_data: [10, 2, 7, 30, 6, 9, 20],
       protection_ability_option: {
         title: {
           text: '保障力量',
@@ -146,8 +145,8 @@ export default {
           type: 'category',
           data: ['发动机', '水泵', '水散热器', '高压柴油泵', 'HJ-9反坦克导弹', '喷油器', '履带片'],
           axisLabel: {
-            interval:0,//横轴信息全部显示
-            rotate:-30,//-30度角倾斜显示
+            interval: 0,//横轴信息全部显示
+            rotate: -30//-30度角倾斜显示
           }
         },
         yAxis: {
@@ -155,7 +154,7 @@ export default {
           type: 'value'
         },
         series: [{
-          data: [10,2,7,30,6,9,20],
+          data: [10, 2, 7, 30, 6, 9, 20],
           type: 'bar',
           showBackground: true,
           backgroundStyle: {
@@ -172,10 +171,12 @@ export default {
                 }
               }
             }
-          },
+          }
         }]
       }
     };
+  },
+  methods: {
   },
   mounted() {
     this.dialogFormVisible = true;
@@ -183,7 +184,6 @@ export default {
     ProtectionAbilityChart.setOption(this.protection_ability_option);
     const MaterialChart = echarts.init(document.getElementById('material'));
     MaterialChart.setOption(this.material_option);
-
   }
 };
 </script>
@@ -194,7 +194,8 @@ export default {
   width: 500px;
   height: 400px;
 }
-.material{
+
+.material {
   width: 600px;
   height: 400px;
 }
