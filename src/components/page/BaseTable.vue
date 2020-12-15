@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-lx-cascades"></i> 战损评估
+        </el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
 <!--    <el-dialog-->
 <!--      title='装备信息'-->
 <!--      :visible.sync='centerDialogVisible'-->
@@ -19,90 +26,139 @@
 <!--    <el-button @click='centerDialogVisible = false'>取 消</el-button>-->
 <!--  </span>-->
 <!--    </el-dialog>-->
-    <div class='container'>
-<!--      <h3 style='margin-bottom: 20px'>单位：{{ value }}</h3>-->
+    <div class="container">
+      <div class="handle-box">
+        <el-button
+          type="primary"
+          icon="el-icon-delete"
+          class="handle-del mr10"
+          @click="delAllSelection"
+        >批量删除</el-button>
+        <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
+        <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="adddialog" style="float: right">新增</el-button>
+      </div>
       <el-table
-        :data='tableData'
+        :data="tableData"
         border
-        class='table'
-        ref='multipleTable'
-        header-cell-class-name='table-header'
-        @selection-change='handleSelectionChange'
+        class="table"
+        ref="multipleTable"
+        header-cell-class-name="table-header"
+        @selection-change="handleSelectionChange"
       >
-        <el-table-column prop='id' label='序号' width='55' align='center'></el-table-column>
-        <el-table-column label='图片' align='center'>
-          <template slot-scope='scope'>
-            <div v-for='item in imgBase64' style='clear: both; display: inline-block'>
-              <el-image
-                class='table-td-thumb'
-                :src='item'
-              ></el-image>
-            </div>
-<!--            <div class='addbox'>-->
-<!--              <input type='file' @change='getImgBase()'>-->
-<!--              <div class='addbtn'>+</div>-->
-<!--            </div>-->
+        <el-table-column type="selection" width="55" align="center"></el-table-column>
+        <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+        <el-table-column prop="name" label="用户名" align="center"></el-table-column>
+        <el-table-column label="头像(查看大图)" align="center">
+          <template slot-scope="scope">
+            <el-image
+              class="table-td-thumb"
+              :src="scope.row.thumb"
+              :preview-src-list="[scope.row.thumb]"
+            ></el-image>
           </template>
         </el-table-column>
-        <el-table-column prop='address' label='描述'></el-table-column>
-        <el-table-column label='单位' width='180' align='center'>
+        <el-table-column label="状态" align="center">
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.state==='成功'?'success':(scope.row.state==='失败'?'danger':'')"
+            >{{scope.row.state}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="address" label="描述" align="center"></el-table-column>
+        <el-table-column prop="date" label="上传时间" align="center"></el-table-column>
+        <el-table-column label="操作" width="180" align="center">
+          <template slot-scope="scope">
+            <el-button
+              type="primary"
+              icon="el-icon-upload"
+              @click="handleEdit(scope.$index, scope.row)"
+            >上传</el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
+      <div class="pagination">
+        <el-pagination
+          background
+          layout="total, prev, pager, next"
+          :current-page="query.pageIndex"
+          :page-size="query.pageSize"
+          :total="pageTotal"
+          @current-change="handlePageChange"
+        ></el-pagination>
+      </div>
     </div>
-      <div class='addbox'>
-              <input type='file' @change='getImgBase()'>
-              <div class='addbtn'>+</div>
-            </div>
+
+    <!-- 编辑弹出框 -->
+    <div>
+      <el-dialog
+        title="请先选择网关"
+        width="30%"
+        :visible.sync="uploadDialog"
+      center>
+        <el-form v-model="gname" label-width="40%" style="text-align: center">
+          <el-form-item label="选择网关">
+            <el-select style="width: 240px" v-model="gname" placeholder="请选择网关查看设备">
+              <el-option v-for="(item, i) in gwList" :key="i" :label="item.name" :value="item.name">
+                <span style="float: left">网关名称：{{ item.name }}</span>
+                <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="">确定</el-button>
+          <el-button @click="uploadDialog = false">取消</el-button>
+        </div>
+      </el-dialog>
+    </div>
+    <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
+      <el-form ref="form" :model="form" label-width="70px">
+        <el-form-item label="用户名">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="地址">
+          <el-input v-model="form.address"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+                <el-button @click="editVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveEdit">确 定</el-button>
+            </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { fetchData } from '../../api/index';
-import commit from '@/components/page/commit';
-
 export default {
   name: 'basetable',
-  components: {
-    commit
-  },
   data() {
     return {
-      centerDialogVisible: false,
-      imgBase64: [],    //存储img base64的值将值传给后端处理
       query: {
         address: '',
         name: '',
         pageIndex: 1,
         pageSize: 10
       },
-      tableData: [
-        { id: 1, address: '',description:'损坏严重', institute:'一旅' },
-      ],
+      tableData: [],
       multipleSelection: [],
       delList: [],
       editVisible: false,
+      uploadDialog: false,
       pageTotal: 0,
       form: {},
       idx: -1,
-      id: -1,
-      options: [{
-        value: '一旅',
-        label: '一旅'
-      }, {
-        value: '二旅',
-        label: '二旅'
-      }, {
-        value: '三旅',
-        label: '三旅'
-      }, {
-        value: '四旅',
-        label: '四旅'
-      }],
-      value: ''
+      id: -1
     };
   },
   created() {
-    this.centerDialogVisible = true;
+    this.getData();
   },
   methods: {
     // 获取 easy-mock 的模拟数据
@@ -128,8 +184,7 @@ export default {
           this.$message.success('删除成功');
           this.tableData.splice(index, 1);
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     },
     // 多选操作
     handleSelectionChange(val) {
@@ -151,6 +206,9 @@ export default {
       this.form = row;
       this.editVisible = true;
     },
+    adddialog() {
+      this.uploadDialog = true;
+    },
     // 保存编辑
     saveEdit() {
       this.editVisible = false;
@@ -161,23 +219,6 @@ export default {
     handlePageChange(val) {
       this.$set(this.query, 'pageIndex', val);
       this.getData();
-    },
-    //获取图片base64实现预览
-    getImgBase() {
-      var _this = this;
-      var event = event || window.event;
-      var file = event.target.files[0];
-      var reader = new FileReader();
-      //转base64
-      reader.onload = function(e) {
-        _this.imgBase64.push(e.target.result);
-      };
-      reader.readAsDataURL(file);
-      console.log(this.imgBase64);
-    },
-    //删除图片
-    delImg(index) {
-      this.imgBase64.splice(index, 1);
     }
   }
 };
@@ -196,97 +237,20 @@ export default {
   width: 300px;
   display: inline-block;
 }
-
 .table {
   width: 100%;
   font-size: 14px;
 }
-
 .red {
   color: #ff0000;
 }
-
 .mr10 {
   margin-right: 10px;
 }
-
 .table-td-thumb {
   display: block;
   margin: auto;
-  width: 300px;
-  height: 200px;
-  clear: both;
-}
-
-.clearboth::after {
-  content: "";
-  display: block;
-  clear: both;
-}
-
-.image-view {
-  width: 400px;
-  height: 300px;
-  margin: 50px auto;
-}
-
-.addbox {
-  float: left;
-  position: relative;
-  height: 50px;
-  width: 50px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.addbox input {
-  position: absolute;
-  left: 0;
-  height: 50px;
-  width: 50px;
-  opacity: 0;
-}
-
-.addbox .addbtn {
-  float: left;
-  height: 50px;
-  width: 50px;
-  line-height: 50px;
-  color: #fff;
-  font-size: 20px;
-  background: #ccc;
-  border-radius: 5px;
-}
-
-.image-view .item {
-  position: relative;
-  float: left;
-  height: 100px;
-  width: 100px;
-  margin: 10px 10px 0 0;
-}
-
-.image-view .item .cancel-btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: #fff;
-  line-height: 20px;
-  text-align: center;
-  background: red;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.image-view .item img {
-  width: 100%;
-  height: 100%;
-}
-
-.image-view .view {
-  clear: both;
+  width: 40px;
+  height: 40px;
 }
 </style>

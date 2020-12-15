@@ -61,13 +61,14 @@ export default {
       items: [
         {
           icon: 'el-icon-lx-home',
+          title: '系统首页',
+          index: 'dashboard'
+        },
+        {
+          icon: 'el-icon-pie-chart',
           index: '0',
           title: '态势感知',
           subs: [
-            {
-              title: '首页',
-              index: 'dashboard'
-            },
             {
               title: '装备管理',
               index: 'equipment_manage'
@@ -81,12 +82,12 @@ export default {
         {
           icon: 'el-icon-lx-cascades',
           index: 'table',
-          title: '基础表格'
+          title: '战损评估'
         },
         {
           icon: 'el-icon-lx-copy',
           index: 'tabs',
-          title: 'tab选项卡'
+          title: '消息中心'
         },
         {
           icon: 'el-icon-lx-calendar',

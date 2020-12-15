@@ -1,47 +1,49 @@
 <template>
   <div>
-    <el-dialog title='装备信息' width='40%' :visible.sync='dialogFormVisible' center>
-      <el-form :model='form'>
-        <el-form-item label='单位名称' :label-width='formLabelWidth'>
-          <el-select v-model='form.institution' placeholder='请选择单位名称'>
-            <el-option v-for='institution in form.institutions' :label='institution'
-                       :value='institution'></el-option>
-          </el-select>
-        </el-form-item>
+    <div class='crumbs'>
+      <el-breadcrumb separator='/'>
+        <el-breadcrumb-item><i class='el-icon-pie-chart'></i> 态势感知</el-breadcrumb-item>
+        <el-breadcrumb-item>装备管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <el-dialog title='装备信息' width='30%' :visible.sync='dialogFormVisible' :show-close='false' :close-on-click-modal='false' center>
+      <el-form :model='form' label-width="35%">
         <el-form-item label='装备类型' :label-width='formLabelWidth'>
           <el-select v-model='form.equipment' placeholder='请选择装备类型'>
             <el-option v-for='equipment in form.equipments' :label='equipment'
-                       :value='equipment'></el-option>
+                       :value='equipment' :key='equipment'></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label='设备名称' :label-width='formLabelWidth'>
           <el-select v-model='form.name' placeholder='请选择设备名称'>
-            <el-option v-for='name in form.names' :label='name' :value='name'></el-option>
+            <el-option v-for='name in form.names' :label='name' :value='name' :key='name'></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot='footer' class='dialog-footer'>
         <el-button type='primary' @click='dialogFormVisible = false'>确 定</el-button>
-        <el-button @click='dialogFormVisible = false'>取 消</el-button>
+        <el-button @click='dialogFormVisible = false;$router.back()'>取 消</el-button>
       </div>
     </el-dialog>
-    <el-row :gutter='20' style='height: 300px'>
-      <el-col :span='6' id='speed' style='height: inherit; width: 300px'></el-col>
-      <el-col :span='6' id='rotate_speed' style='height: inherit; width: 300px'></el-col>
-      <el-col :span='6' id='speed_length' style='height: inherit; '></el-col>
-    </el-row>
-    <el-row :gutter='20' style='height: 300px;'>
-      <el-col :span='4' id='oil_volume_middle' style='height: inherit;'></el-col>
-      <el-col :span='4' id='oil_volume_front' style='height: inherit;'></el-col>
-      <el-col :span='8' id='engine_water_temperature' style='height: inherit;width: 350px'></el-col>
-      <el-col :span='8' id='engine_oil_temperature' style='height: inherit;width: 350px'></el-col>
-    </el-row>
+    <div v-show='!dialogFormVisible' class='container' style='position: relative'>
+      <el-row :gutter='20' style='height: 300px'>
+        <el-col :span='8' id='speed' style='height: inherit; '></el-col>
+        <el-col :span='8' id='speed_length' style='height: inherit; '></el-col>
+        <el-col :span='8' id='rotate_speed' style='height: inherit; '></el-col>
+      </el-row>
+      <el-row :gutter='20' style='height: 300px;'>
+        <el-col :span='4' id='oil_volume_middle' style='height: inherit;'></el-col>
+        <el-col :span='8' id='engine_water_temperature' style='height: inherit;'></el-col>
+        <el-col :span='8' id='engine_oil_temperature' style='height: inherit;'></el-col>
+        <el-col :span='4' id='oil_volume_front' style='height: inherit;'></el-col>
+      </el-row>
+      <h2 class='info_content'>{{form.equipment}}/设备名</h2>
+    </div>
   </div>
 </template>
 
 <script>
 import echarts from 'echarts';
-
 export default {
   name: 'EquipmentManage',
   data() {
@@ -49,8 +51,6 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: '120px',
       form: {
-        institutions: ['一旅', '二旅', '三旅', '四旅', '五旅'],
-        institution: '',
         equipments: ['08式步战车', '080式突击车', '08式输送车', '08式指挥车'],
         equipment: '',
         names: [],
@@ -58,7 +58,8 @@ export default {
       },
       speed_option: {
         title: {
-          text:'车速'
+          text:'车速',
+          left: 'center'
         },
         // toolbox: { //可视化的工具箱
         //   show: true,
@@ -85,7 +86,8 @@ export default {
       },
       rotate_speed_option:{
         title: {
-          text:'转速'
+          text:'转速',
+          left: 'center'
         },
         series: [{
           type: 'gauge',
@@ -98,20 +100,21 @@ export default {
       },
       speed_length_option:{
         title: {
-          text:'里程统计'
+          text:'里程统计',
+          left: 'center'
         },
         color:['red', 'green'],
         legend: {
           orient: 'horizontal',
-          top:10,
+          top:20,
           right: 10,
           data: ['当前量','剩余量']
         },
         series: [
           {
-            name: '访问来源',
             type: 'pie',
             radius: ['50%', '70%'],
+            center: ['50%', '50%'],
             avoidLabelOverlap: false,
             label: {
               show: false,
@@ -136,7 +139,7 @@ export default {
       },
       oil_volume_middle_option:{
         title: {
-          text:'中置油箱油量'
+          text:'中置油箱油量',
         },
         grid:{
           left: 30
@@ -174,7 +177,8 @@ export default {
       },
       oil_volume_front_option:{
         title: {
-          text:'车首油箱油量'
+          text:'车首油箱油量',
+          left: 'right'
         },
         grid:{
           left: 30
@@ -212,7 +216,7 @@ export default {
       },
       engine_water_temperature_option:{
         title: {
-          text:'发动机水温'
+          text:'发动机水温',
         },
         series: [{
           name: '℃',
@@ -226,7 +230,8 @@ export default {
       },
       engine_oil_temperature_option:{
         title: {
-          text:'变速箱油温'
+          text:'变速箱油温',
+          left: 'right'
         },
         series: [{
           name: '℃',
@@ -241,7 +246,7 @@ export default {
     };
   },
   mounted() {
-    // this.dialogFormVisible = true;
+    this.dialogFormVisible = true;
     const SpeedChart = echarts.init(document.getElementById('speed'));
     // 使用刚指定的配置项和数据显示图表。
     SpeedChart.setOption(this.speed_option);
@@ -262,5 +267,12 @@ export default {
 </script>
 
 <style scoped>
-
+.info_content{
+  position: absolute;
+  font-style: italic;
+  top: 50%;
+  right: 50%;
+  transform:translate(50%,0);
+  background-color: #ccc;
+}
 </style>

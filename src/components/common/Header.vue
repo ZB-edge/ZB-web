@@ -28,9 +28,9 @@
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div>
                 <!-- 用户头像 -->
-                <div class="user-avator">
-                    <img src="../../assets/img/img.jpg" />
-                </div>
+<!--                <div class="user-avator">-->
+<!--                    <img src="../../assets/img/img.jpg" />-->
+<!--                </div>-->
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -38,10 +38,7 @@
                         <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
-                            <el-dropdown-item>项目仓库</el-dropdown-item>
-                        </a>
-                        <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+                        <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>

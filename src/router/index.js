@@ -37,12 +37,12 @@ export default new Router({
         {
           path: '/table',
           component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
-          meta: { title: '基础表格' }
+          meta: { title: '战损评估' }
         },
         {
           path: '/tabs',
           component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Tabs.vue'),
-          meta: { title: 'tab选项卡' }
+          meta: { title: '消息中心' }
         },
         {
           path: '/form',
