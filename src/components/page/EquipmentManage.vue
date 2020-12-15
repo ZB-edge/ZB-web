@@ -7,7 +7,7 @@
       </el-breadcrumb>
     </div>
     <el-dialog title='装备信息' width='30%' :visible.sync='dialogFormVisible' :show-close='false' :close-on-click-modal='false' center>
-      <el-form :model='form' label-width="35%">
+      <el-form :model='form'>
         <el-form-item label='装备类型' :label-width='formLabelWidth'>
           <el-select v-model='form.equipment' placeholder='请选择装备类型'>
             <el-option v-for='equipment in form.equipments' :label='equipment'

@@ -85,6 +85,11 @@ export default {
           title: '战损评估'
         },
         {
+          icon: 'el-icon-lx-global',
+          index: 'charts',
+          title: '设备管理'
+        },
+        {
           icon: 'el-icon-lx-copy',
           index: 'tabs',
           title: '消息中心'
@@ -122,11 +127,6 @@ export default {
           icon: 'el-icon-lx-emoji',
           index: 'icon',
           title: '自定义图标'
-        },
-        {
-          icon: 'el-icon-pie-chart',
-          index: 'charts',
-          title: 'schart图表'
         },
         {
           icon: 'el-icon-rank',
