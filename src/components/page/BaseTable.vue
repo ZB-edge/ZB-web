@@ -49,7 +49,7 @@
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
         <el-table-column prop="name" label="用户名" align="center"></el-table-column>
-        <el-table-column label="头像(查看大图)" align="center">
+        <el-table-column label="装备图像" align="center">
           <template slot-scope="scope">
             <el-image
               class="table-td-thumb"
@@ -117,20 +117,6 @@
         </div>
       </el-dialog>
     </div>
-    <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-      <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="用户名">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="地址">
-          <el-input v-model="form.address"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
-            </span>
-    </el-dialog>
   </div>
 </template>
 
