@@ -37,7 +37,7 @@ export default new Router({
         {
           path: '/table',
           component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
-          meta: { title: '基础表格' }
+          meta: { title: '战损分析' }
         },
         {
           path: '/tabs',
@@ -71,7 +71,7 @@ export default new Router({
           // vue-schart组件
           path: '/charts',
           component: () => import(/* webpackChunkName: "chart" */ '../components/page/BaseCharts.vue'),
-          meta: { title: 'schart图表' }
+          meta: { title: '装备使用分析' }
         },
         {
           // 拖拽列表组件

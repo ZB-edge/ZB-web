@@ -81,7 +81,7 @@ export default {
         {
           icon: 'el-icon-lx-cascades',
           index: 'table',
-          title: '基础表格'
+          title: '战损分析'
         },
         {
           icon: 'el-icon-lx-copy',
@@ -125,7 +125,7 @@ export default {
         {
           icon: 'el-icon-pie-chart',
           index: 'charts',
-          title: 'schart图表'
+          title: '装备使用分析'
         },
         {
           icon: 'el-icon-rank',

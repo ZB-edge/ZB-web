@@ -32,7 +32,7 @@ export default {
     return {
       option: {
         title: {
-          text: '某站点用户访问来源',
+          text: '器材分析',
           top: '5%',
           left: 'center'
         },
@@ -43,22 +43,16 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'left',
-          top: '15%',
-          data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+          top: '5%',
+          data: ['弹药', '燃油', '钢盔']
         },
         series: [
           {
-            name: '访问来源',
+            name: '器材分析',
             type: 'pie',
             radius: '55%',
-            center: ['50%', '60%'],
-            data: [
-              { value: 335, name: '直接访问' },
-              { value: 310, name: '邮件营销' },
-              { value: 234, name: '联盟广告' },
-              { value: 135, name: '视频广告' },
-              { value: 1548, name: '搜索引擎' }
-            ],
+            center: ['60%', '60%'],
+            data: [],
             itemStyle: {
               normal: {
                 label: {
@@ -79,22 +73,19 @@ export default {
         ]
       },
       options: [{
-        value: '选项1',
-        label: '黄金糕'
+        value: '装甲兵1旅',
+        label: '一旅'
       }, {
-        value: '选项2',
-        label: '双皮奶'
+        value: '装甲兵2旅',
+        label: '二旅'
       }, {
-        value: '选项3',
-        label: '蚵仔煎'
+        value: '装甲兵3旅',
+        label: '三旅'
       }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      value: ''
+        value: '装甲兵4旅',
+        label: '四旅'
+      },],
+      value:'装甲兵1旅',
 
     };
   },
@@ -108,20 +99,47 @@ export default {
     });
   },
   methods: {},
-  watch: {},
+  watch: {
+    value: function (newVal, oldVal){
+        request({
+        url: 'equipment/' + newVal
+      }).then(res => {
+        var datas = new Array();
+        var keys = Object.keys(res.data);
+        this.option.legend.data = keys;
+        for(var i=0; i<keys.length; i++){
+          var arr = new Object();
+          arr.name = keys[i];
+          arr.value = res.data[keys[i]];
+          datas.push(arr);
+        }
+        this.option.series[0].data = datas;
+        let chart = echarts.init(document.getElementById('equip'));
+        chart.setOption(this.option);
+      }).catch(err => {
+        alert('获取数据失败！');
+      });
+      }
+  },
   created() {
-    request({
-      url: '/home/multidata'
-    }).then(res => {
-      // console.log(res.data.data.banner.list[0].title)
-    }).catch(err => {
-      alert('获取数据失败！');
-    });
-    this.option.series[0].data = [{ value: 335, name: '直接访问' },
-      { value: 310, name: '邮件营销' },
-      { value: 234, name: '联盟广告' },
-      { value: 135, name: '视频广告' }];
-    console.log(this.option.series[0].data);
-  }
+      request({
+        url: 'equipment/' + this.value
+      }).then(res => {
+        var datas = new Array();
+        var keys = Object.keys(res.data);
+        this.option.legend.data = keys;
+        for(var i=0; i<keys.length; i++){
+          var arr = new Object();
+          arr.name = keys[i];
+          arr.value = res.data[keys[i]];
+          datas.push(arr);
+        }
+        this.option.series[0].data = datas;
+        let chart = echarts.init(document.getElementById('equip'));
+        chart.setOption(this.option);
+      }).catch(err => {
+        alert('获取数据失败！');
+      });
+    }
 };
 </script>

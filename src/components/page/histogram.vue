@@ -45,7 +45,7 @@
         xAxis : [
           {
             type : 'category',
-            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月'],
+            data : [],
             axisTick: {
               alignWithLabel: true
             }
@@ -87,50 +87,67 @@
                     }
                 }
             },
-            data: [12,21,10,4,12,5,6,5,25,23,7],
+            data: [],
         }
     ]
       },
         options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value: ''
+        value: '装甲兵1旅',
+        label: '一旅'
+      }, {
+        value: '装甲兵2旅',
+        label: '二旅'
+      }, {
+        value: '装甲兵3旅',
+        label: '三旅'
+      }, {
+        value: '装甲兵4旅',
+        label: '四旅'
+      },],
+      value:'装甲兵1旅',
       }
     },
     mounted() {
-      let this_ = this;
       let myChart = echarts.init(document.getElementById('chart_example'));
-      myChart.setOption(this.option);
       //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
       window.addEventListener('resize',function() {myChart.resize()});
     },
     methods: {},
-    watch: {},
-    created() {
-
-           request({
-  url:'/home/multidata'
+    watch: {
+      value: function (newVal, oldVal){
+        request({
+  url: 'person/'+newVal
     }).then(res =>{
-      // console.log(res.data.data.banner.list[0].title)
+      const keys = Object.keys(res.data);
+      let val = [];
+      this.option.xAxis[0].data = keys;
+      for(var i = 0;i<keys.length; i++){
+        val.push(res.data[keys[i]])
+      }
+      this.option.series[0].data = val;
+      let myChart = echarts.init(document.getElementById('chart_example'));
+      myChart.setOption(this.option);
     }).catch(err => {
   alert('获取数据失败！')
     })
-           this.option.xAxis[0].data = ["党员", "群众", "其他"];
-           this.option.series[0].data = [58, 26, 36];
-           console.log(this.option.series)
+      }
+    },
+    created() {
+      request({
+  url: 'person/'+this.value
+    }).then(res =>{
+      const keys = Object.keys(res.data);
+      let val = [];
+      this.option.xAxis[0].data = keys;
+      for(var i = 0;i<keys.length; i++){
+        val.push(res.data[keys[i]])
+      }
+      this.option.series[0].data = val;
+      let myChart = echarts.init(document.getElementById('chart_example'));
+      myChart.setOption(this.option);
+    }).catch(err => {
+  alert('获取数据失败！')
+    })
     }
   }
 </script>
