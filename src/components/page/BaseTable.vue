@@ -42,8 +42,8 @@
 <!--            <div v-for='item in imgBase64' style='clear: both; display: inline-block'>-->
               <el-image
                 class="table-td-thumb"
-                :src="scope.row.thumb"
-                :preview-src-list="[scope.row.thumb]"
+                :src="scope.row.name"
+                :preview-src-list="[scope.row.name]"
               ></el-image>
 
 <!--            </div>-->
@@ -53,8 +53,8 @@
             <!--            </div>-->
           </template>
         </el-table-column>
-        <el-table-column prop='description' label='描述'></el-table-column>
-        <el-table-column prop='institute' label='单位' width='180' align='center'>
+        <el-table-column prop='info' label='描述'></el-table-column>
+        <el-table-column prop='institution' label='单位' width='180' align='center'>
         </el-table-column>
       </el-table>
     </div>
@@ -64,6 +64,7 @@
 <script>
 import { fetchData } from '../../api/index';
 import commit from '@/components/page/commit';
+import request_image from "@/network/request_image";
 
 export default {
   name: 'basetable',
@@ -80,11 +81,7 @@ export default {
         pageIndex: 1,
         pageSize: 10
       },
-      tableData: [
-        { id: 1,description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
-        { id: 2, description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
-        { id: 3, description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
-      ],
+      tableData: [],
       multipleSelection: [],
       delList: [],
       editVisible: false,
@@ -109,9 +106,22 @@ export default {
     };
   },
   created() {
-    // getData();
-    // console.log(this.tableData)
     this.centerDialogVisible = true;
+    request_image({
+      url:''
+    }).then(res => {
+      let datas = [];
+      for (let i = 0; i < res.data.length; i++){
+        let arr = {};
+        arr = res.data[i]
+        arr['id'] = i+1
+        arr['name'] = 'http://localhost:8100/image/' + res.data[i].name +'.jpg'
+        datas.push(arr);
+      }
+      this.tableData = datas;
+    }).catch(err => {
+      alert('获取数据失败！');
+    })
   },
   methods: {
     // 获取 easy-mock 的模拟数据

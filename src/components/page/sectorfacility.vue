@@ -142,7 +142,7 @@ export default {
         let chart = echarts.init(document.getElementById('sector'));
         chart.setOption(this.option);
       }).catch(err => {
-        alert('获取数据失败！');
+        // alert('获取数据失败！');
       });
   }
 };
