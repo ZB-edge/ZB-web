@@ -1,60 +1,43 @@
 <template>
   <div>
-    <el-dialog
-      title='装备信息'
-      :visible.sync='centerDialogVisible'
-      width='30%'
-      center>
-      <p style='display: inline'>单位：</p>
-      <el-select v-model='value' filterable placeholder='请选择'>
-        <el-option
-          v-for='item in options'
-          :key='item.value'
-          :label='item.label'
-          :value='item.value'>
-        </el-option>
-      </el-select>
-      <span slot='footer' class='dialog-footer'>
-        <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>
-    <el-button @click='centerDialogVisible = false'>取 消</el-button>
-  </span>
-    </el-dialog>
-    <!--        <div class="crumbs">-->
-    <!--            <el-breadcrumb separator="/">-->
-    <!--                <el-breadcrumb-item>-->
-    <!--                    <i class="el-icon-pie-chart"></i> schart图表-->
-    <!--                </el-breadcrumb-item>-->
-    <!--            </el-breadcrumb>-->
-    <!--        </div>-->
-    <!--        <div class="container">-->
-    <!--            <div class="plugins-tips">-->
-    <!--                vue-schart：vue.js封装sChart.js的图表组件。-->
-    <!--                访问地址：-->
-    <!--                <a-->
-    <!--                    href="https://github.com/lin-xin/vue-schart"-->
-    <!--                    target="_blank"-->
-    <!--                >vue-schart</a>-->
-    <!--            </div>-->
-    <!--            <div class="schart-box">-->
-    <!--                <div class="content-title">柱状图</div>-->
-    <!--                <schart class="schart" canvasId="bar" :options="options1"></schart>-->
-    <!--            </div>-->
-    <!--            <div class="schart-box">-->
-    <!--                <div class="content-title">折线图</div>-->
-    <!--                <schart class="schart" canvasId="line" :options="options2"></schart>-->
-    <!--            </div>-->
-    <!--            <div class="schart-box">-->
-    <!--                <div class="content-title">饼状图</div>-->
-    <!--                <schart class="schart" canvasId="pie" :options="options3"></schart>-->
-    <!--            </div>-->
-    <!--            <div class="schart-box">-->
-    <!--                <div class="content-title">环形图</div>-->
-    <!--                <schart class="schart" canvasId="ring" :options="options4"></schart>-->
-    <!--            </div>-->
-    <!--                <sector></sector>-->
-    <!--        </div>-->
-    <div class='container'>
-      <h3 style='margin-bottom: 20px'>单位：{{ value }}</h3>
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-lx-global"></i> 车辆管理
+        </el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <el-row>
+      <el-col style="width: 49%">
+        <el-card shadow='hover'>
+          <div slot='header' class='clearfix'>
+            <span>单位信息</span>
+          </div>
+          <el-table :data='org_info' height='250' border :row-style="{height: '35px'}"
+                    style='width: 100%'>
+            <el-table-column prop='id' label='序号' width='60'></el-table-column>
+            <el-table-column prop='name' label='单位名称' width='120'></el-table-column>
+            <el-table-column prop='type' label='单位类别' width='120'></el-table-column>
+            <el-table-column prop='description' label='基本信息描述' show-overflow-tooltip></el-table-column>
+          </el-table>
+        </el-card>
+      </el-col>
+      <el-col :span='11' style="float: right;width: 49%">
+        <el-card shadow='hover'>
+          <div slot='header' class='clearfix'>
+            <span>单位信息</span>
+          </div>
+          <el-table :data='org_info' height='250' border :row-style="{height: '35px'}"
+                    style='width: 100%'>
+            <el-table-column prop='id' label='序号' width='60'></el-table-column>
+            <el-table-column prop='name' label='单位名称' width='120'></el-table-column>
+            <el-table-column prop='type' label='单位类别' width='120'></el-table-column>
+            <el-table-column prop='description' label='基本信息描述' show-overflow-tooltip></el-table-column>
+          </el-table>
+        </el-card>
+      </el-col>
+    </el-row>
+    <div class='container' style="margin-top: 10px">
       <div>
         <div id='in'>
         </div>
@@ -81,24 +64,10 @@ export default {
   },
   data() {
     return {
-      centerDialogVisible: false,
-      options: [{
-        value: '一旅',
-        label: '一旅'
-      }, {
-        value: '二旅',
-        label: '二旅'
-      }, {
-        value: '三旅',
-        label: '三旅'
-      }, {
-        value: '四旅',
-        label: '四旅'
-      }],
       value: '',
       option: {
         title: {
-          text: '装备使用情况（入）',
+          text: '车辆驶入情况',
           left: 'center',
           top: '5%'
         },
@@ -161,7 +130,7 @@ export default {
       },
       option1: {
         title: {
-          text: '装备使用情况（出）',
+          text: '车辆驶出情况',
           left: 'center',
           top: '5%'
         },

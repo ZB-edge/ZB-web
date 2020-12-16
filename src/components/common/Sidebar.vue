@@ -87,7 +87,7 @@ export default {
         {
           icon: 'el-icon-lx-global',
           index: 'charts',
-          title: '设备管理'
+          title: '车辆管理'
         },
         {
           icon: 'el-icon-lx-copy',

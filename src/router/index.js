@@ -71,7 +71,7 @@ export default new Router({
           // vue-schart组件
           path: '/charts',
           component: () => import(/* webpackChunkName: "chart" */ '../components/page/BaseCharts.vue'),
-          meta: { title: 'schart图表' }
+          meta: { title: '车辆管理' }
         },
         {
           // 拖拽列表组件
