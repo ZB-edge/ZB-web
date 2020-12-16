@@ -24,8 +24,8 @@
                     style='width: 100%'>
             <el-table-column prop='id' label='序号' width='60'></el-table-column>
             <el-table-column prop='name' label='单位名称' width='120'></el-table-column>
-            <el-table-column prop='type' label='单位类别' width='120'></el-table-column>
-            <el-table-column prop='description' label='基本信息描述' show-overflow-tooltip></el-table-column>
+            <el-table-column prop='category' label='单位类别' width='120'></el-table-column>
+            <el-table-column prop='info' label='基本信息描述' show-overflow-tooltip></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -76,18 +76,18 @@ export default {
     return {
       name: localStorage.getItem('ms_username'),
       total_info:[
-        { title:'单位总数', value:10, icon:'el-icon-lx-home' },
-        { title:'总人数', value:10, icon:'el-icon-lx-people'},
-        { title:'装备类型', value:10, icon:'el-icon-lx-goods' },
-        { title:'器材类型', value:10, icon:'el-icon-menu' },
+        { title:'单位总数', value:'', icon:'el-icon-lx-home' },
+        { title:'总人数', value:'', icon:'el-icon-lx-people'},
+        { title:'装备类型', value:'', icon:'el-icon-lx-goods' },
+        { title:'器材类型', value:'', icon:'el-icon-menu' },
       ],
       org_info: [
-        {
-          id: 1,
-          name: '大连造船厂',
-          type: '船舶公司',
-          description: '这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企'
-        }
+        // {
+        //   id: 1,
+        //   name: '大连造船厂',
+        //   category: '船舶公司',
+        //   info: '这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企'
+        // }
       ]
     };
   },
@@ -106,6 +106,15 @@ export default {
     }).then(res=>{
       for (let i = 0; i < res.data.length; i++) {
         this.total_info[i].value = res.data[i]
+      }
+    })
+    request({
+      method:'get',
+      url:'/insList',
+    }).then(res=>{
+      this.org_info = res.data
+      for (let i = 0; i < this.org_info.length; i++) {
+        this.org_info[i].id = i+1
       }
     })
   },
