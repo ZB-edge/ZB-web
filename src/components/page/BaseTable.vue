@@ -7,25 +7,25 @@
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-<!--    <el-dialog-->
-<!--      title='装备信息'-->
-<!--      :visible.sync='centerDialogVisible'-->
-<!--      width='30%'-->
-<!--      center>-->
-<!--      <p style='display: inline'>单位：</p>-->
-<!--      <el-select v-model='value' filterable placeholder='请选择'>-->
-<!--        <el-option-->
-<!--          v-for='item in options'-->
-<!--          :key='item.value'-->
-<!--          :label='item.label'-->
-<!--          :value='item.value'>-->
-<!--        </el-option>-->
-<!--      </el-select>-->
-<!--      <span slot='footer' class='dialog-footer'>-->
-<!--        <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>-->
-<!--    <el-button @click='centerDialogVisible = false'>取 消</el-button>-->
-<!--  </span>-->
-<!--    </el-dialog>-->
+    <!--    <el-dialog-->
+    <!--      title='装备信息'-->
+    <!--      :visible.sync='centerDialogVisible'-->
+    <!--      width='30%'-->
+    <!--      center>-->
+    <!--      <p style='display: inline'>单位：</p>-->
+    <!--      <el-select v-model='value' filterable placeholder='请选择'>-->
+    <!--        <el-option-->
+    <!--          v-for='item in options'-->
+    <!--          :key='item.value'-->
+    <!--          :label='item.label'-->
+    <!--          :value='item.value'>-->
+    <!--        </el-option>-->
+    <!--      </el-select>-->
+    <!--      <span slot='footer' class='dialog-footer'>-->
+    <!--        <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>-->
+    <!--    <el-button @click='centerDialogVisible = false'>取 消</el-button>-->
+    <!--  </span>-->
+    <!--    </el-dialog>-->
     <div class="container">
       <div class="handle-box">
         <el-button
@@ -33,8 +33,9 @@
           icon="el-icon-delete"
           class="handle-del mr10"
           @click="delAllSelection"
-        >批量删除</el-button>
-        <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
+        >批量删除
+        </el-button>
+        <el-input v-model="query.name" placeholder="图片名称" class="handle-input mr10"></el-input>
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         <el-button type="primary" icon="el-icon-search" @click="adddialog" style="float: right">新增</el-button>
       </div>
@@ -48,8 +49,8 @@
       >
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-        <el-table-column prop="name" label="用户名" align="center"></el-table-column>
-        <el-table-column label="装备图像" align="center">
+        <el-table-column prop="name" label="图片名称" align="center"></el-table-column>
+        <el-table-column label="装备图片" align="center">
           <template slot-scope="scope">
             <el-image
               class="table-td-thumb"
@@ -62,7 +63,8 @@
           <template slot-scope="scope">
             <el-tag
               :type="scope.row.state==='成功'?'success':(scope.row.state==='失败'?'danger':'')"
-            >{{scope.row.state}}</el-tag>
+            >{{ scope.row.state }}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="address" label="描述" align="center"></el-table-column>
@@ -73,12 +75,14 @@
               type="primary"
               icon="el-icon-upload"
               @click="handleEdit(scope.$index, scope.row)"
-            >上传</el-button>
+            >上传
+            </el-button>
             <el-button
               type="danger"
               icon="el-icon-delete"
               @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button>
+            >删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -97,18 +101,20 @@
     <!-- 编辑弹出框 -->
     <div>
       <el-dialog
-        title="请先选择网关"
-        width="30%"
+        title="新增战损评估"
         :visible.sync="uploadDialog"
-      center>
-        <el-form v-model="gname" label-width="40%" style="text-align: center">
-          <el-form-item label="选择网关">
-            <el-select style="width: 240px" v-model="gname" placeholder="请选择网关查看设备">
-              <el-option v-for="(item, i) in gwList" :key="i" :label="item.name" :value="item.name">
-                <span style="float: left">网关名称：{{ item.name }}</span>
-                <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
-              </el-option>
-            </el-select>
+        @close="clear"
+        center>
+        <el-form v-model="form" style="text-align: center">
+          <el-form-item label="图片名称" prop="name" style="text-align: left" >
+            <el-input v-model="form.name" autocomplete="off" placeholder="请输入图片名称"></el-input>
+          </el-form-item>
+          <el-form-item label="装备图片" prop="logo">
+            <el-input v-model="form.logoUrl" autocomplete="off" placeholder="图片URL"></el-input>
+            <img-upload @onUpload="uploadImg" ref="imgUpload"></img-upload>
+          </el-form-item>
+          <el-form-item label="图片描述" prop="nameAdmin">
+            <el-input v-model="form.nameAdmin" autocomplete="off" placeholder="请输入后台管理系统名称"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -122,8 +128,11 @@
 
 <script>
 import { fetchData } from '../../api/index';
+import ImgUpload from './ImgUpload'
+
 export default {
   name: 'basetable',
+  components: {ImgUpload},
   data() {
     return {
       query: {
@@ -138,15 +147,31 @@ export default {
       editVisible: false,
       uploadDialog: false,
       pageTotal: 0,
-      form: {},
       idx: -1,
-      id: -1
+      id: -1,
+      form: {
+        name: '',
+        logoUrl: '',
+        nameAdmin: ''
+      }
     };
+  },
+  clear () {
+    this.$refs.imgUpload.clear()
+    this.form = {
+      name: '',
+      logoUrl: '',
+      nameAdmin: ''
+    }
   },
   created() {
     this.getData();
   },
   methods: {
+    uploadImg (e) {
+      this.form.logoUrl = e
+      console.log(this.form.logoUrl)
+    },
     // 获取 easy-mock 的模拟数据
     getData() {
       fetchData(this.query).then(res => {
@@ -170,7 +195,8 @@ export default {
           this.$message.success('删除成功');
           this.tableData.splice(index, 1);
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     },
     // 多选操作
     handleSelectionChange(val) {
@@ -223,16 +249,20 @@ export default {
   width: 300px;
   display: inline-block;
 }
+
 .table {
   width: 100%;
   font-size: 14px;
 }
+
 .red {
   color: #ff0000;
 }
+
 .mr10 {
   margin-right: 10px;
 }
+
 .table-td-thumb {
   display: block;
   margin: auto;

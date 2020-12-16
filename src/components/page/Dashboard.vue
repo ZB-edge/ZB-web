@@ -48,32 +48,6 @@
     </el-row>
     <el-row :gutter='20'>
       <el-col :span='12'>
-        <el-card shadow='hover' style='height:373px;'>
-          <div slot='header' class='clearfix'>
-            <span>单位信息</span>
-            <el-button style='float: right; padding: 3px 0' type='text'>添加</el-button>
-          </div>
-          <el-table :data='org_info' height='250' border :row-style="{height: '40px'}"
-                    style='width: 100%'>
-            <el-table-column prop='id' label='序号' width='60'></el-table-column>
-            <el-table-column prop='name' label='单位名称' width='120'></el-table-column>
-            <el-table-column prop='type' label='单位类别' width='120'></el-table-column>
-            <el-table-column prop='description' label='基本信息描述' show-overflow-tooltip></el-table-column>
-          </el-table>
-        </el-card>
-      </el-col>
-      <el-col :span='12'>
-        <el-card shadow='hover'>
-          <!--                    <p style="display: inline">单位：</p >-->
-          <!--                    <charset></charset>-->
-          <div class='schart'>
-            <histogram></histogram>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter='20'>
-      <el-col :span='12'>
         <el-card shadow='hover'>
           <!--                    <p style="display: inline">单位：</p >-->
           <!--                    <charset></charset>-->
