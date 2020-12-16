@@ -1,12 +1,14 @@
 <template>
   <div>
     <el-dialog
-      title='装备信息'
+      title='单位信息'
       :visible.sync='centerDialogVisible'
-      width='30%'
+      width='40%'
+      :show-close='false'
+      :close-on-click-modal='false'
       center>
-      <p style='display: inline'>单位：</p>
-      <el-select v-model='value' filterable placeholder='请选择'>
+       <p style='display: inline'>单位名称：</p>
+      <el-select v-model='value' filterable placeholder='请选择单位名称'>
         <el-option
           v-for='item in options'
           :key='item.value'
@@ -16,9 +18,16 @@
       </el-select>
       <span slot='footer' class='dialog-footer'>
         <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>
-    <el-button @click='centerDialogVisible = false'>取 消</el-button>
+    <el-button @click='centerDialogVisible = false;$router.back()'>取 消</el-button>
   </span>
     </el-dialog>
+    <div class="crumbs">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item>
+                    <i class="el-icon-pie-chart"></i> 装备使用分析
+                </el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
     <!--        <div class="crumbs">-->
     <!--            <el-breadcrumb separator="/">-->
     <!--                <el-breadcrumb-item>-->
@@ -53,8 +62,8 @@
     <!--            </div>-->
     <!--                <sector></sector>-->
     <!--        </div>-->
-    <div class='container'>
-      <h3 style='margin-bottom: 20px'>单位：{{ value }}</h3>
+    <div  v-show='!centerDialogVisible' class='container'>
+        <h3 style='margin-bottom: 20px'>单位：{{ value }}</h3>
       <div>
         <div id='in'>
         </div>
@@ -63,7 +72,7 @@
         <div id='out'>
         </div>
       </div>
-    </div>
+      </div>
   </div>
 </template>
 
@@ -225,10 +234,10 @@ export default {
     };
   },
   created() {
-    this.centerDialogVisible = true;
   },
   mounted() {
     let this_ = this;
+    this.centerDialogVisible = true;
     let myChart = echarts.init(document.getElementById('in'));
     myChart.setOption(this.option);
     //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）

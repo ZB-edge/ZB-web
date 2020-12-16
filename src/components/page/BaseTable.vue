@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div class="crumbs">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item>
+                    <i class="el-icon-lx-cascades"></i> 战损分析
+                </el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
 <!--    <el-dialog-->
 <!--      title='装备信息'-->
 <!--      :visible.sync='centerDialogVisible'-->
@@ -74,9 +81,9 @@ export default {
         pageSize: 10
       },
       tableData: [
-        { id: 1, address: '',description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
-        { id: 2, address: '',description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
-        { id: 3, address: '',description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
+        { id: 1,description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
+        { id: 2, description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
+        { id: 3, description:'损坏严重', institute:'一旅',thumb:"https://lin-xin.gitee.io/images/post/wms.png" },
       ],
       multipleSelection: [],
       delList: [],

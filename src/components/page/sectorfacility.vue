@@ -13,7 +13,7 @@
         v-for='item in options'
         :key='item.value'
         :label='item.label'
-        :value='item.label'>
+        :value='item.value'>
       </el-option>
     </el-select>
     <div id='sector'>
@@ -23,6 +23,7 @@
 
 <script>
 import echarts from 'echarts';
+import request from "@/network/request";
 
 export default {
   name: 'sector',
@@ -30,7 +31,7 @@ export default {
     return {
       option: {
         title: {
-          text: '某站点用户访问来源',
+          text: '装备分析',
           top: '5%',
           left: 'center'
         },
@@ -38,24 +39,23 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c}'
         },
+        color:['red', 'blue', 'orange', 'green'],
         legend: {
           orient: 'vertical',
           left: 'left',
           top: '15%',
-          data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+          data: ['装甲车', '手枪', '坦克']
         },
         series: [
           {
-            name: '访问来源',
+            name: '装备分析',
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
             data: [
-              { value: 335, name: '直接访问' },
-              { value: 310, name: '邮件营销' },
-              { value: 234, name: '联盟广告' },
-              { value: 135, name: '视频广告' },
-              { value: 1548, name: '搜索引擎' }
+              { value: 335, name: '装甲车' },
+              { value: 310, name: '手枪' },
+              { value: 234, name: '坦克' }
             ],
             itemStyle: {
               normal: {
@@ -77,44 +77,19 @@ export default {
         ]
       },
       options: [{
-        value: '选项1',
-        label: '黄金糕'
+        value: '装甲兵1旅',
+        label: '一旅'
       }, {
-        value: '选项2',
-        label: '双皮奶'
+        value: '装甲兵2旅',
+        label: '二旅'
       }, {
-        value: '选项3',
-        label: '蚵仔煎'
+        value: '装甲兵3旅',
+        label: '三旅'
       }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      value: '龙须面',
-      data: [{
-        label: '北京烤鸭',
-        data: [{ value: 335, name: '直接访问' },
-          { value: 310, name: '邮件营销' },
-          { value: 135, name: '视频广告' },
-          { value: 1548, name: '搜索引擎' }
-        ]
-      },
-        {
-          label: '双皮奶',
-          data: [{ value: 335, name: '直接访问' },
-            { value: 310, name: '邮件营销' },
-            { value: 234, name: '联盟广告' }
-          ]
-        },
-        {
-          label: '龙须面',
-          data: [{ value: 335, name: '直接访问' },
-            { value: 310, name: '邮件营销' }
-          ]
-        }
-      ]
+        value: '装甲兵4旅',
+        label: '四旅'
+      },],
+      value:'装甲兵1旅',
     };
   },
   mounted() {
@@ -128,29 +103,46 @@ export default {
   },
   methods: {},
   watch: {
-    value: function(newVal, oldVal) {
-      for (var i = 0; i < this.data.length; i++) {
-        if (this.data[i].label == newVal) {
-          this.option.series[0].data = this.data[i].data;
-          break;
-        } else {
-          this.option.series[0].data = '';
+    value: function (newVal, oldVal){
+        request({
+        url: 'device/' + newVal
+      }).then(res => {
+        var datas = new Array();
+        var keys = Object.keys(res.data);
+        this.option.legend.data = keys;
+        for(var i=0; i<keys.length; i++){
+          var arr = new Object();
+          arr.name = keys[i];
+          arr.value = res.data[keys[i]];
+          datas.push(arr);
         }
+        this.option.series[0].data = datas;
+        let chart = echarts.init(document.getElementById('sector'));
+        chart.setOption(this.option);
+      }).catch(err => {
+        alert('获取数据失败！');
+      });
       }
-      let this_ = this;
-      let chart = echarts.init(document.getElementById('sector'));
-      chart.setOption(this.option);
-    }
   },
   created() {
-    for (var i = 0; i < this.data.length; i++) {
-      console.log(this.data[0].label);
-      if (this.data[i].label == this.value) {
-        this.option.series[0].data = this.data[i].data;
-      } else {
-        this.option.series[0].data = '';
-      }
-    }
+    request({
+        url: 'device/' + this.value
+      }).then(res => {
+        var datas = new Array();
+        var keys = Object.keys(res.data);
+        this.option.legend.data = keys;
+        for(var i=0; i<keys.length; i++){
+          var arr = new Object();
+          arr.name = keys[i];
+          arr.value = res.data[keys[i]];
+          datas.push(arr);
+        }
+        this.option.series[0].data = datas;
+        let chart = echarts.init(document.getElementById('sector'));
+        chart.setOption(this.option);
+      }).catch(err => {
+        alert('获取数据失败！');
+      });
   }
 };
 </script>
