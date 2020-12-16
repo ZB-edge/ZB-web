@@ -32,6 +32,7 @@ export default {
       option: {
         title: {
           text: '装备分析',
+          subtext: '单位：辆',
           top: '5%',
           left: 'center'
         },
@@ -107,11 +108,11 @@ export default {
         request({
         url: 'device/' + newVal
       }).then(res => {
-        var datas = new Array();
-        var keys = Object.keys(res.data);
+        let datas = [];
+        let keys = Object.keys(res.data);
         this.option.legend.data = keys;
-        for(var i=0; i<keys.length; i++){
-          var arr = new Object();
+        for(let i=0; i<keys.length; i++){
+          let arr = {};
           arr.name = keys[i];
           arr.value = res.data[keys[i]];
           datas.push(arr);
@@ -128,11 +129,11 @@ export default {
     request({
         url: 'device/' + this.value
       }).then(res => {
-        var datas = new Array();
-        var keys = Object.keys(res.data);
+        let datas = [];
+        let keys = Object.keys(res.data);
         this.option.legend.data = keys;
-        for(var i=0; i<keys.length; i++){
-          var arr = new Object();
+        for(let i=0; i<keys.length; i++){
+          let arr = {};
           arr.name = keys[i];
           arr.value = res.data[keys[i]];
           datas.push(arr);
