@@ -28,7 +28,7 @@ import bus from './bus';
 export default {
   data() {
     return {
-      special_routes_name: ['equipment_manage', 'logistics_manage', 'equipment_state'],
+      special_routes_name: ['equipment_manage', 'logistics_manage'],
       tagsList: []
     };
   },
@@ -87,7 +87,6 @@ export default {
   },
   watch: {
     $route(newValue, oldValue) {
-      console.log(newValue);
       if(this.special_routes_name.indexOf(newValue.name) === -1)
         this.setTags(newValue);
     }
@@ -112,7 +111,6 @@ export default {
       }
     });
     bus.$on('load_the_page',()=>{
-      console.log(this.$route);
       this.setTags(this.$route)
     })
   }

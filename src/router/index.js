@@ -73,7 +73,7 @@ export default new Router({
         },
         {
           // vue-schart组件
-          path: '/charts',
+          path: '/equipment_use',
           component: () => import(/* webpackChunkName: "chart" */ '../components/page/BaseCharts.vue'),
           meta: { title: '装备使用分析' }
         },
