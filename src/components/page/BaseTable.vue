@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="crumbs">
-      <el-breadcrumb separator="/">
+    <div class='crumbs'>
+      <el-breadcrumb separator='/'>
         <el-breadcrumb-item>
-          <i class="el-icon-lx-cascades"></i> 战损评估
+          <i class='el-icon-lx-cascades'></i> 战损评估
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -26,74 +26,75 @@
     <!--    <el-button @click='centerDialogVisible = false'>取 消</el-button>-->
     <!--  </span>-->
     <!--    </el-dialog>-->
-    <div class="container">
-      <div class="handle-box">
+    <div class='container'>
+      <div class='handle-box'>
         <el-button
-          type="primary"
-          icon="el-icon-delete"
-          class="handle-del mr10"
-          @click="delAllSelection"
+          type='primary'
+          icon='el-icon-delete'
+          class='handle-del mr10'
+          @click='delAllSelection'
         >批量删除
         </el-button>
-        <el-input v-model="query.name" placeholder="图片名称" class="handle-input mr10"></el-input>
-        <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-        <el-button type="primary" icon="el-icon-search" @click="adddialog" style="float: right">新增</el-button>
+        <el-input v-model='query.name' placeholder='图片名称' class='handle-input mr10'></el-input>
+        <el-button type='primary' icon='el-icon-search' @click='handleSearch'>搜索</el-button>
+        <el-button type='primary' icon='el-icon-search' @click='adddialog' style='float: right'>新增</el-button>
       </div>
-      <el-table
-        :data="tableData"
-        border
-        class="table"
-        ref="multipleTable"
-        header-cell-class-name="table-header"
-        @selection-change="handleSelectionChange"
+      <el-table :data='tableData' border class='table' ref='multipleTable'
+                header-cell-class-name='table-header'
+                @selection-change='handleSelectionChange'
       >
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-        <el-table-column prop="name" label="图片名称" align="center"></el-table-column>
-        <el-table-column label="装备图片" align="center">
-          <template slot-scope="scope">
+        <el-table-column type='selection' width='55' align='center'></el-table-column>
+        <el-table-column type='index' label='ID' width='55' align='center'></el-table-column>
+        <el-table-column prop='name' label='图片名称' align='center'></el-table-column>
+        <el-table-column label='装备图片' align='center'>
+          <template slot-scope='scope'>
             <el-image
-              class="table-td-thumb"
-              :src="scope.row.thumb"
-              :preview-src-list="[scope.row.thumb]"
+              class='table-td-thumb'
+              :src="'http://localhost:8100/image/'+scope.row.name+'.jpg'"
+              :preview-src-list="['http://localhost:8100/image/'+scope.row.name+'.jpg']"
             ></el-image>
           </template>
         </el-table-column>
-        <el-table-column label="状态" align="center">
-          <template slot-scope="scope">
-            <el-tag
-              :type="scope.row.state==='成功'?'success':(scope.row.state==='失败'?'danger':'')"
-            >{{ scope.row.state }}
+        <el-table-column label='状态' align='center'>
+          <template slot-scope='scope'>
+            <el-tag v-if="scope.row.status==='1'" type='success'>
+              成功
             </el-tag>
+            <el-tag v-else type='danger'>
+              失败
+            </el-tag>
+            <!--            <el-tag :type="scope.row.status==='1'?'success':(scope.row.status==='0'?'danger':'')"-->
+            <!--            >{{ scope.row.status }}-->
+            <!--            </el-tag>-->
           </template>
         </el-table-column>
-        <el-table-column prop="address" label="描述" align="center"></el-table-column>
-        <el-table-column prop="date" label="上传时间" align="center"></el-table-column>
-        <el-table-column label="操作" width="180" align="center">
-          <template slot-scope="scope">
+        <el-table-column prop='info' label='描述' align='center'></el-table-column>
+        <el-table-column prop='date' label='上传时间' align='center'></el-table-column>
+        <el-table-column label='操作' width='180' align='center'>
+          <template slot-scope='scope'>
             <el-button
-              type="primary"
-              icon="el-icon-upload"
-              @click="handleEdit(scope.$index, scope.row)"
+              type='primary'
+              icon='el-icon-upload'
+              @click='handleUpload(scope.$index, scope.row)'
             >上传
             </el-button>
             <el-button
-              type="danger"
-              icon="el-icon-delete"
-              @click="handleDelete(scope.$index, scope.row)"
+              type='danger'
+              icon='el-icon-delete'
+              @click='handleDelete(scope.$index, scope.row)'
             >删除
             </el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div class="pagination">
+      <div class='pagination'>
         <el-pagination
           background
-          layout="total, prev, pager, next"
-          :current-page="query.pageIndex"
-          :page-size="query.pageSize"
-          :total="pageTotal"
-          @current-change="handlePageChange"
+          layout='total, prev, pager, next'
+          :current-page='query.pageIndex'
+          :page-size='query.pageSize'
+          :total='pageTotal'
+          @current-change='handlePageChange'
         ></el-pagination>
       </div>
     </div>
@@ -101,33 +102,27 @@
     <!-- 编辑弹出框 -->
     <div>
       <el-dialog
-        title="新增战损评估"
-        :visible.sync="uploadDialog"
-        @close="clear"
+        title='新增战损评估'
+        :visible.sync='uploadDialog'
         center>
-        <el-form v-model="form" style="text-align: center">
-          <el-form-item label="图片名称" prop="name"  label-width="80px" >
-            <el-input v-model="form.name" autocomplete="off" placeholder="请输入图片名称"></el-input>
-          </el-form-item>
-          <el-form-item label="装备图片" prop="logo" label-width="80px">
-            <el-input v-model="form.logoUrl" autocomplete="off" placeholder="图片URL"></el-input>
-            <el-upload
-              class='upload-demo'
-              action='http://jsonplaceholder.typicode.com/api/posts/'
-              multiple
-              style="margin-top: 20px">
-              <i class='el-icon-upload'></i>
-              <div class='el-upload__text'>将文件拖到此处，或<em>点击上传</em></div>
-              <div class='el-upload__tip' slot='tip'>只能上传jpg/png文件，且不超过500kb</div>
-            </el-upload>
-          </el-form-item>
-          <el-form-item label="图片描述" prop="nameAdmin" label-width="80px">
-            <el-input v-model="form.nameAdmin" autocomplete="off" placeholder="请输入图片描述"></el-input>
+        <el-form v-model='form' style='text-align: center'>
+          <el-upload
+            class='upload-demo'
+            action='http://localhost:8100/api/damage/upload'
+            multiple
+            :on-change='file_upload'
+            style='margin-top: 20px'>
+            <i class='el-icon-upload'></i>
+            <div class='el-upload__text'>将文件拖到此处，或<em>点击上传</em></div>
+            <div class='el-upload__tip' slot='tip'>只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+          <el-form-item label='图片描述' prop='nameAdmin' label-width='80px'>
+            <el-input v-model='form.info' autocomplete='off' placeholder='请输入图片描述'></el-input>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="">确定</el-button>
-          <el-button @click="uploadDialog = false">取消</el-button>
+        <div slot='footer' class='dialog-footer'>
+          <el-button type='primary' @click='sure'>确定</el-button>
+          <el-button @click='uploadDialog = false'>取消</el-button>
         </div>
       </el-dialog>
     </div>
@@ -136,6 +131,7 @@
 
 <script>
 import { fetchData } from '../../api/index';
+import request from '../../network/request';
 
 export default {
   name: 'basetable',
@@ -157,18 +153,9 @@ export default {
       id: -1,
       form: {
         name: '',
-        logoUrl: '',
-        nameAdmin: ''
+        info: ''
       }
     };
-  },
-  clear () {
-    this.$refs.imgUpload.clear()
-    this.form = {
-      name: '',
-      logoUrl: '',
-      nameAdmin: ''
-    }
   },
   created() {
     this.getData();
@@ -176,10 +163,13 @@ export default {
   methods: {
     // 获取 easy-mock 的模拟数据
     getData() {
-      fetchData(this.query).then(res => {
-        console.log(res);
-        this.tableData = res.list;
-        this.pageTotal = res.pageTotal || 50;
+      request({
+        baseURL: 'http://localhost:8100',
+        url: '/api/damage/show',
+        method: 'get'
+      }).then(res => {
+        console.log(res.data);
+        this.tableData = res.data;
       });
     },
     // 触发搜索按钮
@@ -192,13 +182,23 @@ export default {
       // 二次确认删除
       this.$confirm('确定要删除吗？', '提示', {
         type: 'warning'
-      })
-        .then(() => {
+      }).then(() => {
+        this.tableData.splice(index, 1);
+        console.log(row.name);
+        console.log(typeof row.name);
+        request({
+          baseURL: 'http://localhost:8100',
+          url: '/api/damage/delete?name='+row.name,
+          method: 'delete',
+          // data:{
+          //   name:row.name
+          // }
+        }).then(res=>{
           this.$message.success('删除成功');
-          this.tableData.splice(index, 1);
         })
-        .catch(() => {
-        });
+      }).catch(() => {
+
+      });
     },
     // 多选操作
     handleSelectionChange(val) {
@@ -215,10 +215,21 @@ export default {
       this.multipleSelection = [];
     },
     // 编辑操作
-    handleEdit(index, row) {
-      this.idx = index;
-      this.form = row;
-      this.editVisible = true;
+    handleUpload(index, row) {
+      request({
+        baseURL: 'http://localhost:8100',
+        url: '/api/damage/export/装甲兵1旅',
+        method: 'post',
+        data:{
+          name: row.name,
+          status: row.status,
+          info: row.info
+        }
+      }).then(res=>{
+        this.$message.success('上传成功');
+      }).catch(err=>{
+        this.$message.error('上传失败');
+      })
     },
     adddialog() {
       this.uploadDialog = true;
@@ -233,6 +244,32 @@ export default {
     handlePageChange(val) {
       this.$set(this.query, 'pageIndex', val);
       this.getData();
+    },
+    // 上传图片以后执行函数
+    file_upload(file) {
+      this.form.name = file.name;
+    },
+    // 上传图片确认按钮
+    sure() {
+      request({
+        baseURL: 'http://localhost:8100',
+        url: '/api/damage/save',
+        method: 'post',
+        data: {
+          name: this.form.name,
+          info: this.form.info,
+          status: 0
+        }
+      }).then(res => {
+        this.uploadDialog = false;
+        request({
+          baseURL: 'http://localhost:8100',
+          url: '/api/damage/show',
+          method: 'get'
+        }).then(res => {
+          this.tableData = res.data;
+        });
+      });
     }
   }
 };
