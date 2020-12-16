@@ -6,21 +6,6 @@
         <el-breadcrumb-item>后勤保障管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-dialog title='单位信息' width='30%' :visible.sync='dialogFormVisible' :show-close='false'
-               :close-on-click-modal='false' center>
-      <el-form :model='form'>
-        <el-form-item label='单位名称' :label-width='formLabelWidth'>
-          <el-select v-model='form.institution' placeholder='请选择单位名称'>
-            <el-option v-for='institution in form.institutions' :label='institution'
-                       :value='institution' :key='institution'></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot='footer' class='dialog-footer'>
-        <el-button type='primary' @click='dialogFormVisible = false'>确 定</el-button>
-        <el-button @click='dialogFormVisible = false;$router.back()'>取 消</el-button>
-      </div>
-    </el-dialog>
     <div v-show='!dialogFormVisible' class='container'>
       <el-row :gutter='20'>
         <el-col :span='12'>
@@ -185,7 +170,6 @@ export default {
   methods: {
   },
   mounted() {
-    this.dialogFormVisible = true;
     const ProtectionAbilityChart = echarts.init(document.getElementById('protection_ability'));
     ProtectionAbilityChart.setOption(this.protection_ability_option);
     const MaterialChart = echarts.init(document.getElementById('material'));

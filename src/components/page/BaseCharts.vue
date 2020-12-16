@@ -11,7 +11,8 @@
       <el-col style="width: 49%">
         <el-card shadow='hover'>
           <div slot='header' class='clearfix'>
-            <span>单位信息</span>
+            <span>车辆驶入</span>
+            <el-button type="primary" style="float: right">一键上传</el-button>
           </div>
           <el-table :data='org_info' height='250' border :row-style="{height: '35px'}"
                     style='width: 100%'>
@@ -25,7 +26,8 @@
       <el-col :span='11' style="float: right;width: 49%">
         <el-card shadow='hover'>
           <div slot='header' class='clearfix'>
-            <span>单位信息</span>
+            <span>车辆驶出</span>
+            <el-button type="primary" style="float: right">一键上传</el-button>
           </div>
           <el-table :data='org_info' height='250' border :row-style="{height: '35px'}"
                     style='width: 100%'>

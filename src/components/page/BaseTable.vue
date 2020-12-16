@@ -111,10 +111,18 @@
           </el-form-item>
           <el-form-item label="装备图片" prop="logo">
             <el-input v-model="form.logoUrl" autocomplete="off" placeholder="图片URL"></el-input>
-            <img-upload @onUpload="uploadImg" ref="imgUpload"></img-upload>
+            <el-upload
+              class='upload-demo'
+              action='http://jsonplaceholder.typicode.com/api/posts/'
+              multiple
+              style="margin-top: 5px">
+              <i class='el-icon-upload'></i>
+              <div class='el-upload__text'>将文件拖到此处，或<em>点击上传</em></div>
+              <div class='el-upload__tip' slot='tip'>只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
           </el-form-item>
           <el-form-item label="图片描述" prop="nameAdmin">
-            <el-input v-model="form.nameAdmin" autocomplete="off" placeholder="请输入后台管理系统名称"></el-input>
+            <el-input v-model="form.nameAdmin" autocomplete="off" placeholder="请输入图片描述"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -128,11 +136,9 @@
 
 <script>
 import { fetchData } from '../../api/index';
-import ImgUpload from './ImgUpload'
 
 export default {
   name: 'basetable',
-  components: {ImgUpload},
   data() {
     return {
       query: {
@@ -168,10 +174,6 @@ export default {
     this.getData();
   },
   methods: {
-    uploadImg (e) {
-      this.form.logoUrl = e
-      console.log(this.form.logoUrl)
-    },
     // 获取 easy-mock 的模拟数据
     getData() {
       fetchData(this.query).then(res => {
