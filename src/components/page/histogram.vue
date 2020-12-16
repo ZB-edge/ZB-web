@@ -121,7 +121,7 @@
       const keys = Object.keys(res.data);
       let val = [];
       this.option.xAxis[0].data = keys;
-      for(var i = 0;i<keys.length; i++){
+      for(let i = 0;i<keys.length; i++){
         val.push(res.data[keys[i]])
       }
       this.option.series[0].data = val;

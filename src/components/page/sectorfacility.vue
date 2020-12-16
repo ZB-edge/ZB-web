@@ -32,6 +32,7 @@ export default {
       option: {
         title: {
           text: '装备分析',
+          subtext: '单位：辆',
           top: '5%',
           left: 'center'
         },
