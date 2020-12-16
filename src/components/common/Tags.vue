@@ -28,7 +28,7 @@ import bus from './bus';
 export default {
   data() {
     return {
-      special_routes_name: ['equipment_manage', 'logistics_manage'],
+      special_routes_name: ['equipment_manage', 'logistics_manage', 'equipment_use'],
       tagsList: []
     };
   },

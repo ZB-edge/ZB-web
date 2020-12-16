@@ -17,8 +17,8 @@
         </el-option>
       </el-select>
       <span slot='footer' class='dialog-footer'>
-        <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>
-    <el-button @click='centerDialogVisible = false;$router.back()'>取 消</el-button>
+        <el-button type='primary' @click='sure'>确 定</el-button>
+    <el-button @click='cancel'>取 消</el-button>
   </span>
     </el-dialog>
     <div class="crumbs">
@@ -78,10 +78,9 @@
 
 <script>
 import sector from '@/components/page/sectorfacility';
-
-4;
 import sectorequip from '@/components/page/sectorequip';
 import echarts from 'echarts';
+import bus from "@/components/common/bus";
 
 export default {
   name: 'basecharts',
@@ -250,6 +249,16 @@ export default {
     window.addEventListener('resize', function() {
       myChart1.resize();
     });
+  },
+  methods: {
+    sure(){
+      this.centerDialogVisible = false;
+      bus.$emit('load_the_page')
+    },
+    cancel(){
+      this.centerDialogVisible = false;
+      this.$router.back()
+    }
   }
 };
 </script>

@@ -124,7 +124,7 @@ export default {
         },
         {
           icon: 'el-icon-pie-chart',
-          index: 'charts',
+          index: 'equipment_use',
           title: '装备使用分析'
         },
         {

@@ -72,9 +72,10 @@ export default new Router({
           meta: { title: '文件上传' }
         },
         {
-          // vue-schart组件
+          // 装备使用分析
+          name: 'equipment_use',
           path: '/equipment_use',
-          component: () => import(/* webpackChunkName: "chart" */ '../components/page/BaseCharts.vue'),
+          component: () => import(/* webpackChunkName: "chart" */ '../components/page/equipment_use.vue'),
           meta: { title: '装备使用分析' }
         },
         {
