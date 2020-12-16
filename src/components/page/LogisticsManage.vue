@@ -11,8 +11,8 @@
         </el-form-item>
       </el-form>
       <div slot='footer' class='dialog-footer'>
-        <el-button type='primary' @click='dialogFormVisible = false'>确 定</el-button>
-        <el-button @click='dialogFormVisible = false;$router.back()'>取 消</el-button>
+        <el-button type='primary' @click='sure'>确 定</el-button>
+        <el-button @click='cancel'>取 消</el-button>
       </div>
     </el-dialog>
     <div v-show='!dialogFormVisible' class='container'>
@@ -44,6 +44,7 @@
 
 <script>
 import echarts from 'echarts';
+import bus from '@/components/common/bus';
 export default {
   name: 'LogisticsManage',
   data() {
@@ -177,6 +178,14 @@ export default {
     };
   },
   methods: {
+    sure(){
+      this.dialogFormVisible = false;
+      bus.$emit('load_the_page')
+    },
+    cancel(){
+      this.dialogFormVisible = false;
+      this.$router.back()
+    }
   },
   mounted() {
     this.dialogFormVisible = true;

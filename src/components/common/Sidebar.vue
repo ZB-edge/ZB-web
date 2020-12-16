@@ -80,7 +80,7 @@ export default {
         },
         {
           icon: 'el-icon-lx-cascades',
-          index: 'table',
+          index: 'equipment_state',
           title: '基础表格'
         },
         {

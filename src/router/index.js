@@ -15,16 +15,19 @@ export default new Router({
       meta: { title: '自述文件' },
       children: [
         {
+          name: 'index',
           path: '/dashboard',
           component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
           meta: { title: '系统首页' }
         },
         {
+          name: 'equipment_manage',
           path: '/equipment_manage',
           component: () => import(/* webpackChunkName: "equipment_manage" */ '../components/page/EquipmentManage.vue'),
           meta: { title: '装备管理' }
         },
         {
+          name: 'logistics_manage',
           path: '/logistics_manage',
           component: () => import(/* webpackChunkName: "equipment_manage" */ '../components/page/LogisticsManage.vue'),
           meta: { title: '后勤保障管理' }
@@ -35,9 +38,10 @@ export default new Router({
           meta: { title: '自定义图标' }
         },
         {
-          path: '/table',
+          name: 'equipment_state',
+          path: '/equipment_state',
           component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
-          meta: { title: '基础表格' }
+          meta: { title: '装备战损' }
         },
         {
           path: '/tabs',
