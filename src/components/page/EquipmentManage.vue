@@ -6,7 +6,7 @@
         <el-breadcrumb-item>装备管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-dialog title='装备信息' width='30%' :visible.sync='dialogFormVisible' :show-close='false' :close-on-click-modal='false' center>
+    <el-dialog title='装备信息' width='30%' :visible.sync='dialogFormVisible' :show-close='true' :close-on-click-modal='false' center>
       <el-form :model='form'>
         <el-form-item label='装备类型' :label-width='formLabelWidth'>
           <el-select v-model='form.equipment' placeholder='请选择装备类型'>

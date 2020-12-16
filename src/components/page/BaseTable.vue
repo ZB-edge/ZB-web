@@ -106,22 +106,22 @@
         @close="clear"
         center>
         <el-form v-model="form" style="text-align: center">
-          <el-form-item label="图片名称" prop="name" style="text-align: left" >
+          <el-form-item label="图片名称" prop="name"  label-width="80px" >
             <el-input v-model="form.name" autocomplete="off" placeholder="请输入图片名称"></el-input>
           </el-form-item>
-          <el-form-item label="装备图片" prop="logo">
+          <el-form-item label="装备图片" prop="logo" label-width="80px">
             <el-input v-model="form.logoUrl" autocomplete="off" placeholder="图片URL"></el-input>
             <el-upload
               class='upload-demo'
               action='http://jsonplaceholder.typicode.com/api/posts/'
               multiple
-              style="margin-top: 5px">
+              style="margin-top: 20px">
               <i class='el-icon-upload'></i>
               <div class='el-upload__text'>将文件拖到此处，或<em>点击上传</em></div>
               <div class='el-upload__tip' slot='tip'>只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </el-form-item>
-          <el-form-item label="图片描述" prop="nameAdmin">
+          <el-form-item label="图片描述" prop="nameAdmin" label-width="80px">
             <el-input v-model="form.nameAdmin" autocomplete="off" placeholder="请输入图片描述"></el-input>
           </el-form-item>
         </el-form>
