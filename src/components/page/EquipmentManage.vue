@@ -255,9 +255,7 @@ export default {
       bus.$emit('load_the_page')
     },
     cancel(){
-      this.dialogFormVisible = false;
       this.$router.back()
-
     }
   },
   mounted() {

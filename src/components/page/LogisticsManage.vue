@@ -28,7 +28,19 @@
               </div>
             </div>
           </el-card>
-          <div id='protection_ability' class='protection_ability'></div>
+          <baidu-map :center="center" :zoom="zoom" @ready="handler" class='map'>
+            <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
+            <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+            <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_LEFT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+            <bm-overview-map anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :isOpen="true"></bm-overview-map>
+            <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
+            <bm-marker v-for='location in locations'
+                       :position="{lng: location.lng, lat: location.lat}"
+                       animation="BMAP_ANIMATION_BOUNCE" :top='true' :key='location.name'>
+              <bm-label :content="location.name" :labelStyle="labelStyle" :offset="{width: -12, height: 30}"/>
+            </bm-marker>
+          </baidu-map>
+<!--          <div id='protection_ability' class='protection_ability'></div>-->
         </el-col>
         <el-col :span='12'>
           <div id='material' class='material'></div>
@@ -43,14 +55,21 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import echarts from 'echarts';
 import bus from '@/components/common/bus';
+import baiduMap from 'vue-baidu-map'
+Vue.use(baiduMap,{
+  ak:'nLp8aFpm9A2qGNuqqtq4xG7S3nnHnLCa'
+})
 export default {
   name: 'LogisticsManage',
   data() {
     return {
       dialogFormVisible: false,
       formLabelWidth: '120px',
+      center:{lng: 0, lat: 0},
+      zoom: 3,
       items: [
         { name: '党员比例', value: '70%' },
         { name: '专员比例', value: '55%' },
@@ -83,6 +102,12 @@ export default {
         }
       ],
       material: ['发动机', '水泵', '水散热器', '高压柴油泵', 'HJ-9反坦克导弹', '喷油器', '履带片'],
+      locations:[{
+        name:'修理连',
+        lng: 116.404,
+        lat: 39.915
+      }],
+      labelStyle:{color: '#0000ff', fontSize : '16px', border:'none',background: 'transparent',fontWeight: '700' },
       material_data: [10, 2, 7, 30, 6, 9, 20],
       protection_ability_option: {
         title: {
@@ -183,14 +208,19 @@ export default {
       bus.$emit('load_the_page')
     },
     cancel(){
-      this.dialogFormVisible = false;
       this.$router.back()
+    },
+    handler ({BMap, map}) {
+      // console.log(BMap, map)
+      this.center.lng = 116.404
+      this.center.lat = 39.915
+      this.zoom = 12
     }
   },
   mounted() {
     this.dialogFormVisible = true;
-    const ProtectionAbilityChart = echarts.init(document.getElementById('protection_ability'));
-    ProtectionAbilityChart.setOption(this.protection_ability_option);
+    // const ProtectionAbilityChart = echarts.init(document.getElementById('protection_ability'));
+    // ProtectionAbilityChart.setOption(this.protection_ability_option);
     const MaterialChart = echarts.init(document.getElementById('material'));
     MaterialChart.setOption(this.material_option);
   }
@@ -207,5 +237,10 @@ export default {
 .material {
   width: 600px;
   height: 400px;
+}
+.map{
+  margin-top: 55px;
+  width: 100%;
+  height: 420px;
 }
 </style>
