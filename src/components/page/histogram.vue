@@ -128,7 +128,7 @@
       let myChart = echarts.init(document.getElementById('chart_example'));
       myChart.setOption(this.option);
     }).catch(err => {
-  alert('获取数据失败！')
+  // alert('获取数据失败！')
     })
       }
     },
