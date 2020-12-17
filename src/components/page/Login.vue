@@ -32,7 +32,7 @@ export default {
   data: function() {
     return {
       param: {
-        username: 'admin',
+        username: 'zzz',
         password: '123123'
       },
       rules: {

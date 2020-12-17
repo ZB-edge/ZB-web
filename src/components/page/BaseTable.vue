@@ -209,7 +209,7 @@ export default {
       this.$message.error(`删除了${str}`);
       this.multipleSelection = [];
     },
-    // 编辑操作
+    // 上传操作
     handleUpload(index, row) {
       request({
         baseURL: 'http://localhost:8100',

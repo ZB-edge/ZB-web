@@ -16,10 +16,10 @@
           </div>
           <el-table :data='org_info' height='250' border :row-style="{height: '35px'}"
                     style='width: 100%'>
-            <el-table-column prop='id' label='序号' width='60'></el-table-column>
-            <el-table-column prop='name' label='单位名称' width='120'></el-table-column>
-            <el-table-column prop='type' label='单位类别' width='120'></el-table-column>
-            <el-table-column prop='description' label='基本信息描述' show-overflow-tooltip></el-table-column>
+            <el-table-column type="index" label='序号' align="center"></el-table-column>
+            <el-table-column prop='incar' label='车辆名称' align="center"></el-table-column>
+            <el-table-column prop='instatus' label='信息状态' align="center"></el-table-column>
+            <el-table-column prop='intime' label='驶入时间' show-overflow-tooltip align="center"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -31,10 +31,10 @@
           </div>
           <el-table :data='org_info' height='250' border :row-style="{height: '35px'}"
                     style='width: 100%'>
-            <el-table-column prop='id' label='序号' width='60'></el-table-column>
-            <el-table-column prop='name' label='单位名称' width='120'></el-table-column>
-            <el-table-column prop='type' label='单位类别' width='120'></el-table-column>
-            <el-table-column prop='description' label='基本信息描述' show-overflow-tooltip></el-table-column>
+            <el-table-column type="index" label='序号' align="center"></el-table-column>
+            <el-table-column prop='outcar' label='车辆名称' align="center"></el-table-column>
+            <el-table-column prop='outstatus' label='信息状态' align="center"></el-table-column>
+            <el-table-column prop='outtime' label='驶出时间' show-overflow-tooltip align=""></el-table-column>
           </el-table>
         </el-card>
       </el-col>
