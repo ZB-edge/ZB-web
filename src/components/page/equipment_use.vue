@@ -256,7 +256,6 @@ export default {
       bus.$emit('load_the_page')
     },
     cancel(){
-      this.centerDialogVisible = false;
       this.$router.back()
     }
   }
