@@ -102,7 +102,7 @@ export default {
   created() {
     request({
       method:'get',
-      url: '/num',
+      url: '/api/perception/num',
     }).then(res=>{
       for (let i = 0; i < res.data.length; i++) {
         this.total_info[i].value = res.data[i]
@@ -110,7 +110,7 @@ export default {
     })
     request({
       method:'get',
-      url:'/insList',
+      url:'/api/perception/insList',
     }).then(res=>{
       this.org_info = res.data
       for (let i = 0; i < this.org_info.length; i++) {

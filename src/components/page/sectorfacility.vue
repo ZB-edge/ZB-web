@@ -106,7 +106,7 @@ export default {
   watch: {
     value: function (newVal, oldVal){
         request({
-        url: 'device/' + newVal
+        url: '/api/perception/device/' + newVal
       }).then(res => {
         let datas = [];
         let keys = Object.keys(res.data);
@@ -127,7 +127,7 @@ export default {
   },
   created() {
     request({
-        url: 'device/' + this.value
+        url: '/api/perception/device/' + this.value
       }).then(res => {
         let datas = [];
         let keys = Object.keys(res.data);

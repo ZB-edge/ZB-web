@@ -59,6 +59,7 @@ import Vue from 'vue'
 import echarts from 'echarts';
 import bus from '@/components/common/bus';
 import baiduMap from 'vue-baidu-map'
+import request from '../../network/request';
 Vue.use(baiduMap,{
   ak:'nLp8aFpm9A2qGNuqqtq4xG7S3nnHnLCa'
 })
@@ -216,6 +217,11 @@ export default {
       this.center.lat = 39.915
       this.zoom = 12
     }
+  },
+  created() {
+    request({
+
+    })
   },
   mounted() {
     this.dialogFormVisible = true;

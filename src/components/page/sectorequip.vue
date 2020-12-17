@@ -102,7 +102,7 @@ export default {
   watch: {
     value: function (newVal, oldVal){
         request({
-        url: 'equipment/' + newVal
+        url: '/api/perception/equipment/' + newVal
       }).then(res => {
         let datas = [];
         let keys = Object.keys(res.data);
@@ -123,7 +123,7 @@ export default {
   },
   created() {
       request({
-        url: 'equipment/' + this.value
+        url: '/api/perception/equipment/' + this.value
       }).then(res => {
         let datas = [];
         let keys = Object.keys(res.data);
@@ -138,7 +138,7 @@ export default {
         let chart = echarts.init(document.getElementById('equip'));
         chart.setOption(this.option);
       }).catch(err => {
-        alert('获取数据失败！');
+        // alert('获取数据失败！');
       });
     }
 };
