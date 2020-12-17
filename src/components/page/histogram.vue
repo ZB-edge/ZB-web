@@ -117,7 +117,7 @@ export default {
     watch: {
       value: function (newVal, oldVal){
         request({
-  url: 'person/'+newVal
+  url: '/api/perception/person/'+newVal
     }).then(res =>{
       const keys = Object.keys(res.data);
       let val = [];

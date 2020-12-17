@@ -3,12 +3,12 @@
     <el-dialog
       title='单位信息'
       :visible.sync='centerDialogVisible'
-      width='40%'
+      width='30%'
       :show-close='false'
       :close-on-click-modal='false'
       center>
-       <p style='display: inline'>单位名称：</p>
-      <el-select v-model='value' filterable placeholder='请选择单位名称'>
+       <p style='display: inline;margin-left: 60px'>单位名称：</p>
+      <el-select v-model='value' filterable placeholder='请选择单位名称' style="margin-left: 5px">
         <el-option
           v-for='item in options'
           :key='item.value'

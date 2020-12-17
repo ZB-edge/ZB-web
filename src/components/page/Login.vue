@@ -57,20 +57,22 @@ export default {
       //   }
       // });
       request({
-        url: 'adminLogin/?username=' +this.param.username +'&password=' + this.param.password ,
+        baseURL:'http://localhost:8095/api/perception',
+        url: 'adminLogin?username=' + this.param.username +'&password=' + this.param.password ,
         method:'post',
       }).then(res => {
         console.log(res)
         if (res.data.status === 200){
           this.$message.success(res.data.message);
           localStorage.setItem('ms_username', this.param.username);
-          this.$router.push('/');
+          this.$router.push('/dashboard');
         }
         else {
           this.$message.error(res.data.message);
           return false;
         }
       }).catch(err => {
+        this.$message.error('网络连接失败！');
       });
     }
   }
