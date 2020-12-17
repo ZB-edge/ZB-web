@@ -78,9 +78,10 @@ export default {
   methods: {},
   watch: {},
   created() {
+    let username = localStorage.getItem('ms_username');
     request({
       baseURL: 'http://localhost:8095',
-      url: '/api/perception/equipment/装甲兵1旅',
+      url: '/api/perception/equipment/' + username,
       method: 'get',
     }).then(res => {
       let datas = [];
