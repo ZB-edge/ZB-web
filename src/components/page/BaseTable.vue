@@ -98,7 +98,6 @@
         ></el-pagination>
       </div>
     </div>
-
     <!-- 编辑弹出框 -->
     <div>
       <el-dialog
@@ -109,7 +108,7 @@
           <el-upload
             class='upload-demo'
             action='http://localhost:8100/api/damage/upload'
-            multiple
+            accept='.jpg'
             :on-change='file_upload'
             style='margin-top: 20px'>
             <i class='el-icon-upload'></i>
@@ -218,13 +217,8 @@ export default {
     handleUpload(index, row) {
       request({
         baseURL: 'http://localhost:8100',
-        url: '/api/damage/export/装甲兵1旅',
+        url: '/api/damage/export/装甲兵1旅?name='+row.name,
         method: 'post',
-        data:{
-          name: row.name,
-          status: row.status,
-          info: row.info
-        }
       }).then(res=>{
         this.$message.success('上传成功');
       }).catch(err=>{
