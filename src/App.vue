@@ -9,6 +9,9 @@
 /*@import "./assets/css/theme-green/color-green.css";   浅绿色主题*/
 .el-tooltip__popper {
   max-width: 30%;
-  /*test*/
+}
+.btn-custom-cancel{
+  float: right;
+  margin-left: 10px !important;
 }
 </style>

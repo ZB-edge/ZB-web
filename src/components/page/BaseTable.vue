@@ -76,7 +76,7 @@
               type='primary'
               icon='el-icon-upload'
               @click='handleUpload(scope.$index, scope.row)'
-            >上传
+            >同步
             </el-button>
             <el-button
               type='danger'
@@ -105,12 +105,8 @@
         :visible.sync='uploadDialog'
         center>
         <el-form v-model='form' style='text-align: center'>
-          <el-upload
-            class='upload-demo'
-            action='http://localhost:8100/api/damage/upload'
-            accept='.jpg'
-            :on-change='file_upload'
-            style='margin-top: 20px'>
+          <el-upload class='upload-demo' action='http://localhost:8100/api/damage/upload' accept='.jpg'
+            ref="upload" :on-change='file_upload' :auto-upload='false' style='margin-top: 20px'>
             <i class='el-icon-upload'></i>
             <div class='el-upload__text'>将文件拖到此处，或<em>点击上传</em></div>
             <div class='el-upload__tip' slot='tip'>只能上传jpg/png文件，且不超过500kb</div>
@@ -120,7 +116,7 @@
           </el-form-item>
         </el-form>
         <div slot='footer' class='dialog-footer'>
-          <el-button type='primary' @click='sure'>确定</el-button>
+          <el-button type='primary' @click='sure'>上传</el-button>
           <el-button @click='uploadDialog = false'>取消</el-button>
         </div>
       </el-dialog>
@@ -167,7 +163,6 @@ export default {
         url: '/api/damage/show',
         method: 'get'
       }).then(res => {
-        console.log(res.data);
         this.tableData = res.data;
       });
     },
@@ -180,7 +175,11 @@ export default {
     handleDelete(index, row) {
       // 二次确认删除
       this.$confirm('确定要删除吗？', '提示', {
-        type: 'warning'
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonClass: "btn-custom-cancel",
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
       }).then(() => {
         this.tableData.splice(index, 1);
         console.log(row.name);
@@ -189,9 +188,6 @@ export default {
           baseURL: 'http://localhost:8100',
           url: '/api/damage/delete?name='+row.name,
           method: 'delete',
-          // data:{
-          //   name:row.name
-          // }
         }).then(res=>{
           this.$message.success('删除成功');
         })
@@ -220,9 +216,9 @@ export default {
         url: '/api/damage/export/装甲兵1旅?name='+row.name,
         method: 'post',
       }).then(res=>{
-        this.$message.success('上传成功');
+        this.$message.success('同步成功');
       }).catch(err=>{
-        this.$message.error('上传失败');
+        this.$message.error('同步失败');
       })
     },
     adddialog() {
@@ -255,14 +251,10 @@ export default {
           status: 0
         }
       }).then(res => {
+        this.$refs.upload.submit();
         this.uploadDialog = false;
-        request({
-          baseURL: 'http://localhost:8100',
-          url: '/api/damage/show',
-          method: 'get'
-        }).then(res => {
-          this.tableData = res.data;
-        });
+        this.$message.success('上传成功')
+        this.getData()
       });
     }
   }
