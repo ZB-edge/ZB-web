@@ -53,11 +53,7 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: [
-              { value: 335, name: '装甲车' },
-              { value: 310, name: '手枪' },
-              { value: 234, name: '坦克' }
-            ],
+            data: [],
             itemStyle: {
               normal: {
                 label: {
@@ -121,7 +117,7 @@ export default {
         let chart = echarts.init(document.getElementById('sector'));
         chart.setOption(this.option);
       }).catch(err => {
-        alert('获取数据失败！');
+        this.$message.error('获取数据失败！');
       });
       }
   },
@@ -142,7 +138,7 @@ export default {
         let chart = echarts.init(document.getElementById('sector'));
         chart.setOption(this.option);
       }).catch(err => {
-        // alert('获取数据失败！');
+       this.$message.error('获取数据失败！');
       });
   }
 };

@@ -37,7 +37,7 @@
         @selection-change='handleSelectionChange'
       >
         <el-table-column prop='id' label='序号' width='55' align='center'></el-table-column>
-        <el-table-column label='图片' align='center'>
+        <el-table-column label='图片（点击可放大）' align='center'>
           <template slot-scope='scope'>
 <!--            <div v-for='item in imgBase64' style='clear: both; display: inline-block'>-->
               <el-image
@@ -53,7 +53,7 @@
             <!--            </div>-->
           </template>
         </el-table-column>
-        <el-table-column prop='info' label='描述'></el-table-column>
+        <el-table-column prop='info' label='描述' align='center'></el-table-column>
         <el-table-column prop='institution' label='单位' width='180' align='center'>
         </el-table-column>
       </el-table>
@@ -120,7 +120,7 @@ export default {
       }
       this.tableData = datas;
     }).catch(err => {
-      alert('获取数据失败！');
+      this.$message.error('获取数据失败！');
     })
   },
   methods: {

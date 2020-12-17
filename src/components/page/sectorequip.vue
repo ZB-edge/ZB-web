@@ -117,7 +117,7 @@ export default {
         let chart = echarts.init(document.getElementById('equip'));
         chart.setOption(this.option);
       }).catch(err => {
-        // alert('获取数据失败！');
+        this.$message.error('获取数据失败！');
       });
       }
   },
@@ -138,7 +138,7 @@ export default {
         let chart = echarts.init(document.getElementById('equip'));
         chart.setOption(this.option);
       }).catch(err => {
-        alert('获取数据失败！');
+        this.$message.error('获取数据失败！');
       });
     }
 };
