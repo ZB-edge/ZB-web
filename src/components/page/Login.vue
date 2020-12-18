@@ -45,7 +45,7 @@ export default {
   methods: {
     submitForm() {
         request({
-          baseURL: 'http://localhost:8095',
+          baseURL: 'http://202.112.157.52:8095',
           url: '/api/perception/edgeLogin?username=' + this.param.username + '&password=' + this.param.password,
           method: 'post',
         }).then(res => {

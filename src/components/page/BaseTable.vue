@@ -141,7 +141,7 @@ export default {
     // 获取 easy-mock 的模拟数据
     getData() {
       request({
-        baseURL: 'http://localhost:8100',
+        baseURL: 'http://202.112.157.52:8100',
         url: '/api/damage/show',
         method: 'get'
       }).then(res => {
@@ -167,7 +167,7 @@ export default {
         console.log(row.name);
         console.log(typeof row.name);
         request({
-          baseURL: 'http://localhost:8100',
+          baseURL: 'http://202.112.157.52:8100',
           url: '/api/damage/delete?name='+row.name,
           method: 'delete',
         }).then(res=>{
@@ -194,8 +194,8 @@ export default {
     // 上传操作
     handleUpload(index, row) {
       request({
-        baseURL: 'http://localhost:8100',
-        url: '/api/damage/export/装甲兵2旅?name='+row.name,
+        baseURL: 'http://202.112.157.52:8100',
+        url: '/api/damage/export/'+localStorage.getItem('ms_username')+'?name='+row.name,
         method: 'post',
         timeout: 100000
       }).then(res=>{
@@ -226,7 +226,7 @@ export default {
     // 上传图片确认按钮
     sure() {
       request({
-        baseURL: 'http://localhost:8100',
+        baseURL: 'http://202.112.157.52:8100',
         url: '/api/damage/save',
         method: 'post',
         timeout: 10000,
