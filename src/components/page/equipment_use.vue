@@ -28,40 +28,6 @@
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-    <!--        <div class="crumbs">-->
-    <!--            <el-breadcrumb separator="/">-->
-    <!--                <el-breadcrumb-item>-->
-    <!--                    <i class="el-icon-pie-chart"></i> schart图表-->
-    <!--                </el-breadcrumb-item>-->
-    <!--            </el-breadcrumb>-->
-    <!--        </div>-->
-    <!--        <div class="container">-->
-    <!--            <div class="plugins-tips">-->
-    <!--                vue-schart：vue.js封装sChart.js的图表组件。-->
-    <!--                访问地址：-->
-    <!--                <a-->
-    <!--                    href="https://github.com/lin-xin/vue-schart"-->
-    <!--                    target="_blank"-->
-    <!--                >vue-schart</a>-->
-    <!--            </div>-->
-    <!--            <div class="schart-box">-->
-    <!--                <div class="content-title">柱状图</div>-->
-    <!--                <schart class="schart" canvasId="bar" :options="options1"></schart>-->
-    <!--            </div>-->
-    <!--            <div class="schart-box">-->
-    <!--                <div class="content-title">折线图</div>-->
-    <!--                <schart class="schart" canvasId="line" :options="options2"></schart>-->
-    <!--            </div>-->
-    <!--            <div class="schart-box">-->
-    <!--                <div class="content-title">饼状图</div>-->
-    <!--                <schart class="schart" canvasId="pie" :options="options3"></schart>-->
-    <!--            </div>-->
-    <!--            <div class="schart-box">-->
-    <!--                <div class="content-title">环形图</div>-->
-    <!--                <schart class="schart" canvasId="ring" :options="options4"></schart>-->
-    <!--            </div>-->
-    <!--                <sector></sector>-->
-    <!--        </div>-->
     <div  v-show='!centerDialogVisible' class='container'>
         <h3 style='margin-bottom: 20px'>单位：{{ value }}</h3>
       <div>
@@ -91,17 +57,17 @@ export default {
     return {
       centerDialogVisible: false,
       options: [{
-        value: '一旅',
-        label: '一旅'
+        value: '装甲兵1旅',
+        label: '装甲兵1旅'
       }, {
-        value: '二旅',
-        label: '二旅'
+        value: '装甲兵2旅',
+        label: '装甲兵2旅'
       }, {
-        value: '三旅',
-        label: '三旅'
+        value: '装甲兵3旅',
+        label: '装甲兵3旅'
       }, {
-        value: '四旅',
-        label: '四旅'
+        value: '装甲兵4旅',
+        label: '装甲兵4旅'
       }],
       value: '',
       option: {

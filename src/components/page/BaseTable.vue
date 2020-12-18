@@ -19,18 +19,11 @@
         <el-table-column prop='id' label='序号' width='55' align='center'></el-table-column>
         <el-table-column label='图片（点击可放大）' align='center'>
           <template slot-scope='scope'>
-<!--            <div v-for='item in imgBase64' style='clear: both; display: inline-block'>-->
               <el-image
                 class="table-td-thumb"
                 :src="scope.row.name"
                 :preview-src-list="[scope.row.name]"
               ></el-image>
-
-<!--            </div>-->
-            <!--            <div class='addbox'>-->
-            <!--              <input type='file' @change='getImgBase()'>-->
-            <!--              <div class='addbtn'>+</div>-->
-            <!--            </div>-->
           </template>
         </el-table-column>
         <el-table-column prop='info' label='描述' align='center'></el-table-column>
@@ -77,16 +70,16 @@ export default {
       id: -1,
       options: [{
         value: '一旅',
-        label: '一旅'
+        label: '装甲兵1旅'
       }, {
         value: '二旅',
-        label: '二旅'
+        label: '装甲兵2旅'
       }, {
         value: '三旅',
-        label: '三旅'
+        label: '装甲兵3旅'
       }, {
         value: '四旅',
-        label: '四旅'
+        label: '装甲兵4旅'
       }],
       value: ''
     };

@@ -88,14 +88,7 @@ export default {
         { title:'装备类型', value:'', icon:'el-icon-lx-goods' },
         { title:'器材类型', value:'', icon:'el-icon-menu' },
       ],
-      org_info: [
-        // {
-        //   id: 1,
-        //   name: '大连造船厂',
-        //   category: '船舶公司',
-        //   info: '这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企'
-        // }
-      ]
+      org_info: []
     };
   },
   components: {
@@ -125,17 +118,6 @@ export default {
       }
     })
   },
-  // created() {
-  //     this.handleListener();
-  //     this.changeDate();
-  // },
-  // activated() {
-  //     this.handleListener();
-  // },
-  // deactivated() {
-  //     window.removeEventListener('resize', this.renderChart);
-  //     bus.$off('collapse', this.handleBus);
-  // },
   methods: {
     changeDate() {
       const now = new Date().getTime();
@@ -144,20 +126,6 @@ export default {
         item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
       });
     }
-    // handleListener() {
-    //     bus.$on('collapse', this.handleBus);
-    //     // 调用renderChart方法对图表进行重新渲染
-    //     window.addEventListener('resize', this.renderChart);
-    // },
-    // handleBus(msg) {
-    //     setTimeout(() => {
-    //         this.renderChart();
-    //     }, 200);
-    // },
-    // renderChart() {
-    //     this.$refs.bar.renderChart();
-    //     this.$refs.line.renderChart();
-    // }
   }
 };
 </script>
