@@ -54,8 +54,6 @@
 
 <script>
 import sector from '@/components/page/sectorfacility';
-
-4;
 import sectorequip from '@/components/page/sectorequip';
 import echarts from 'echarts';
 
