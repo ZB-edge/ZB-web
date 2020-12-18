@@ -57,7 +57,7 @@ export default {
       //   }
       // });
       request({
-        baseURL:'http://localhost:8095/api/perception',
+        baseURL:'http://202.112.157.40:8095/api/perception',
         url: 'adminLogin?username=' + this.param.username +'&password=' + this.param.password ,
         method:'post',
       }).then(res => {

@@ -24,7 +24,7 @@
     <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="el-icon-pie-chart"></i> 装备使用分析
+                    <i class="el-icon-lx-global"></i> 车辆分析
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
@@ -106,7 +106,7 @@ export default {
       value: '',
       option: {
         title: {
-          text: '装备使用情况（入）',
+          text: '车辆驶入情况',
           left: 'center',
           top: '5%'
         },
@@ -169,7 +169,7 @@ export default {
       },
       option1: {
         title: {
-          text: '装备使用情况（出）',
+          text: '车辆驶出情况',
           left: 'center',
           top: '5%'
         },

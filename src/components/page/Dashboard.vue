@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div class="crumbs">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item>
+                    <i class="el-icon-lx-emoji"></i> 首页
+                </el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
     <el-row :gutter='20' class='mgb20'>
       <el-col :span='6' v-for='(info,index) in total_info' :key='info.title'>
         <el-card shadow='hover' :body-style="{padding: '0px'}">

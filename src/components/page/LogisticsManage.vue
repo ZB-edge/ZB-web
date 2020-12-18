@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div class="crumbs">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item>
+                    <i class="el-icon-pie-chart"></i> 后勤保障管理
+                </el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
     <el-dialog title='单位信息' width='30%' :visible.sync='dialogFormVisible' :show-close='false'
                :close-on-click-modal='false' center>
       <el-form :model='form'>
@@ -43,8 +50,8 @@
         <el-col :span='12'>
           <div id='material' class='material'></div>
           <el-table :data='tableData' style='width: 100%' height='200'>
-            <el-table-column :label='tableHead[0]' prop='ammunition'></el-table-column>
-            <el-table-column :label='tableHead[1]' prop='count'></el-table-column>
+            <el-table-column :label='tableHead[0]' prop='ammunition' align='center'></el-table-column>
+            <el-table-column :label='tableHead[1]' prop='count' align='center'></el-table-column>
           </el-table>
         </el-col>
       </el-row>

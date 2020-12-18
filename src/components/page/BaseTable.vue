@@ -7,27 +7,7 @@
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-<!--    <el-dialog-->
-<!--      title='装备信息'-->
-<!--      :visible.sync='centerDialogVisible'-->
-<!--      width='30%'-->
-<!--      center>-->
-<!--      <p style='display: inline'>单位：</p>-->
-<!--      <el-select v-model='value' filterable placeholder='请选择'>-->
-<!--        <el-option-->
-<!--          v-for='item in options'-->
-<!--          :key='item.value'-->
-<!--          :label='item.label'-->
-<!--          :value='item.value'>-->
-<!--        </el-option>-->
-<!--      </el-select>-->
-<!--      <span slot='footer' class='dialog-footer'>-->
-<!--        <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>-->
-<!--    <el-button @click='centerDialogVisible = false'>取 消</el-button>-->
-<!--  </span>-->
-<!--    </el-dialog>-->
     <div class='container'>
-<!--      <h3 style='margin-bottom: 20px'>单位：{{ value }}</h3>-->
       <el-table
         :data='tableData'
         border
@@ -73,14 +53,10 @@
 
 <script>
 import { fetchData } from '../../api/index';
-import commit from '@/components/page/commit';
 import request_image from "@/network/request_image";
 
 export default {
   name: 'basetable',
-  components: {
-    commit
-  },
   data() {
     return {
       centerDialogVisible: false,
@@ -126,7 +102,7 @@ export default {
         arr = res.data[i];
         arr['id'] = i+1;
         arr['image_name'] = res.data[i].name;
-        arr['name'] = 'http://localhost:8100/image/' + res.data[i].name +'.jpg';
+        arr['name'] = 'http://202.112.157.40:8100/image/' + res.data[i].name +'.jpg';
         datas.push(arr);
       }
       this.tableData = datas;
@@ -170,7 +146,7 @@ export default {
         arr = res.data[i];
         arr['id'] = i+1;
         arr['image_name'] = res.data[i].name;
-        arr['name'] = 'http://localhost:8100/image/' + res.data[i].name +'.jpg';
+        arr['name'] = 'http://202.112.157.40:8100/image/' + res.data[i].name +'.jpg';
         datas.push(arr);
       }
       this.tableData = datas;

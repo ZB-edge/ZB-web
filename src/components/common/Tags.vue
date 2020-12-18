@@ -43,7 +43,7 @@ export default {
       if (item) {
         delItem.path === this.$route.fullPath && this.$router.push(item.path);
       } else {
-        this.$router.push('/').catch(err => {
+        this.$router.push('/dashboard').catch(err => {
         });
       }
     },
