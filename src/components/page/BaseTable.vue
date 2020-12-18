@@ -31,8 +31,8 @@
           <template slot-scope='scope'>
             <el-image
               class='table-td-thumb'
-              :src="'http://localhost:8100/image/'+scope.row.name+'.jpg'"
-              :preview-src-list="['http://localhost:8100/image/'+scope.row.name+'.jpg']"
+              :src="'http://202.112.157.52:8100/image/'+scope.row.name+'.jpg'"
+              :preview-src-list="['http://202.112.157.52:8100/image/'+scope.row.name+'.jpg']"
             ></el-image>
           </template>
         </el-table-column>
@@ -88,7 +88,7 @@
         :visible.sync='uploadDialog'
         center>
         <el-form v-model='form' style='text-align: center'>
-          <el-upload class='upload-demo' action='http://localhost:8100/api/damage/upload' accept='.jpg'
+          <el-upload class='upload-demo' action='http://202.112.157.52:8100/api/damage/upload' accept='.jpg'
                      ref="upload" :on-success='file_upload_success' :on-change='file_upload' :auto-upload='false' style='margin-top: 20px'>
             <i class='el-icon-upload'></i>
             <div class='el-upload__text'>将文件拖到此处，或<em>点击上传</em></div>
