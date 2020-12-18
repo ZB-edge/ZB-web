@@ -6,23 +6,23 @@
         <el-breadcrumb-item>装备管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-dialog title='装备信息' width='30%' :visible.sync='dialogFormVisible' :show-close='true' :close-on-click-modal='false' center>
+    <el-dialog title='装备信息' width='30%' :visible.sync='dialogFormVisible' :show-close='false' :close-on-click-modal='false' center>
       <el-form :model='form'>
         <el-form-item label='装备类型' :label-width='formLabelWidth'>
-          <el-select v-model='form.equipment' placeholder='请选择装备类型'>
+          <el-select v-model='form.equipment' placeholder='请选择装备类型' @change='equipment_selected'>
             <el-option v-for='equipment in form.equipments' :label='equipment'
                        :value='equipment' :key='equipment'></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label='设备名称' :label-width='formLabelWidth'>
-          <el-select v-model='form.name' placeholder='请选择设备名称'>
+          <el-select v-model='form.name' placeholder='请选择设备名称' :disabled='!form.equipment'>
             <el-option v-for='name in form.names' :label='name' :value='name' :key='name'></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot='footer' class='dialog-footer'>
         <el-button type='primary' @click='sure'>确 定</el-button>
-        <el-button @click='dialogFormVisible = false;$router.back()'>取 消</el-button>
+        <el-button @click='$router.back()'>取 消</el-button>
       </div>
     </el-dialog>
     <div v-show='!dialogFormVisible' class='container' style='position: relative'>
@@ -37,7 +37,7 @@
         <el-col :span='8' id='engine_oil_temperature' style='height: inherit;'></el-col>
         <el-col :span='4' id='oil_volume_front' style='height: inherit;'></el-col>
       </el-row>
-      <h2 class='info_content'>{{form.equipment}}/设备名</h2>
+      <h2 class='info_content'>{{form.equipment}}/{{ form.name }}</h2>
     </div>
   </div>
 </template>
@@ -45,12 +45,38 @@
 <script>
 import echarts from 'echarts';
 import bus from '../common/bus';
+import request from '../../network/request';
 export default {
   name: 'EquipmentManage',
   methods: {
     sure(){
       this.dialogFormVisible = false
       bus.$emit('load_the_page')
+      request({
+        url:'/api/perception/simulate/'+ localStorage.getItem('ms_username') +'/'+this.form.equipment +'/'+ this.form.name,
+        method:'get',
+      }).then(res => {
+        let result = res.data
+        if(result.length){
+          this.speed_option.series[0].data[0].value = result[0]['车速']
+          this.speed_length_option.series[0].data[0].value = result[1]['里程统计']
+          this.speed_length_option.series[0].data[1].value = 100 - result[1]['里程统计']
+          this.rotate_speed_option.series[0].data[0].value = result[2]['转速']
+          this.oil_volume_middle_option.series[0].data[0] = result[3]['中置油箱油量']
+          this.engine_water_temperature_option.series[0].data[0].value = result[4]['发动机水温']
+          this.engine_oil_temperature_option.series[0].data[0].value = result[5]['变速箱油温']
+          this.oil_volume_front_option.series[0].data[0] = result[6]['车首油箱油量']
+        }
+      })
+    },
+    equipment_selected(item){
+      request({
+        url:'/api/perception/list2/'+ localStorage.getItem('ms_username') + '/' + item,
+        method: 'get'
+      }).then(res => {
+        let data = res.data
+        this.form.names = Object.keys(data)
+      })
     }
   },
   data() {
@@ -58,7 +84,7 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: '120px',
       form: {
-        equipments: ['08式步战车', '080式突击车', '08式输送车', '08式指挥车'],
+        equipments: [],
         equipment: '',
         names: [],
         name: ''
@@ -74,7 +100,7 @@ export default {
           max: 120,
           splitNumber: 6,
           detail: { formatter: '{value}', fontSize:13 },
-          data: [{ value: 45, name: 'km/h' }]
+          data: [{ value: 0, name: 'km/h' }]
         }]
       },
       rotate_speed_option:{
@@ -88,7 +114,7 @@ export default {
           max: 3000,
           splitNumber: 6,
           detail: { formatter: '{value}', fontSize:13 },
-          data: [{ value: 600, name: 'rpm' }]
+          data: [{ value: 0, name: 'rpm' }]
         }]
       },
       speed_length_option:{
@@ -124,8 +150,8 @@ export default {
               show: false
             },
             data: [
-              {value: 10, name: '当前量'},
-              {value: 90, name: '剩余量'},
+              {value: 0, name: '当前量'},
+              {value: 100, name: '剩余量'},
             ]
           }
         ]
@@ -147,7 +173,7 @@ export default {
           max:150,
         },
         series: [{
-          data: [120],
+          data: [0],
           type: 'bar',
           color: '#338FCC',
           showBackground: true,
@@ -186,7 +212,7 @@ export default {
           max:300,
         },
         series: [{
-          data: [136.21],
+          data: [0],
           type: 'bar',
           color: '#338FCC',
           showBackground: true,
@@ -218,7 +244,7 @@ export default {
           max: 100,
           splitNumber: 10,
           detail: { formatter: '{value}', fontSize:16 },
-          data: [{ value: 45, name: '℃' }]
+          data: [{ value: 0, name: '℃' }]
         }]
       },
       engine_oil_temperature_option:{
@@ -233,7 +259,7 @@ export default {
           max: 150,
           splitNumber: 10,
           detail: { formatter: '{value}', fontSize:16 },
-          data: [{ value: 100, name: '℃' }]
+          data: [{ value: 0, name: '℃' }]
         }]
       }
     };
@@ -255,6 +281,13 @@ export default {
     EngineWaterTemperature.setOption(this.engine_water_temperature_option)
     const EngineOilTemperature = echarts.init(document.getElementById('engine_oil_temperature'));
     EngineOilTemperature.setOption(this.engine_oil_temperature_option)
+    request({
+      url:'/api/perception/list1/'+ localStorage.getItem('ms_username'),
+      method: 'get'
+    }).then(res => {
+      let data = res.data
+      this.form.equipments = Object.keys(data)
+    })
   }
 };
 </script>
