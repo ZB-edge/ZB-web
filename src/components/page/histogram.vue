@@ -104,37 +104,35 @@ export default {
       }, {
         value: '装甲兵4旅',
         label: '四旅'
-      }],
-      value: '装甲兵1旅'
-    };
-  },
-  mounted() {
-    let myChart = echarts.init(document.getElementById('chart_example'));
-    //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
-    window.addEventListener('resize', function() {
-      myChart.resize();
-    });
-  },
-  methods: {},
-  watch: {
-    value: function(newVal, oldVal) {
-      request({
-        url: '/api/perception/person/' + newVal
-      }).then(res => {
-        const keys = Object.keys(res.data);
-        let val = [];
-        this.option.xAxis[0].data = keys;
-        for (let i = 0; i < keys.length; i++) {
-          val.push(res.data[keys[i]]);
-        }
-        this.option.series[0].data = val;
-        let myChart = echarts.init(document.getElementById('chart_example'));
-        myChart.setOption(this.option);
-      }).catch(err => {
-        // alert('获取数据失败！')
-      });
-    }
-  },
+      },],
+      value:'装甲兵1旅',
+      }
+    },
+    mounted() {
+      let myChart = echarts.init(document.getElementById('chart_example'));
+      //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
+      window.addEventListener('resize',function() {myChart.resize()});
+    },
+    methods: {},
+    watch: {
+      value: function (newVal, oldVal){
+        request({
+  url: '/api/perception/person/'+newVal
+    }).then(res =>{
+      const keys = Object.keys(res.data);
+      let val = [];
+      this.option.xAxis[0].data = keys;
+      for(let i = 0;i<keys.length; i++){
+        val.push(res.data[keys[i]])
+      }
+      this.option.series[0].data = val;
+      let myChart = echarts.init(document.getElementById('chart_example'));
+      myChart.setOption(this.option);
+    }).catch(err => {
+      this.$message.error('获取数据失败！');
+    })
+      }
+    },
   created() {
     request({
       url: '/api/perception/person/' + this.value
@@ -149,8 +147,8 @@ export default {
       let myChart = echarts.init(document.getElementById('chart_example'));
       myChart.setOption(this.option);
     }).catch(err => {
-      alert('获取数据失败！');
-    });
-  }
+      this.$message.error('获取数据失败！');
+    })
+    }
 };
 </script>

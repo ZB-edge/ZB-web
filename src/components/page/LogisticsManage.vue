@@ -3,7 +3,7 @@
     <el-dialog title='单位信息' width='30%' :visible.sync='dialogFormVisible' :show-close='false'
                :close-on-click-modal='false' center>
       <el-form :model='form'>
-        <el-form-item label='单位名称' :label-width='formLabelWidth'>
+        <el-form-item label='单位名称:' :label-width='formLabelWidth'>
           <el-select v-model='form.institution' placeholder='请选择单位名称'>
             <el-option v-for='institution in form.institutions' :label='institution'
                        :value='institution' :key='institution'></el-option>
