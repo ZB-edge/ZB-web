@@ -21,7 +21,7 @@
         </el-form-item>
       </el-form>
       <div slot='footer' class='dialog-footer'>
-        <el-button type='primary' @click='dialogFormVisible = false'>确 定</el-button>
+        <el-button type='primary' @click='sure'>确 定</el-button>
         <el-button @click='dialogFormVisible = false;$router.back()'>取 消</el-button>
       </div>
     </el-dialog>
@@ -44,8 +44,15 @@
 
 <script>
 import echarts from 'echarts';
+import bus from '../common/bus';
 export default {
   name: 'EquipmentManage',
+  methods: {
+    sure(){
+      this.dialogFormVisible = false
+      bus.$emit('load_the_page')
+    }
+  },
   data() {
     return {
       dialogFormVisible: false,
@@ -61,20 +68,6 @@ export default {
           text:'车速',
           left: 'center'
         },
-        // toolbox: { //可视化的工具箱
-        //   show: true,
-        //   feature: {
-        //     restore: { //重置
-        //       show: true
-        //     },
-        //     saveAsImage: {//保存图片
-        //       show: true
-        //     }
-        //   }
-        // },
-        // tooltip: { //弹窗组件
-        //   formatter: '{a} <br/>{b} : {c}km/h'
-        // },
         series: [{
           type: 'gauge',
           min: 0,

@@ -20,6 +20,7 @@ export default new Router({
           meta: { title: '系统首页' }
         },
         {
+          name:'equipment_manage',
           path: '/equipment_manage',
           component: () => import(/* webpackChunkName: "equipment_manage" */ '../components/page/EquipmentManage.vue'),
           meta: { title: '装备管理' }

@@ -19,7 +19,17 @@
               </div>
             </div>
           </el-card>
-          <div id='protection_ability' class='protection_ability'></div>
+          <baidu-map :center='center'  :zoom="zoom" @ready="handler" class='map'>
+            <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
+            <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+            <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_LEFT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+            <bm-overview-map anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :isOpen="true"></bm-overview-map>
+            <bm-marker v-for='location in locations'
+                       :position="{lng: location.lng, lat: location.lat}"
+                       animation="BMAP_ANIMATION_BOUNCE" :key='location.name'>
+              <bm-label :content="location.name" :labelStyle="labelStyle" :offset="{width: -12, height: 30}"/>
+            </bm-marker>
+          </baidu-map>
         </el-col>
         <el-col :span='12'>
           <div id='material' class='material'></div>
@@ -35,10 +45,22 @@
 
 <script>
 import echarts from 'echarts';
+import BaiduMap from 'vue-baidu-map'
+import Vue from 'vue'
+import request from '../../network/request';
+Vue.use(BaiduMap,{
+  ak:'nLp8aFpm9A2qGNuqqtq4xG7S3nnHnLCa'
+})
 export default {
   name: 'LogisticsManage',
   data() {
     return {
+      locations:[],
+      BMap:'',
+      map:'',
+      center:{lng: 116.404231, lat: 39.915789},
+      zoom: 14,
+      labelStyle:{color: '#0000ff', fontSize : '16px', border:'none',background: 'transparent',fontWeight: '700' },
       dialogFormVisible: false,
       formLabelWidth: '120px',
       items: [
@@ -74,58 +96,6 @@ export default {
       ],
       material: ['发动机', '水泵', '水散热器', '高压柴油泵', 'HJ-9反坦克导弹', '喷油器', '履带片'],
       material_data: [10, 2, 7, 30, 6, 9, 20],
-      protection_ability_option: {
-        title: {
-          text: '保障力量',
-          // subtext: '单位：人',
-          left: 'center',
-          top: 20
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c}人 ({d}%)'
-        },
-        legend: {
-          // orient: 'vertical',
-          // top: 'middle',
-          bottom: 10,
-          left: 'center',
-          data: ['装备抢修排', '修理连', '供应保障队', '运输连', '装备保障大队']
-        },
-        series: [
-          {
-            name: '人数',
-            type: 'pie',
-            radius: '65%',
-            center: ['50%', '50%'],
-            selectedMode: 'single',
-            data: [
-              { value: 1548, name: '装备保障大队' },
-              { value: 535, name: '装备抢修排' },
-              { value: 510, name: '修理连' },
-              { value: 634, name: '供应保障队' },
-              { value: 735, name: '运输连' }
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            },
-            itemStyle: {
-              normal: {
-                label: {
-                  // position: 'inner',
-                  show: true,
-                  formatter: '{b} \n\n {c} ({d}%)'
-                },
-                labelLine: { show: true }
-              }
-            }
-          }
-        ]
-      },
       material_option: {
         title: {
           text: '弹药库',
@@ -168,13 +138,73 @@ export default {
     };
   },
   methods: {
+    handler ({BMap, map}) {
+      this.BMap = BMap
+      this.map = map
+      this.center.lng = 116.404233
+      this.center.lat = 39.915323
+      this.zoom = 13
+      request({
+        method: 'get',
+        url:'/api/perception/map/装甲兵1旅'
+      }).then(res => {
+        this.locations = res.data
+        this.center.lng = res.data[0].lng
+        this.center.lat = res.data[0].lat
+        this.zoom = 15
+      })
+    }
   },
   mounted() {
-    const ProtectionAbilityChart = echarts.init(document.getElementById('protection_ability'));
-    ProtectionAbilityChart.setOption(this.protection_ability_option);
     const MaterialChart = echarts.init(document.getElementById('material'));
     MaterialChart.setOption(this.material_option);
-  }
+    request({
+      method: 'get',
+      url:'/api/perception/person/装甲兵1旅'
+    }).then(res => {
+      let result = []
+      let data = res.data
+      let keys = Object.keys(data)
+      let values = Object.values(data)
+      for (let i = 0; i < keys.length; i++) {
+        result.push({
+          name:keys[i],
+          value: values[i] + '%'
+        })
+      }
+      this.items = result
+    })
+    request({
+      method: 'get',
+      url:'/api/perception/material/'+'装甲兵1旅'+'/弹药'
+    }).then(res => {
+      let result = []
+      let data = res.data
+      let keys = Object.keys(data)
+      let values = Object.values(data)
+      for (let i = 0; i < keys.length; i++) {
+        result.push({
+          ammunition:keys[i],
+          count: values[i]
+        })
+      }
+      this.tableData = result
+    })
+    request({
+      method:'get',
+      url:'/api/perception/material/'+'装甲兵1旅'+'/器材'
+    }).then(res => {
+      const keys = Object.keys(res.data);
+      let val = [];
+      this.material_option.xAxis.data = keys;
+      for (let i = 0; i < keys.length; i++) {
+        val.push(res.data[keys[i]]);
+      }
+      this.material_option.series[0].data = val;
+      let myChart = echarts.init(document.getElementById('material'));
+      myChart.setOption(this.material_option);
+    })
+  },
 };
 </script>
 
@@ -183,6 +213,11 @@ export default {
   margin-top: 55px;
   width: 500px;
   height: 400px;
+}
+.map {
+  margin-top: 55px;
+  width: 100%;
+  height: 420px;
 }
 .material {
   width: 600px;

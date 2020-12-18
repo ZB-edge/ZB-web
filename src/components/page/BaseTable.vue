@@ -7,25 +7,6 @@
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <!--    <el-dialog-->
-    <!--      title='装备信息'-->
-    <!--      :visible.sync='centerDialogVisible'-->
-    <!--      width='30%'-->
-    <!--      center>-->
-    <!--      <p style='display: inline'>单位：</p>-->
-    <!--      <el-select v-model='value' filterable placeholder='请选择'>-->
-    <!--        <el-option-->
-    <!--          v-for='item in options'-->
-    <!--          :key='item.value'-->
-    <!--          :label='item.label'-->
-    <!--          :value='item.value'>-->
-    <!--        </el-option>-->
-    <!--      </el-select>-->
-    <!--      <span slot='footer' class='dialog-footer'>-->
-    <!--        <el-button type='primary' @click='centerDialogVisible = false'>确 定</el-button>-->
-    <!--    <el-button @click='centerDialogVisible = false'>取 消</el-button>-->
-    <!--  </span>-->
-    <!--    </el-dialog>-->
     <div class='container'>
       <div class='handle-box'>
         <el-button
@@ -55,7 +36,7 @@
             ></el-image>
           </template>
         </el-table-column>
-        <el-table-column label='状态' align='center'>
+        <el-table-column label='状态' align='center' width='65'>
           <template slot-scope='scope'>
             <el-tag v-if="scope.row.status==='1'" type='success'>
               成功
@@ -75,6 +56,8 @@
             <el-button
               type='primary'
               icon='el-icon-upload'
+              :id="'btn_upload'+scope.$index"
+              :key='scope.$index'
               @click='handleUpload(scope.$index, scope.row)'
             >同步
             </el-button>
@@ -106,10 +89,10 @@
         center>
         <el-form v-model='form' style='text-align: center'>
           <el-upload class='upload-demo' action='http://localhost:8100/api/damage/upload' accept='.jpg'
-            ref="upload" :on-change='file_upload' :auto-upload='false' style='margin-top: 20px'>
+                     ref="upload" :on-success='file_upload_success' :on-change='file_upload' :auto-upload='false' style='margin-top: 20px'>
             <i class='el-icon-upload'></i>
             <div class='el-upload__text'>将文件拖到此处，或<em>点击上传</em></div>
-            <div class='el-upload__tip' slot='tip'>只能上传jpg/png文件，且不超过500kb</div>
+            <div class='el-upload__tip' slot='tip'>只能上传jpg文件，且不超过500kb</div>
           </el-upload>
           <el-form-item label='图片描述' prop='nameAdmin' label-width='80px'>
             <el-input v-model='form.info' autocomplete='off' placeholder='请输入图片描述'></el-input>
@@ -213,10 +196,12 @@ export default {
     handleUpload(index, row) {
       request({
         baseURL: 'http://localhost:8100',
-        url: '/api/damage/export/装甲兵1旅?name='+row.name,
+        url: '/api/damage/export/装甲兵2旅?name='+row.name,
         method: 'post',
+        timeout: 100000
       }).then(res=>{
         this.$message.success('同步成功');
+        row.status = "1"
       }).catch(err=>{
         this.$message.error('同步失败');
       })
@@ -245,17 +230,27 @@ export default {
         baseURL: 'http://localhost:8100',
         url: '/api/damage/save',
         method: 'post',
+        timeout: 10000,
         data: {
           name: this.form.name,
           info: this.form.info,
           status: 0
         }
       }).then(res => {
-        this.$refs.upload.submit();
-        this.uploadDialog = false;
-        this.$message.success('上传成功')
-        this.getData()
+        console.log(res.data);
+        console.log(res.data === "上传成功");
+        if(res.data === "上传成功！"){
+          this.$refs.upload.submit();
+        }
+        else{
+        }
       });
+    },
+    file_upload_success(response, file, fileList){
+      console.log("成功");
+      this.uploadDialog = false;
+      this.$message.success('上传成功')
+      this.getData()
     }
   }
 };
