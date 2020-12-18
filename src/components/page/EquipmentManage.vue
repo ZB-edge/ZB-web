@@ -3,19 +3,19 @@
     <el-dialog title='装备信息' width='30%' :visible.sync='dialogFormVisible' :show-close='false' :close-on-click-modal='false' center>
       <el-form :model='form'>
         <el-form-item label='单位名称' :label-width='formLabelWidth'>
-          <el-select v-model='form.institution' placeholder='请选择单位名称'>
+          <el-select v-model='form.institution' placeholder='请选择单位名称' @change='institution_selected'>
             <el-option v-for='institution in form.institutions' :label='institution'
                        :value='institution' :key='institution'></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label='装备类型' :label-width='formLabelWidth'>
-          <el-select v-model='form.equipment' placeholder='请选择装备类型'>
+          <el-select v-model='form.equipment' placeholder='请选择装备类型' :disabled='!form.institution' @change='equipment_selected'>
             <el-option v-for='equipment in form.equipments' :label='equipment'
                        :value='equipment' :key='equipment'></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label='设备名称' :label-width='formLabelWidth'>
-          <el-select v-model='form.name' placeholder='请选择设备名称'>
+          <el-select v-model='form.name' placeholder='请选择设备名称' :disabled='!form.equipment'>
             <el-option v-for='name in form.names' :label='name' :value='name' :key='name'></el-option>
           </el-select>
         </el-form-item>
@@ -37,7 +37,7 @@
         <el-col :span='8' id='engine_oil_temperature' style='height: inherit;'></el-col>
         <el-col :span='4' id='oil_volume_front' style='height: inherit;'></el-col>
       </el-row>
-      <h2 class='info_content'>{{form.institution}}/{{form.equipment}}/设备名</h2>
+      <h2 class='info_content'>{{form.institution}}/{{form.equipment}}/{{ form.name }}</h2>
     </div>
   </div>
 </template>
@@ -45,6 +45,7 @@
 <script>
 import echarts from 'echarts';
 import bus from '@/components/common/bus';
+import request from '../../network/request';
 
 export default {
   name: 'EquipmentManage',
@@ -53,41 +54,29 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: '120px',
       form: {
-        institutions: ['一旅', '二旅', '三旅', '四旅', '五旅'],
+        institutions: ['装甲兵1旅', '装甲兵2旅', '装甲兵3旅', '装甲兵4旅'],
         institution: '',
-        equipments: ['08式步战车', '080式突击车', '08式输送车', '08式指挥车'],
+        equipments: [],
         equipment: '',
         names: [],
         name: ''
       },
+      // 速度配置
       speed_option: {
         title: {
           text:'车速',
           left: 'center'
         },
-        // toolbox: { //可视化的工具箱
-        //   show: true,
-        //   feature: {
-        //     restore: { //重置
-        //       show: true
-        //     },
-        //     saveAsImage: {//保存图片
-        //       show: true
-        //     }
-        //   }
-        // },
-        // tooltip: { //弹窗组件
-        //   formatter: '{a} <br/>{b} : {c}km/h'
-        // },
         series: [{
           type: 'gauge',
           min: 0,
           max: 120,
           splitNumber: 6,
           detail: { formatter: '{value}', fontSize:13 },
-          data: [{ value: 45, name: 'km/h' }]
+          data: [{ value: 0, name: 'km/h' }]
         }]
       },
+      // 转速配置
       rotate_speed_option:{
         title: {
           text:'转速',
@@ -99,9 +88,10 @@ export default {
           max: 3000,
           splitNumber: 6,
           detail: { formatter: '{value}', fontSize:13 },
-          data: [{ value: 600, name: 'rpm' }]
+          data: [{ value: 0, name: 'rpm' }]
         }]
       },
+      // 里程长度配置
       speed_length_option:{
         title: {
           text:'里程统计',
@@ -135,12 +125,13 @@ export default {
               show: false
             },
             data: [
-              {value: 10, name: '当前量'},
-              {value: 90, name: '剩余量'},
+              {value: 100, name: '当前量'},
+              {value: 0, name: '剩余量'},
             ]
           }
         ]
       },
+      // 中置油箱配置
       oil_volume_middle_option:{
         title: {
           text:'中置油箱油量',
@@ -158,7 +149,7 @@ export default {
           max:150,
         },
         series: [{
-          data: [120],
+          data: [0],
           type: 'bar',
           color: '#338FCC',
           showBackground: true,
@@ -179,6 +170,7 @@ export default {
           },
         }]
       },
+      // 前置油箱配置
       oil_volume_front_option:{
         title: {
           text:'车首油箱油量',
@@ -197,7 +189,7 @@ export default {
           max:300,
         },
         series: [{
-          data: [136.21],
+          data: [0],
           type: 'bar',
           color: '#338FCC',
           showBackground: true,
@@ -218,6 +210,7 @@ export default {
           },
         }]
       },
+      // 发动机水温配置
       engine_water_temperature_option:{
         title: {
           text:'发动机水温',
@@ -229,9 +222,10 @@ export default {
           max: 100,
           splitNumber: 10,
           detail: { formatter: '{value}', fontSize:16 },
-          data: [{ value: 45, name: '℃' }]
+          data: [{ value: 0, name: '℃' }]
         }]
       },
+      // 油温配置
       engine_oil_temperature_option:{
         title: {
           text:'变速箱油温',
@@ -244,44 +238,87 @@ export default {
           max: 150,
           splitNumber: 10,
           detail: { formatter: '{value}', fontSize:16 },
-          data: [{ value: 100, name: '℃' }]
+          data: [{ value: 0, name: '℃' }]
         }]
       }
     };
   },
   methods: {
+    // 进入页面时的“确认”按钮
     sure(){
       this.dialogFormVisible = false
       bus.$emit('load_the_page')
+      request({
+        url:'/api/perception/simulate/'+ this.form.institution +'/'+this.form.equipment +'/'+ this.form.name,
+        method:'get',
+      }).then(res => {
+        console.log(res.data);
+        let result = res.data
+        if(result.length){
+          this.speed_option.series[0].data[0].value = result[0]['车速']
+          this.speed_length_option.series[0].data[0].value = result[1]['里程统计']
+          this.speed_length_option.series[0].data[1].value = 100 - result[1]['里程统计']
+          this.rotate_speed_option.series[0].data[0].value = result[2]['转速']
+          this.oil_volume_middle_option.series[0].data[0] = result[3]['中置油箱油量']
+          this.engine_water_temperature_option.series[0].data[0].value = result[4]['发动机水温']
+          this.engine_oil_temperature_option.series[0].data[0].value = result[5]['变速箱油温']
+          this.oil_volume_front_option.series[0].data[0] = result[6]['车首油箱油量']
+        }
+      })
     },
+    // 进入页面时的“取消”按钮
     cancel(){
       this.$router.back()
+    },
+    institution_selected(item){
+      request({
+        url:'/api/perception/list1/'+item,
+        method: 'get'
+      }).then(res => {
+        let data = res.data
+        this.form.equipments = Object.keys(data)
+      })
+    },
+    equipment_selected(item){
+      request({
+        url:'/api/perception/list2/'+ this.form.institution + '/' + item,
+        method: 'get'
+      }).then(res => {
+        let data = res.data
+        this.form.names = Object.keys(data)
+      })
     }
   },
   mounted() {
+    // 进入页面时显示对话框
     this.dialogFormVisible = true;
+    // 速度
     const SpeedChart = echarts.init(document.getElementById('speed'));
-    // 使用刚指定的配置项和数据显示图表。
     SpeedChart.setOption(this.speed_option);
+    // 转速
     const RotateSpeedChart = echarts.init(document.getElementById('rotate_speed'));
     RotateSpeedChart.setOption(this.rotate_speed_option)
+    // 里程长度
     const SpeedLength = echarts.init(document.getElementById('speed_length'));
     SpeedLength.setOption(this.speed_length_option)
+    // 中置油箱
     const OilVolumeMiddle = echarts.init(document.getElementById('oil_volume_middle'));
     OilVolumeMiddle.setOption(this.oil_volume_middle_option)
+    // 前置油箱
     const OilVolumeFront = echarts.init(document.getElementById('oil_volume_front'));
     OilVolumeFront.setOption(this.oil_volume_front_option)
+    // 发动机水温
     const EngineWaterTemperature = echarts.init(document.getElementById('engine_water_temperature'));
     EngineWaterTemperature.setOption(this.engine_water_temperature_option)
+    // 油温
     const EngineOilTemperature = echarts.init(document.getElementById('engine_oil_temperature'));
     EngineOilTemperature.setOption(this.engine_oil_temperature_option)
-  },
-  watch: {
   },
 };
 </script>
 
 <style scoped>
+/*页面中心文字的样式*/
 .info_content{
   position: absolute;
   font-style: italic;

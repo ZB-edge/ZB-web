@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row :gutter='20' class='mgb20'>
-      <el-col :span='6' v-for='(info,index) in total_info'>
+      <el-col :span='6' v-for='(info,index) in total_info' :key='info.title'>
         <el-card shadow='hover' :body-style="{padding: '0px'}">
           <div class='grid-content' :class='"grid-con-"+index'>
             <i class='grid-con-icon' :class='info.icon'></i>

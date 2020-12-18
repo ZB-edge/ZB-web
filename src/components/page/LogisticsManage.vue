@@ -39,7 +39,6 @@
               <bm-label :content="location.name" :labelStyle="labelStyle" :offset="{width: -12, height: 30}"/>
             </bm-marker>
           </baidu-map>
-<!--          <div id='protection_ability' class='protection_ability'></div>-->
         </el-col>
         <el-col :span='12'>
           <div id='material' class='material'></div>
@@ -83,86 +82,17 @@ export default {
       },
       tableHead: ['弹药', '数量'],
       tableData: [
-        {
-          ammunition: '5.56mm步弹枪',
-          count: 10
-        }, {
-          ammunition: '5.8mm手枪弹',
-          count: 5
-        }, {
-          ammunition: '12.7mm机弹枪',
-          count: 1
-        }, {
-          ammunition: '105mm穿甲弹',
-          count: 100
-        }, {
-          ammunition: '105mm破甲弹',
-          count: 27
-        }, {
-          ammunition: '35mm高射机枪弹',
-          count: 38
-        }
+        { ammunition: '5.56mm步弹枪', count: 10 },
+        { ammunition: '5.8mm手枪弹', count: 5 },
+        { ammunition: '12.7mm机弹枪', count: 1 },
+        { ammunition: '105mm穿甲弹', count: 100 },
+        { ammunition: '105mm破甲弹', count: 27 },
+        { ammunition: '35mm高射机枪弹', count: 38 }
       ],
       material: ['发动机', '水泵', '水散热器', '高压柴油泵', 'HJ-9反坦克导弹', '喷油器', '履带片'],
-      locations:[{
-        name:'修理连',
-        lng: 116.404231,
-        lat: 39.915789
-      }],
+      locations:[],
       labelStyle:{color: '#0000ff', fontSize : '16px', border:'none',background: 'transparent',fontWeight: '700' },
       material_data: [10, 2, 7, 30, 6, 9, 20],
-      protection_ability_option: {
-        title: {
-          text: '保障力量',
-          // subtext: '单位：人',
-          left: 'center',
-          top: 20
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c}人 ({d}%)'
-        },
-        legend: {
-          // orient: 'vertical',
-          // top: 'middle',
-          bottom: 10,
-          left: 'center',
-          data: ['装备抢修排', '修理连', '供应保障队', '运输连', '装备保障大队']
-        },
-        series: [
-          {
-            name: '人数',
-            type: 'pie',
-            radius: '65%',
-            center: ['50%', '50%'],
-            selectedMode: 'single',
-            data: [
-              { value: 1548, name: '装备保障大队' },
-              { value: 535, name: '装备抢修排' },
-              { value: 510, name: '修理连' },
-              { value: 634, name: '供应保障队' },
-              { value: 735, name: '运输连' }
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            },
-            itemStyle: {
-              normal: {
-                label: {
-                  // position: 'inner',
-                  show: true,
-                  formatter: '{b} \n\n {c} ({d}%)'
-                },
-                labelLine: { show: true }
-              }
-            }
-          }
-        ]
-      },
       material_option: {
         title: {
           text: '器材库',
@@ -230,7 +160,7 @@ export default {
         this.locations = res.data
         this.center.lng = res.data[0].lng
         this.center.lat = res.data[0].lat
-        this.zoom = 14
+        this.zoom = 13
       })
       request({
         method: 'get',
@@ -277,8 +207,6 @@ export default {
   },
   mounted() {
     this.dialogFormVisible = true;
-    // const ProtectionAbilityChart = echarts.init(document.getElementById('protection_ability'));
-    // ProtectionAbilityChart.setOption(this.protection_ability_option);
     const MaterialChart = echarts.init(document.getElementById('material'));
     MaterialChart.setOption(this.material_option);
   },
