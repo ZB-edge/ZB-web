@@ -52,7 +52,7 @@ export default {
           if (res.data.status === 200) {
             this.$message.success('登录成功');
             localStorage.setItem('ms_username', res.data.user);
-            this.$router.push('/');
+            this.$router.push('/dashboard');
           } else {
             this.$message.error(res.data.message);
           }
