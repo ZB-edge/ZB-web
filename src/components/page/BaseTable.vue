@@ -56,6 +56,16 @@
         <el-table-column prop='info' label='描述' align='center'></el-table-column>
         <el-table-column prop='institution' label='单位' width='180' align='center'>
         </el-table-column>
+        <el-table-column label="操作" width="180" align="center">
+                    <template slot-scope="scope">
+                        <el-button
+                            type="text"
+                            icon="el-icon-delete"
+                            class="red"
+                            @click="handleDelete(scope.$index, scope.row)"
+                        >删除</el-button>
+                    </template>
+                </el-table-column>
       </el-table>
     </div>
   </div>
@@ -108,17 +118,19 @@ export default {
   created() {
     this.centerDialogVisible = true;
     request_image({
-      url:''
+      url:'show'
     }).then(res => {
       let datas = [];
       for (let i = 0; i < res.data.length; i++){
         let arr = {};
-        arr = res.data[i]
-        arr['id'] = i+1
-        arr['name'] = 'http://localhost:8100/image/' + res.data[i].name +'.jpg'
+        arr = res.data[i];
+        arr['id'] = i+1;
+        arr['image_name'] = res.data[i].name;
+        arr['name'] = 'http://localhost:8100/image/' + res.data[i].name +'.jpg';
         datas.push(arr);
       }
       this.tableData = datas;
+      console.log(this.tableData)
     }).catch(err => {
       this.$message.error('获取数据失败！');
     })
@@ -144,10 +156,34 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.$message.success('删除成功');
-          this.tableData.splice(index, 1);
+          request_image({
+      url:'delete?name=' + this.tableData[index].image_name,
+            method:'delete'
+    }).then(res => {
+      this.$message.error(res.data);
+      request_image({
+      url:'show'
+    }).then(res => {
+      let datas = [];
+      for (let i = 0; i < res.data.length; i++){
+        let arr = {};
+        arr = res.data[i];
+        arr['id'] = i+1;
+        arr['image_name'] = res.data[i].name;
+        arr['name'] = 'http://localhost:8100/image/' + res.data[i].name +'.jpg';
+        datas.push(arr);
+      }
+      this.tableData = datas;
+      console.log(this.tableData)
+    }).catch(err => {
+      this.$message.error('获取数据失败！');
+    })
+    }).catch(err => {
+      this.$message.error('删除失败！');
+    })
         })
         .catch(() => {
+          // this.$message.error('删除失败！');
         });
     },
     // 多选操作
@@ -222,6 +258,7 @@ export default {
 }
 
 .red {
+  font-size: 14px;
   color: #ff0000;
 }
 
@@ -232,8 +269,8 @@ export default {
 .table-td-thumb {
   display: block;
   margin: auto;
-  width: 300px;
-  height: 200px;
+  width: 40px;
+  height: 40px;
   clear: both;
 }
 
