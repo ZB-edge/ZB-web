@@ -27,6 +27,11 @@ export default new Router({
           meta: { title: '装备管理' }
         },
         {
+          path: '/edgexandcloud',
+          component: () => import(/* webpackChunkName: "markdown" */ '../components/page/EdgexAndCloud.vue'),
+          meta: { title: '云边协同' }
+        },
+        {
           name: 'logistics_manage',
           path: '/logistics_manage',
           component: () => import(/* webpackChunkName: "equipment_manage" */ '../components/page/LogisticsManage.vue'),

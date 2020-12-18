@@ -89,6 +89,11 @@ export default {
           index: 'equipment_use',
           title: '车辆管理'
         },
+        {
+          icon: 'el-icon-lx-calendar',
+          index: 'edgexandcloud',
+          title: '云边协同'
+        },
       ]
     };
   },
