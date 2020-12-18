@@ -116,7 +116,6 @@ export default {
   data() {
     return {
       query: {
-        address: '',
         name: '',
         pageIndex: 1,
         pageSize: 10

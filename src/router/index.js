@@ -58,9 +58,9 @@ export default new Router({
         },
         {
           // markdown组件
-          path: '/markdown',
-          component: () => import(/* webpackChunkName: "markdown" */ '../components/page/Markdown.vue'),
-          meta: { title: 'markdown编辑器' }
+          path: '/edgexandcloud',
+          component: () => import(/* webpackChunkName: "markdown" */ '../components/page/EdgexAndCloud.vue'),
+          meta: { title: '云边协同' }
         },
         {
           // 图片上传组件

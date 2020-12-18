@@ -90,6 +90,11 @@ export default {
           title: '车辆管理'
         },
         {
+          icon: 'el-icon-lx-calendar',
+          index: 'edgexandcloud',
+          title: '云边协同'
+        },
+        {
           icon: 'el-icon-lx-copy',
           index: 'tabs',
           title: '消息中心'

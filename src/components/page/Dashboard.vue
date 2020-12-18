@@ -6,41 +6,19 @@
           <div class='grid-content grid-con-1'>
             <i class='el-icon-lx-home grid-con-icon'></i>
             <div class='grid-cont-right'>
-              <div class='grid-num'>12</div>
-              <div>单位总数</div>
+              <div class='grid-num'>隶属单位</div>
+              <div>中国人民解放军陆军装甲兵学院</div>
             </div>
           </div>
         </el-card>
       </el-col>
-      <el-col :span='6'>
+      <el-col :span='6' v-for='(info,index) in total_info'>
         <el-card shadow='hover' :body-style="{padding: '0px'}">
-          <div class='grid-content grid-con-2'>
-            <i class='el-icon-lx-people grid-con-icon'></i>
+          <div class='grid-content' :class='"grid-con-"+(index+1)'>
+            <i class='grid-con-icon' :class='info.icon'></i>
             <div class='grid-cont-right'>
-              <div class='grid-num'>472</div>
-              <div>总人数</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span='6'>
-        <el-card shadow='hover' :body-style="{padding: '0px'}">
-          <div class='grid-content grid-con-3'>
-            <i class='el-icon-lx-goods grid-con-icon'></i>
-            <div class='grid-cont-right'>
-              <div class='grid-num'>782</div>
-              <div>装备类型</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span='6'>
-        <el-card shadow='hover' :body-style="{padding: '0px'}">
-          <div class='grid-content grid-con-4'>
-            <i class='el-icon-menu grid-con-icon'></i>
-            <div class='grid-cont-right'>
-              <div class='grid-num'>324</div>
-              <div>器材类型</div>
+              <div class='grid-num'>{{ info.value }}</div>
+              <div>{{info.title}}</div>
             </div>
           </div>
         </el-card>
@@ -75,19 +53,17 @@ import bus from '../common/bus';
 import histogram from '@/components/page/histogram';
 import sector from '@/components/page/sectorfacility';
 import sectorequip from '@/components/page/sectorequip';
+import request from '@/network/request';
 
 export default {
   name: 'dashboard',
   data() {
     return {
       name: localStorage.getItem('ms_username'),
-      org_info: [
-        {
-          id: 1,
-          name: '大连造船厂',
-          type: '船舶公司',
-          description: '这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企这是一个负责军事船舶制造的国企'
-        }
+      total_info:[
+        { title:'总人数', value:'', icon:'el-icon-lx-people' },
+        { title:'装备类型', value:'', icon:'el-icon-lx-goods' },
+        { title:'器材类型', value:'', icon:'el-icon-menu' },
       ]
     };
   },
@@ -99,10 +75,16 @@ export default {
       return this.name === 'admin' ? '超级管理员' : '普通用户';
     }
   },
-  // created() {
-  //     this.handleListener();
-  //     this.changeDate();
-  // },
+  created() {
+    request({
+      method:'get',
+      url: '/api/perception/'+ localStorage.getItem('ms_username')+'/edgeNum',
+    }).then(res=>{
+      for (let i = 0; i < res.data.length; i++) {
+        this.total_info[i].value = res.data[i]
+      }
+    })
+  },
   // activated() {
   //     this.handleListener();
   // },
@@ -111,13 +93,13 @@ export default {
   //     bus.$off('collapse', this.handleBus);
   // },
   methods: {
-    changeDate() {
-      const now = new Date().getTime();
-      this.data.forEach((item, index) => {
-        const date = new Date(now - (6 - index) * 86400000);
-        item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-      });
-    }
+    // changeDate() {
+    //   const now = new Date().getTime();
+    //   this.data.forEach((item, index) => {
+    //     const date = new Date(now - (6 - index) * 86400000);
+    //     item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+    //   });
+    // }
     // handleListener() {
     //     bus.$on('collapse', this.handleBus);
     //     // 调用renderChart方法对图表进行重新渲染

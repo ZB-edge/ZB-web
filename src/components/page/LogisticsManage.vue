@@ -32,10 +32,10 @@
           </baidu-map>
         </el-col>
         <el-col :span='12'>
-          <div id='material' class='material'></div>
+          <div id='material' class='material' style="padding-left: 80px"></div>
           <el-table :data='tableData' style='width: 100%' height='200'>
-            <el-table-column :label='tableHead[0]' prop='ammunition'></el-table-column>
-            <el-table-column :label='tableHead[1]' prop='count'></el-table-column>
+            <el-table-column :label='tableHead[0]' prop='ammunition' align="center"></el-table-column>
+            <el-table-column :label='tableHead[1]' prop='count' align="center"></el-table-column>
           </el-table>
         </el-col>
       </el-row>
@@ -69,32 +69,11 @@ export default {
         { name: '校官比例', value: '30%' },
         { name: '本科比例', value: '60%' }],
       form: {
-        institutions: ['一旅', '二旅', '三旅', '四旅', '五旅'],
         institution: ''
       },
       tableHead: ['器材', '数量'],
-      tableData: [
-        {
-          ammunition: '5.56mm步弹枪',
-          count: 10
-        }, {
-          ammunition: '5.8mm手枪弹',
-          count: 5
-        }, {
-          ammunition: '12.7mm机弹枪',
-          count: 1
-        }, {
-          ammunition: '105mm穿甲弹',
-          count: 100
-        }, {
-          ammunition: '105mm破甲弹',
-          count: 27
-        }, {
-          ammunition: '35mm高射机枪弹',
-          count: 38
-        }
-      ],
-      material: ['发动机', '水泵', '水散热器', '高压柴油泵', 'HJ-9反坦克导弹', '喷油器', '履带片'],
+      tableData: [],
+      material: [],
       material_data: [10, 2, 7, 30, 6, 9, 20],
       material_option: {
         title: {
@@ -104,7 +83,6 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['发动机', '水泵', '水散热器', '高压柴油泵', 'HJ-9反坦克导弹', '喷油器', '履带片'],
           axisLabel: {
             interval: 0,//横轴信息全部显示
             rotate: -30//-30度角倾斜显示
@@ -115,7 +93,7 @@ export default {
           type: 'value'
         },
         series: [{
-          data: [10, 2, 7, 30, 6, 9, 20],
+          data: [],
           type: 'bar',
           showBackground: true,
           backgroundStyle: {
@@ -146,7 +124,7 @@ export default {
       this.zoom = 13
       request({
         method: 'get',
-        url:'/api/perception/map/装甲兵1旅'
+        url:'/api/perception/map/' + localStorage.getItem("ms_username")
       }).then(res => {
         this.locations = res.data
         this.center.lng = res.data[0].lng
@@ -160,7 +138,7 @@ export default {
     MaterialChart.setOption(this.material_option);
     request({
       method: 'get',
-      url:'/api/perception/person/装甲兵1旅'
+      url:'/api/perception/person/' + localStorage.getItem("ms_username")
     }).then(res => {
       let result = []
       let data = res.data
@@ -176,7 +154,7 @@ export default {
     })
     request({
       method: 'get',
-      url:'/api/perception/material/'+'装甲兵1旅'+'/弹药'
+      url:'/api/perception/material/'+localStorage.getItem('ms_username')+'/弹药'
     }).then(res => {
       let result = []
       let data = res.data
@@ -192,7 +170,7 @@ export default {
     })
     request({
       method:'get',
-      url:'/api/perception/material/'+'装甲兵1旅'+'/器材'
+      url:'/api/perception/material/'+localStorage.getItem('ms_username')+'/器材'
     }).then(res => {
       const keys = Object.keys(res.data);
       let val = [];
