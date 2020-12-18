@@ -31,11 +31,6 @@ export default new Router({
           meta: { title: '后勤保障管理' }
         },
         {
-          path: '/icon',
-          component: () => import(/* webpackChunkName: "icon" */ '../components/page/Icon.vue'),
-          meta: { title: '自定义图标' }
-        },
-        {
           path: '/table',
           component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
           meta: { title: '战损评估' }
@@ -46,57 +41,16 @@ export default new Router({
           meta: { title: '消息中心' }
         },
         {
-          path: '/form',
-          component: () => import(/* webpackChunkName: "form" */ '../components/page/BaseForm.vue'),
-          meta: { title: '基本表单' }
-        },
-        {
-          // 富文本编辑器组件
-          path: '/editor',
-          component: () => import(/* webpackChunkName: "editor" */ '../components/page/VueEditor.vue'),
-          meta: { title: '富文本编辑器' }
-        },
-        {
           // markdown组件
           path: '/edgexandcloud',
           component: () => import(/* webpackChunkName: "markdown" */ '../components/page/EdgexAndCloud.vue'),
           meta: { title: '云边协同' }
         },
         {
-          // 图片上传组件
-          path: '/upload',
-          component: () => import(/* webpackChunkName: "upload" */ '../components/page/Upload.vue'),
-          meta: { title: '文件上传' }
-        },
-        {
           // vue-schart组件
           path: '/charts',
           component: () => import(/* webpackChunkName: "chart" */ '../components/page/BaseCharts.vue'),
           meta: { title: '车辆管理' }
-        },
-        {
-          // 拖拽列表组件
-          path: '/drag',
-          component: () => import(/* webpackChunkName: "drag" */ '../components/page/DragList.vue'),
-          meta: { title: '拖拽列表' }
-        },
-        {
-          // 拖拽Dialog组件
-          path: '/dialog',
-          component: () => import(/* webpackChunkName: "dragdialog" */ '../components/page/DragDialog.vue'),
-          meta: { title: '拖拽弹框' }
-        },
-        {
-          // 国际化组件
-          path: '/i18n',
-          component: () => import(/* webpackChunkName: "i18n" */ '../components/page/I18n.vue'),
-          meta: { title: '国际化' }
-        },
-        {
-          // 权限页面
-          path: '/permission',
-          component: () => import(/* webpackChunkName: "permission" */ '../components/page/Permission.vue'),
-          meta: { title: '权限测试', permission: true }
         },
         {
           path: '/404',
@@ -107,11 +61,6 @@ export default new Router({
           path: '/403',
           component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
           meta: { title: '403' }
-        },
-        {
-          path: '/donate',
-          component: () => import(/* webpackChunkName: "donate" */ '../components/page/Donate.vue'),
-          meta: { title: '支持作者' }
         }
       ]
     },
