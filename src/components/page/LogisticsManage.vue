@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog title='单位信息' width='40%' :visible.sync='dialogFormVisible' :show-close='false'
+    <el-dialog title='单位信息' width='30%' :visible.sync='dialogFormVisible' :show-close='false'
                :close-on-click-modal='false' center>
       <el-form :model='form'>
         <el-form-item label='单位名称' :label-width='formLabelWidth'>
@@ -28,15 +28,14 @@
               </div>
             </div>
           </el-card>
-          <baidu-map :center="center" :zoom="zoom" @ready="handler" class='map'>
+          <baidu-map :center='center'  :zoom="zoom" @ready="handler" class='map'>
             <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
             <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
             <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_LEFT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
             <bm-overview-map anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :isOpen="true"></bm-overview-map>
-            <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
             <bm-marker v-for='location in locations'
                        :position="{lng: location.lng, lat: location.lat}"
-                       animation="BMAP_ANIMATION_BOUNCE" :top='true' :key='location.name'>
+                       animation="BMAP_ANIMATION_BOUNCE" :key='location.name'>
               <bm-label :content="location.name" :labelStyle="labelStyle" :offset="{width: -12, height: 30}"/>
             </bm-marker>
           </baidu-map>
@@ -69,18 +68,20 @@ export default {
     return {
       dialogFormVisible: false,
       formLabelWidth: '120px',
-      center:{lng: 0, lat: 0},
-      zoom: 3,
+      center:{lng: 116.404231, lat: 39.915789},
+      zoom: 14,
+      map:'',
+      BMap:'',
       items: [
         { name: '党员比例', value: '70%' },
         { name: '专员比例', value: '55%' },
         { name: '校官比例', value: '30%' },
         { name: '本科比例', value: '60%' }],
       form: {
-        institutions: ['一旅', '二旅', '三旅', '四旅', '五旅'],
+        institutions: ['装甲兵1旅', '装甲兵2旅', '装甲兵3旅', '装甲兵4旅'],
         institution: ''
       },
-      tableHead: ['器材', '数量'],
+      tableHead: ['弹药', '数量'],
       tableData: [
         {
           ammunition: '5.56mm步弹枪',
@@ -105,8 +106,8 @@ export default {
       material: ['发动机', '水泵', '水散热器', '高压柴油泵', 'HJ-9反坦克导弹', '喷油器', '履带片'],
       locations:[{
         name:'修理连',
-        lng: 116.404,
-        lat: 39.915
+        lng: 116.404231,
+        lat: 39.915789
       }],
       labelStyle:{color: '#0000ff', fontSize : '16px', border:'none',background: 'transparent',fontWeight: '700' },
       material_data: [10, 2, 7, 30, 6, 9, 20],
@@ -164,7 +165,7 @@ export default {
       },
       material_option: {
         title: {
-          text: '弹药库',
+          text: '器材库',
           left: 'center',
           top: 10
         },
@@ -206,22 +207,73 @@ export default {
   methods: {
     sure(){
       this.dialogFormVisible = false;
+      request({
+        method: 'get',
+        url:'/api/perception/person/'+this.form.institution
+      }).then(res => {
+        let result = []
+        let data = res.data
+        let keys = Object.keys(data)
+        let values = Object.values(data)
+        for (let i = 0; i < keys.length; i++) {
+          result.push({
+            name:keys[i],
+            value: values[i] + '%'
+          })
+        }
+        this.items = result
+      })
+      request({
+        method: 'get',
+        url:'/api/perception/map/'+this.form.institution
+      }).then(res => {
+        this.locations = res.data
+        this.center.lng = res.data[0].lng
+        this.center.lat = res.data[0].lat
+        this.zoom = 14
+      })
+      request({
+        method: 'get',
+        url:'/api/perception/material/'+this.form.institution+'/弹药'
+      }).then(res => {
+        let result = []
+        let data = res.data
+        let keys = Object.keys(data)
+        let values = Object.values(data)
+        for (let i = 0; i < keys.length; i++) {
+          result.push({
+            ammunition:keys[i],
+            count: values[i]
+          })
+        }
+        this.tableData = result
+      })
+      request({
+        method:'get',
+        url:'/api/perception/material/'+this.form.institution+'/器材'
+      }).then(res => {
+        const keys = Object.keys(res.data);
+        let val = [];
+        this.material_option.xAxis.data = keys;
+        for (let i = 0; i < keys.length; i++) {
+          val.push(res.data[keys[i]]);
+        }
+        this.material_option.series[0].data = val;
+        let myChart = echarts.init(document.getElementById('material'));
+        myChart.setOption(this.material_option);
+      })
       bus.$emit('load_the_page')
     },
     cancel(){
       this.$router.back()
     },
     handler ({BMap, map}) {
-      // console.log(BMap, map)
-      this.center.lng = 116.404
-      this.center.lat = 39.915
-      this.zoom = 12
+      this.BMap = BMap
+      this.map = map
+      this.center.lng = 116.404233
+      this.center.lat = 39.915323
+      this.zoom = 13
     }
-  },
-  created() {
-    request({
-
-    })
   },
   mounted() {
     this.dialogFormVisible = true;
@@ -229,6 +281,9 @@ export default {
     // ProtectionAbilityChart.setOption(this.protection_ability_option);
     const MaterialChart = echarts.init(document.getElementById('material'));
     MaterialChart.setOption(this.material_option);
+  },
+  created() {
+
   }
 };
 </script>
