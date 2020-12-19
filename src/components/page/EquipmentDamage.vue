@@ -40,6 +40,16 @@
                     </template>
                 </el-table-column>
       </el-table>
+      <div class='pagination'>
+        <el-pagination
+          background
+          layout='total, prev, pager, next'
+          :current-page='query.pageIndex'
+          :page-size='query.pageSize'
+          :total='pageTotal'
+          @current-change='handlePageChange'
+        ></el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -57,14 +67,12 @@ export default {
       query: {
         address: '',
         name: '',
-        pageIndex: 1,
         pageSize: 10
       },
       tableData: [],
       multipleSelection: [],
       delList: [],
       editVisible: false,
-      pageTotal: 0,
       form: {},
       idx: -1,
       id: -1,
@@ -83,6 +91,14 @@ export default {
       }],
       value: ''
     };
+  },
+  computed:{
+    pageTotal(){
+      return this.tableData.length
+    },
+    pageIndex() {
+      return 1 + this.tableData.length/this.query.pageSize
+    },
   },
   created() {
     this.centerDialogVisible = true;

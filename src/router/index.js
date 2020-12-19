@@ -40,14 +40,14 @@ export default new Router({
         {
           name: 'equipment_state',
           path: '/equipment_state',
-          component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
+          component: () => import(/* webpackChunkName: "table" */ '../components/page/EquipmentDamage.vue'),
           meta: { title: '战损分析' }
         },
         {
           // 装备使用分析
           name: 'equipment_use',
           path: '/equipment_use',
-          component: () => import(/* webpackChunkName: "chart" */ '../components/page/equipment_use.vue'),
+          component: () => import(/* webpackChunkName: "chart" */ '../components/page/EquipmentUse.vue'),
           meta: { title: '装备使用分析' }
         },
         {
