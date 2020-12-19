@@ -339,6 +339,36 @@ export default {
     this.dialogFormVisible = true;
     this.set_options()
   },
+  activated() {
+    // 速度
+    const SpeedChart = echarts.init(document.getElementById('speed'));
+    SpeedChart.setOption(this.speed_option);
+    // 转速
+    const RotateSpeedChart = echarts.init(document.getElementById('rotate_speed'));
+    RotateSpeedChart.setOption(this.rotate_speed_option)
+    // 里程长度
+    const SpeedLength = echarts.init(document.getElementById('speed_length'));
+    SpeedLength.setOption(this.speed_length_option)
+    // 中置油箱
+    const OilVolumeMiddle = echarts.init(document.getElementById('oil_volume_middle'));
+    OilVolumeMiddle.setOption(this.oil_volume_middle_option)
+    // 前置油箱
+    const OilVolumeFront = echarts.init(document.getElementById('oil_volume_front'));
+    OilVolumeFront.setOption(this.oil_volume_front_option)
+    // 发动机水温
+    const EngineWaterTemperature = echarts.init(document.getElementById('engine_water_temperature'));
+    EngineWaterTemperature.setOption(this.engine_water_temperature_option)
+    // 油温
+    const EngineOilTemperature = echarts.init(document.getElementById('engine_oil_temperature'));
+    EngineOilTemperature.setOption(this.engine_oil_temperature_option)
+    SpeedChart.resize();
+    RotateSpeedChart.resize();
+    SpeedLength.resize();
+    OilVolumeMiddle.resize();
+    OilVolumeFront.resize();
+    EngineWaterTemperature.resize();
+    EngineOilTemperature.resize();
+  }
 };
 </script>
 
