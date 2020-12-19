@@ -312,6 +312,15 @@ export default {
       this.org_outfo = datas1;
       console.log(this.org_info)
     })
+  },
+  activated() {
+    let myChart = echarts.init(document.getElementById('in'));
+    myChart.setOption(this.option);
+    myChart.resize();
+
+    let myChart1 = echarts.init(document.getElementById('out'));
+    myChart1.setOption(this.option1);
+    myChart1.resize();
   }
 };
 </script>

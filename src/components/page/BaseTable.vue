@@ -107,6 +107,7 @@
 <script>
 import { fetchData } from '../../api/index';
 import request from '../../network/request';
+import echarts from "echarts";
 
 export default {
   name: 'basetable',
@@ -248,7 +249,7 @@ export default {
       this.$message.success('上传成功')
       this.getData()
     }
-  }
+  },
 };
 </script>
 
