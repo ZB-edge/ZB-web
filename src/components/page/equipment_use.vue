@@ -47,6 +47,7 @@ import sector from '@/components/page/sectorfacility';
 import sectorequip from '@/components/page/sectorequip';
 import echarts from 'echarts';
 import bus from "@/components/common/bus";
+import request from "@/network/request";
 
 export default {
   name: 'basecharts',
@@ -87,10 +88,14 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['1月1日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日'],
+            data: ['2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12'],
             axisTick: {
               alignWithLabel: true
-            }
+            },
+            axisLabel: {
+            interval: 0,//横轴信息全部显示
+            rotate: -30//-30度角倾斜显示
+          }
           }
         ],
         yAxis: [
@@ -147,15 +152,18 @@ export default {
             type: 'shadow'
           }
         },
-        xAxis: [
+        xAxis:[
           {
             type: 'category',
-            data: ['1月1日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日'],
+            data: ['2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12'],
             axisTick: {
               alignWithLabel: true
-            }
+            },
+            axisLabel: {
+            interval: 0,//横轴信息全部显示
+            rotate: -30//-30度角倾斜显示
           }
-        ],
+          }],
         yAxis: [
           {
             type: 'value',
@@ -216,10 +224,55 @@ export default {
       myChart1.resize();
     });
   },
+  // activated() {
+  //   let myChart = echarts.init(document.getElementById('in'));
+  //   myChart.setOption(this.option);
+  //   myChart.resize();
+  //
+  //   let myChart1 = echarts.init(document.getElementById('out'));
+  //   myChart1.setOption(this.option1);
+  //   myChart1.resize();
+  // },
   methods: {
     sure(){
       this.centerDialogVisible = false;
-      bus.$emit('load_the_page')
+      bus.$emit('load_the_page');
+      request({
+      baseURL:'http://202.112.157.40:8101',
+      url: '/api/vehicle/sum/' + this.value,
+        method:'get'
+    }).then(res => {
+      console.log(res.data['车辆驶出情况'])
+        let out = res.data['车辆驶出情况'];
+      const keys1 = Object.keys(out);
+      console.log(out[keys1[5]])
+      let val1 = Object.values(out);
+      console.log(val1)
+      this.option1.xAxis[0].data = keys1;
+      // for (let i = 0; i < keys1.length; i++) {
+      //   console.log(val1)
+      //   val1.push(out[keys1[i]]);
+      // }
+      this.option1.series[0].data = val1;
+      console.log(val1)
+      let myChart1 = echarts.init(document.getElementById('out'));
+      myChart1.setOption(this.option1);
+      let vehicle_in = res.data['车辆驶入情况'];
+      const keys = Object.keys(vehicle_in);
+      let val = Object.values(vehicle_in);
+      console.log(keys)
+      this.option.xAxis[0].data = keys;
+      // for (let i = 0; i < keys.length; i++) {
+      //   val.push(vehicle_in[keys[i]]);
+      //   console.log(val)
+      // }
+      this.option.series[0].data = val;
+      console.log(val+'最后');
+      let myChart = echarts.init(document.getElementById('in'));
+      myChart.setOption(this.option);
+    }).catch(err => {
+      this.$message.error('获取数据失败！');
+    })
     },
     cancel(){
       this.$router.back()

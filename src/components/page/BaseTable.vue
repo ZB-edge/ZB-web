@@ -121,9 +121,9 @@ export default {
     // 删除操作
     handleDelete(index, row) {
       // 二次确认删除
-      this.$confirm('确定要删除吗？', '提示', {
+      this.$confirm('确定要删除吗？', '提示',  {
         type: 'warning'
-      })
+        })
         .then(() => {
           request_image({
       url:'delete?name=' + this.tableData[index].image_name,

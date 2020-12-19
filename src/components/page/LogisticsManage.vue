@@ -111,8 +111,9 @@ export default {
           data: ['发动机', '水泵', '水散热器', '高压柴油泵', 'HJ-9反坦克导弹', '喷油器', '履带片'],
           axisLabel: {
             interval: 0,//横轴信息全部显示
-            rotate: -30//-30度角倾斜显示
-          }
+            rotate: -30,//-30度角倾斜显示
+            // align: 'center',
+          },
         },
         yAxis: {
           name: '数量/个',
