@@ -32,9 +32,8 @@
         <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
                         <el-button
-                            type="text"
+                            type="danger"
                             icon="el-icon-delete"
-                            class="red"
                             @click="handleDelete(scope.$index, scope.row)"
                         >删除</el-button>
                     </template>
@@ -122,7 +121,11 @@ export default {
     handleDelete(index, row) {
       // 二次确认删除
       this.$confirm('确定要删除吗？', '提示',  {
-        type: 'warning'
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonClass: "btn-custom-cancel",
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         })
         .then(() => {
           request_image({
