@@ -88,7 +88,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12'],
+            data: [],
             axisTick: {
               alignWithLabel: true
             },
@@ -134,7 +134,7 @@ export default {
                 }
               }
             },
-            data: [12, 21, 10, 4, 12, 5, 6, 5, 25, 23, 7]
+            data: []
           }
         ]
       },
@@ -155,7 +155,7 @@ export default {
         xAxis:[
           {
             type: 'category',
-            data: ['2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12', '2020-12-12'],
+            data: [],
             axisTick: {
               alignWithLabel: true
             },
@@ -200,7 +200,7 @@ export default {
                 }
               }
             },
-            data: [12, 21, 10, 4, 12, 5, 6, 5, 25, 23, 7]
+            data: []
           }
         ]
       }
@@ -224,15 +224,15 @@ export default {
       myChart1.resize();
     });
   },
-  // activated() {
-  //   let myChart = echarts.init(document.getElementById('in'));
-  //   myChart.setOption(this.option);
-  //   myChart.resize();
-  //
-  //   let myChart1 = echarts.init(document.getElementById('out'));
-  //   myChart1.setOption(this.option1);
-  //   myChart1.resize();
-  // },
+  activated() {
+    let myChart = echarts.init(document.getElementById('in'));
+    myChart.setOption(this.option);
+    myChart.resize();
+
+    let myChart1 = echarts.init(document.getElementById('out'));
+    myChart1.setOption(this.option1);
+    myChart1.resize();
+  },
   methods: {
     sure(){
       this.centerDialogVisible = false;
