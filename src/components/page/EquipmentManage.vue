@@ -323,6 +323,15 @@ export default {
       // 油温
       const EngineOilTemperature = echarts.init(document.getElementById('engine_oil_temperature'));
       EngineOilTemperature.setOption(this.engine_oil_temperature_option)
+      window.addEventListener('resize', function() {
+        SpeedChart.resize();
+        RotateSpeedChart.resize();
+        SpeedLength.resize();
+        OilVolumeMiddle.resize();
+        OilVolumeFront.resize();
+        EngineWaterTemperature.resize();
+        EngineOilTemperature.resize();
+      });
     }
   },
   mounted() {
