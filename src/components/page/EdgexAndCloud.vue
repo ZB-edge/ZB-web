@@ -107,7 +107,7 @@ export default {
       // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
       // kong网关代理API
       request({
-        url: 'http://202.112.157.52:8000/d/details/202.112.157.52/b1be28d0-20d6-4e8d-ae96-d15bb907bfbd',
+        url: 'http://202.112.157.40:8333/api/cloud/data',
         method: 'get'
       }).then(resp => {
         // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
@@ -160,7 +160,7 @@ export default {
         // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
         // kong网关代理API
         request({
-          url: 'http://202.112.157.52:8000/d/details/202.112.157.52/b1be28d0-20d6-4e8d-ae96-d15bb907bfbd',
+          url: 'http://202.112.157.40:8333/api/cloud/data',
           method: 'get'
         }).then(resp => {
           // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
