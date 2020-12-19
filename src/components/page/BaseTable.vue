@@ -34,6 +34,7 @@
                         <el-button
                             type="danger"
                             icon="el-icon-delete"
+                            class="red"
                             @click="handleDelete(scope.$index, scope.row)"
                         >删除</el-button>
                     </template>
@@ -231,7 +232,6 @@ export default {
 
 .red {
   font-size: 14px;
-  color: #ff0000;
 }
 
 .mr10 {

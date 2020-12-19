@@ -11,4 +11,8 @@
   max-width: 30%;
   /*test*/
 }
+.btn-custom-cancel{
+ float: right;
+ margin-left: 10px !important;
+ }
 </style>
