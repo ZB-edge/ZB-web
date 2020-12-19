@@ -51,7 +51,7 @@ export default {
       deviceId: '',
       deviceName: '',
       deviceList: [
-        { name: '' }
+        { name: '温湿度传感器' }
       ],
       time: '',
       interval: 1000,
