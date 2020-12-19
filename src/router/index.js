@@ -32,7 +32,7 @@ export default new Router({
         },
         {
           path: '/table',
-          component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
+          component: () => import(/* webpackChunkName: "table" */ '../components/page/EquipDamage.vue'),
           meta: { title: '战损评估' }
         },
         {
@@ -49,7 +49,7 @@ export default new Router({
         {
           // vue-schart组件
           path: '/charts',
-          component: () => import(/* webpackChunkName: "chart" */ '../components/page/BaseCharts.vue'),
+          component: () => import(/* webpackChunkName: "chart" */ '../components/page/VehicleManage.vue'),
           meta: { title: '车辆管理' }
         },
         {

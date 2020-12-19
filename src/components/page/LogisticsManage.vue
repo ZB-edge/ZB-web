@@ -71,13 +71,13 @@ export default {
       form: {
         institution: ''
       },
-      tableHead: ['器材', '数量'],
+      tableHead: ['弹药', '数量'],
       tableData: [],
       material: [],
       material_data: [10, 2, 7, 30, 6, 9, 20],
       material_option: {
         title: {
-          text: '弹药库',
+          text: '器材库',
           left: 'center',
           top: 10
         },
