@@ -85,7 +85,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['1月1日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日', ],
+            data: [],
             axisTick: {
               alignWithLabel: true
             }
@@ -127,7 +127,7 @@ export default {
                 }
               }
             },
-            data: [12, 21, 10, 4, 12, 5, 6, 5, 25, 23, 7]
+            data: []
           }
         ]
       },
@@ -148,7 +148,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['1月1日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日'],
+            data: [],
             axisTick: {
               alignWithLabel: true
             }
@@ -190,7 +190,7 @@ export default {
                 }
               }
             },
-            data: [12, 21, 10, 4, 12, 5, 6, 5, 25, 23, 7]
+            data: []
           }
         ]
       }
