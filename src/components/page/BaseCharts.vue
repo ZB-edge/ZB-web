@@ -106,7 +106,11 @@ export default {
             data: [],
             axisTick: {
               alignWithLabel: true
-            }
+            },
+            axisLabel: {
+            interval: 0,//横轴信息全部显示
+            rotate: -30//-30度角倾斜显示
+          }
           }
         ],
         yAxis: [
@@ -169,7 +173,11 @@ export default {
             data: [],
             axisTick: {
               alignWithLabel: true
-            }
+            },
+            axisLabel: {
+            interval: 0,//横轴信息全部显示
+            rotate: -30//-30度角倾斜显示
+          }
           }
         ],
         yAxis: [
