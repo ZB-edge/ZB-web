@@ -44,9 +44,6 @@
             <el-tag v-else type='danger'>
               失败
             </el-tag>
-            <!--            <el-tag :type="scope.row.status==='1'?'success':(scope.row.status==='0'?'danger':'')"-->
-            <!--            >{{ scope.row.status }}-->
-            <!--            </el-tag>-->
           </template>
         </el-table-column>
         <el-table-column prop='info' label='描述' align='center'></el-table-column>

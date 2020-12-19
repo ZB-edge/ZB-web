@@ -18,7 +18,16 @@
                     style='width: 100%'>
             <el-table-column type="index" label='序号' align="center"></el-table-column>
             <el-table-column prop='incar' label='车辆名称' align="center"></el-table-column>
-            <el-table-column prop='instatus' label='信息状态' align="center"></el-table-column>
+              <el-table-column label='信息状态' align='center'>
+          <template slot-scope='scope'>
+            <el-tag v-if="scope.row.status === 1 " type='success'>
+              已上传
+            </el-tag>
+            <el-tag v-else type='danger'>
+              未上传
+            </el-tag>
+          </template>
+        </el-table-column>
             <el-table-column prop='intime' label='驶入时间' show-overflow-tooltip align="center"></el-table-column>
           </el-table>
         </el-card>
@@ -33,8 +42,17 @@
                     style='width: 100%'>
             <el-table-column type="index" label='序号' align="center"></el-table-column>
             <el-table-column prop='outcar' label='车辆名称' align="center"></el-table-column>
-            <el-table-column prop='outstatus' label='信息状态' align="center"></el-table-column>
-            <el-table-column prop='outtime' label='驶出时间' show-overflow-tooltip align=""></el-table-column>
+            <el-table-column label='信息状态' align='center'>
+          <template slot-scope='scope'>
+            <el-tag v-if="scope.row.status === 1 " type='success'>
+              已上传
+            </el-tag>
+            <el-tag v-else type='danger'>
+              未上传
+            </el-tag>
+          </template>
+        </el-table-column>
+            <el-table-column prop='outtime' label='驶出时间' show-overflow-tooltip align="center"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -205,7 +223,7 @@ export default {
     }).then(res => {
       for (let i = 0;i < this.org_info.length; i++){
         let incar = this.org_info[i];
-        incar['instatus'] = '已上传';
+        incar['status'] = 1;
       }
       })
     },
@@ -217,7 +235,7 @@ export default {
     }).then(res => {
       for (let i = 0;i < this.org_outfo.length; i++){
         let outcar = this.org_outfo[i];
-        outcar['outstatus'] = '已上传';
+        outcar['status'] = 1;
       }
       })
     }
@@ -270,7 +288,7 @@ export default {
        const arr = {};
        arr['incar'] = incar[i]['license'];
        arr['intime'] = incar[i]['date'];
-       arr['instatus'] = '未上传';
+       arr['status'] = incar[i]['status'];
        datas.push(arr);
       }
       this.org_info = datas;
@@ -280,7 +298,7 @@ export default {
        const arr = {};
        arr['outcar'] = outcar[i]['license'];
        arr['outtime'] = outcar[i]['date'];
-       arr['outstatus'] = '未上传';
+       arr['status'] = incar[i]['status'];
        datas1.push(arr);
       }
       this.org_outfo = datas1;
