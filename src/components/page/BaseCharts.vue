@@ -12,7 +12,7 @@
         <el-card shadow='hover'>
           <div slot='header' class='clearfix'>
             <span>车辆驶入</span>
-            <el-button type="primary" style="float: right">一键上传</el-button>
+            <el-button type="primary" style="float: right" @click="uploadin">一键上传</el-button>
           </div>
           <el-table :data='org_info' height='250' border :row-style="{height: '35px'}"
                     style='width: 100%'>
@@ -27,9 +27,9 @@
         <el-card shadow='hover'>
           <div slot='header' class='clearfix'>
             <span>车辆驶出</span>
-            <el-button type="primary" style="float: right">一键上传</el-button>
+            <el-button type="primary" style="float: right" @click="uploadout">一键上传</el-button>
           </div>
-          <el-table :data='org_info' height='250' border :row-style="{height: '35px'}"
+          <el-table :data='org_outfo' height='250' border :row-style="{height: '35px'}"
                     style='width: 100%'>
             <el-table-column type="index" label='序号' align="center"></el-table-column>
             <el-table-column prop='outcar' label='车辆名称' align="center"></el-table-column>
@@ -56,6 +56,7 @@
 import sector from '@/components/page/sectorfacility';
 import sectorequip from '@/components/page/sectorequip';
 import echarts from 'echarts';
+import request from "@/network/request";
 
 export default {
   name: 'basecharts',
@@ -64,6 +65,8 @@ export default {
   },
   data() {
     return {
+      org_info:[],
+      org_outfo:[],
       value: '',
       option: {
         title: {
@@ -82,7 +85,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['1月1日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日'],
+            data: ['1月1日', '1月2日', '1月2日', '1月2日', '1月2日', '1月2日', ],
             axisTick: {
               alignWithLabel: true
             }
@@ -193,11 +196,55 @@ export default {
       }
     };
   },
+  methods:{
+    uploadin(){
+      request({
+      method: 'post',
+      baseURL:'http://202.112.157.52:8101',
+      url:'/api/vehicle/exportIn/' + localStorage.getItem("ms_username")
+    }).then(res => {
+      for (let i = 0;i < this.org_info.length; i++){
+        let incar = this.org_info[i];
+        incar['instatus'] = '已上传';
+      }
+      })
+    },
+    uploadout(){
+      request({
+      method: 'post',
+      baseURL:'http://202.112.157.52:8101',
+      url:'/api/vehicle/exportOut/' + localStorage.getItem("ms_username")
+    }).then(res => {
+      for (let i = 0;i < this.org_outfo.length; i++){
+        let outcar = this.org_outfo[i];
+        outcar['outstatus'] = '已上传';
+      }
+      })
+    }
+  },
   created() {
     this.centerDialogVisible = true;
   },
   mounted() {
-    let this_ = this;
+    request({
+      method: 'get',
+      baseURL:'http://202.112.157.52:8101',
+      url:'/api/vehicle/sum/' + localStorage.getItem("ms_username")
+    }).then(res => {
+      console.log(res.data);
+      let out = res.data['车辆驶出情况'];
+      let keys = Object.keys(out);
+      let val = Object.values(out);
+      this.option1.xAxis[0].data = keys;
+      this.option1.series[0].data = val;
+      let vehicle_in = res.data['车辆驶入情况'];
+      let keys1 = Object.keys(vehicle_in);
+      let val1 = Object.values(vehicle_in);
+      this.option.xAxis[0].data = keys1;
+      this.option.series[0].data = val1;
+      console.log(this.option1.series[0].data);
+      console.log(this.option1.xAxis[0].data);
+      let this_ = this;
     let myChart = echarts.init(document.getElementById('in'));
     myChart.setOption(this.option);
     //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
@@ -210,6 +257,35 @@ export default {
     window.addEventListener('resize', function() {
       myChart1.resize();
     });
+    })
+    request({
+      method: 'get',
+      baseURL:'http://202.112.157.52:8101',
+      url:'/api/vehicle/list/' + localStorage.getItem("ms_username")
+    }).then(res => {
+      console.log(res.data);
+      let datas = [];
+      let incar = res.data[0]
+      for (let i = 0;i < incar.length; i++){
+       const arr = {};
+       arr['incar'] = incar[i]['license'];
+       arr['intime'] = incar[i]['date'];
+       arr['instatus'] = '未上传';
+       datas.push(arr);
+      }
+      this.org_info = datas;
+      let datas1 = [];
+      let outcar = res.data[1]
+      for (let i = 0;i < outcar.length; i++){
+       const arr = {};
+       arr['outcar'] = outcar[i]['license'];
+       arr['outtime'] = outcar[i]['date'];
+       arr['outstatus'] = '未上传';
+       datas1.push(arr);
+      }
+      this.org_outfo = datas1;
+      console.log(this.org_info)
+    })
   }
 };
 </script>
