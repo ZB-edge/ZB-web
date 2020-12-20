@@ -37,6 +37,7 @@
 <script>
 import request from '../../network/request';
 import echarts from 'echarts';
+import Global from '@/components/common/global';
 
 export default {
   name: 'edgexandcloud',
@@ -107,7 +108,7 @@ export default {
       // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
       // kong网关代理API
       request({
-        url: 'http://202.112.157.40:8333/api/cloud/data',
+        url: 'http://'+ Global.ip +':8333/api/cloud/data',
         method: 'get'
       }).then(resp => {
         // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
@@ -160,7 +161,7 @@ export default {
         // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
         // kong网关代理API
         request({
-          url: 'http://202.112.157.40:8333/api/cloud/data',
+          url: 'http://'+ Global.ip +':8333/api/cloud/data',
           method: 'get'
         }).then(resp => {
           // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {

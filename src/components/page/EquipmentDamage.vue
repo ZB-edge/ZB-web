@@ -44,7 +44,7 @@
         <el-pagination
           background
           layout='total, prev, pager, next'
-          :current-page='query.pageIndex'
+          :current-page='pageIndex'
           :page-size='query.pageSize'
           :total='pageTotal'
           @current-change='handlePageChange'
@@ -57,7 +57,7 @@
 <script>
 import { fetchData } from '../../api/index';
 import request_image from "@/network/request_image";
-
+import Global from '@/components/common/global';
 export default {
   name: 'basetable',
   data() {
@@ -111,7 +111,7 @@ export default {
         arr = res.data[i];
         arr['id'] = i+1;
         arr['image_name'] = res.data[i].name;
-        arr['name'] = 'http://202.112.157.40:8100/image/' + res.data[i].name +'.jpg';
+        arr['name'] = 'http://'+Global.ip+':8100/image/' + res.data[i].name +'.jpg';
         datas.push(arr);
       }
       this.tableData = datas;
@@ -159,7 +159,7 @@ export default {
         arr = res.data[i];
         arr['id'] = i+1;
         arr['image_name'] = res.data[i].name;
-        arr['name'] = 'http://202.112.157.40:8100/image/' + res.data[i].name +'.jpg';
+        arr['name'] = 'http://'+ Global.ip +':8100/image/' + res.data[i].name +'.jpg';
         datas.push(arr);
       }
       this.tableData = datas;

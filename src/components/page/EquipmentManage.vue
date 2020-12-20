@@ -55,6 +55,7 @@
 import echarts from 'echarts';
 import bus from '@/components/common/bus';
 import request from '../../network/request';
+import Global from '@/components/common/global';
 
 export default {
   name: 'EquipmentManage',
@@ -262,7 +263,7 @@ export default {
           url: '/api/perception/simulate/' + this.form.institution + '/' + this.form.equipment + '/' + this.form.name,
           method: 'get',
         }).then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           let result = res.data
           if (result.length) {
             this.speed_option.series[0].data[0].value = result[0]['车速']

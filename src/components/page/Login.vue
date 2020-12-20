@@ -45,8 +45,7 @@ export default {
   methods: {
     submitForm() {
       request({
-        baseURL:'http://202.112.157.40:8095/api/perception',
-        url: 'adminLogin?username=' + this.param.username +'&password=' + this.param.password ,
+        url: '/api/perception/adminLogin?username=' + this.param.username +'&password=' + this.param.password ,
         method:'post',
       }).then(res => {
         console.log(res)

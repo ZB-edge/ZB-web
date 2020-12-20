@@ -1,8 +1,9 @@
 import axios from 'axios'
+import Global from '@/components/common/global'
 
 export default function request(config){
   const instance = axios.create({
-    baseURL: 'http://202.112.157.40:8095',
+    baseURL: 'http://'+ Global.ip +':8095',
     timeout: 5000,
   })
   return instance(config)
