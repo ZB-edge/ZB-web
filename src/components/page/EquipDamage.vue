@@ -9,22 +9,22 @@
     </div>
     <div class='container'>
       <div class='handle-box'>
-        <el-button
-          type='primary'
-          icon='el-icon-delete'
-          class='handle-del mr10'
-          @click='delAllSelection'
-        >批量删除
-        </el-button>
-        <el-input v-model='query.name' placeholder='图片名称' class='handle-input mr10'></el-input>
-        <el-button type='primary' icon='el-icon-search' @click='handleSearch'>搜索</el-button>
+<!--        <el-button-->
+<!--          type='primary'-->
+<!--          icon='el-icon-delete'-->
+<!--          class='handle-del mr10'-->
+<!--          @click='delAllSelection'-->
+<!--        >批量删除-->
+<!--        </el-button>-->
+<!--        <el-input v-model='query.name' placeholder='图片名称' class='handle-input mr10'></el-input>-->
+<!--        <el-button type='primary' icon='el-icon-search' @click='handleSearch'>搜索</el-button>-->
         <el-button type='primary' icon='el-icon-search' @click='adddialog' style='float: right'>新增</el-button>
       </div>
       <el-table :data='tableData' border class='table' ref='multipleTable'
                 header-cell-class-name='table-header'
                 @selection-change='handleSelectionChange'
       >
-        <el-table-column type='selection' width='55' align='center'></el-table-column>
+<!--  <el-table-column type='selection' width='55' align='center'></el-table-column>      -->
         <el-table-column type='index' label='ID' width='55' align='center'></el-table-column>
         <el-table-column prop='name' label='图片名称' align='center'></el-table-column>
         <el-table-column label='装备图片' align='center'>
@@ -255,7 +255,7 @@ export default {
 
 <style scoped>
 .handle-box {
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 .handle-select {
