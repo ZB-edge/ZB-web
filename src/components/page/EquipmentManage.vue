@@ -60,6 +60,7 @@ export default {
           method: 'get'
         }).then(res => {
           let result = res.data;
+          console.log(res.data)
           if (result.length) {
             this.speed_option.series[0].data[0].value = result[0]['车速'];
             this.speed_length_option.series[0].data[0].value = result[1]['里程统计'];

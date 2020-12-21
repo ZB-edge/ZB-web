@@ -21,8 +21,8 @@
           <template slot-scope='scope'>
             <el-image
               class='table-td-thumb'
-              :src="'http://202.112.157.52:8100/image/'+scope.row.name+'.jpg'"
-              :preview-src-list="['http://202.112.157.52:8100/image/'+scope.row.name+'.jpg']"
+              :src="'http://' + imageSrc + ':8100/image/'+scope.row.name+'.jpg'"
+              :preview-src-list="['http://' + imageSrc + ':8100/image/'+scope.row.name+'.jpg']"
             ></el-image>
           </template>
         </el-table-column>
@@ -75,7 +75,7 @@
         :visible.sync='uploadDialog'
         center>
         <el-form v-model='form' style='text-align: center'>
-          <el-upload class='upload-demo' action='http://202.112.157.52:8100/api/damage/upload' accept='.jpg'
+          <el-upload class='upload-demo' :action=ipUpload accept='.jpg'
                      ref="upload" :on-success='file_upload_success' :on-change='file_upload' :auto-upload='false' style='margin-top: 20px'>
             <i class='el-icon-upload'></i>
             <div class='el-upload__text'>将文件拖到此处，或<em>点击上传</em></div>
@@ -98,6 +98,7 @@
 import { fetchData } from '../../api/index';
 import request from '../../network/request';
 import echarts from "echarts";
+import global from "@/network/global";
 
 export default {
   name: 'basetable',
@@ -108,6 +109,8 @@ export default {
         pageIndex: 1,
         pageSize: 10
       },
+      ipUpload:'http://' + global.ip + ':8100/api/damage/upload',
+      imageSrc:global.ip,
       tableData: [],
       multipleSelection: [],
       delList: [],
@@ -129,11 +132,14 @@ export default {
     // 获取 easy-mock 的模拟数据
     getData() {
       request({
-        baseURL: 'http://202.112.157.52:8100',
+        baseURL: 'http://' + global.ip +':8100',
         url: '/api/damage/show',
         method: 'get'
       }).then(res => {
         this.tableData = res.data;
+        console.log(this.tableData);
+        console.log(this.ipUpload);
+        console.log(this.imageSrc)
       });
     },
     // 触发搜索按钮
@@ -155,7 +161,7 @@ export default {
         console.log(row.name);
         console.log(typeof row.name);
         request({
-          baseURL: 'http://202.112.157.52:8100',
+          baseURL: 'http://' + global.ip +':8100',
           url: '/api/damage/delete?name='+row.name,
           method: 'delete',
         }).then(res=>{
@@ -182,7 +188,7 @@ export default {
     // 上传操作
     handleUpload(index, row) {
       request({
-        baseURL: 'http://202.112.157.52:8100',
+        baseURL: 'http://' + global.ip +':8100',
         url: '/api/damage/export/'+localStorage.getItem('ms_username')+'?name='+row.name,
         method: 'post',
         timeout: 100000
@@ -214,7 +220,7 @@ export default {
     // 上传图片确认按钮
     sure() {
       request({
-        baseURL: 'http://202.112.157.52:8100',
+        baseURL: 'http://' + global.ip +':8100',
         url: '/api/damage/save',
         method: 'post',
         timeout: 10000,

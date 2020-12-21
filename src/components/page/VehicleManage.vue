@@ -75,6 +75,7 @@ import sector from '@/components/page/sectorfacility';
 import sectorequip from '@/components/page/sectorequip';
 import echarts from 'echarts';
 import request from "@/network/request";
+import global from "@/network/global";
 
 export default {
   name: 'basecharts',
@@ -226,7 +227,7 @@ export default {
     uploadin(){
       request({
       method: 'post',
-      baseURL:'http://202.112.157.52:8101',
+      baseURL:'http://' + global.ip +':8101',
       url:'/api/vehicle/exportIn/' + localStorage.getItem("ms_username")
     }).then(res => {
       for (let i = 0;i < this.org_info.length; i++){
@@ -238,7 +239,7 @@ export default {
     uploadout(){
       request({
       method: 'post',
-      baseURL:'http://202.112.157.52:8101',
+      baseURL:'http://' + global.ip +':8101',
       url:'/api/vehicle/exportOut/' + localStorage.getItem("ms_username")
     }).then(res => {
       for (let i = 0;i < this.org_outfo.length; i++){
@@ -254,7 +255,7 @@ export default {
   mounted() {
     request({
       method: 'get',
-      baseURL:'http://202.112.157.52:8101',
+      baseURL:'http://' + global.ip +':8101',
       url:'/api/vehicle/sum/' + localStorage.getItem("ms_username")
     }).then(res => {
       console.log(res.data);
@@ -286,7 +287,7 @@ export default {
     })
     request({
       method: 'get',
-      baseURL:'http://202.112.157.52:8101',
+      baseURL:'http://' + global.ip +':8101',
       url:'/api/vehicle/list/' + localStorage.getItem("ms_username")
     }).then(res => {
       console.log(res.data);

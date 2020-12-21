@@ -28,6 +28,7 @@
 
 <script>
 import request from '@/network/request';
+import global from "@/network/global";
 
 export default {
   data: function() {
@@ -45,7 +46,7 @@ export default {
   methods: {
     submitForm() {
         request({
-          baseURL: 'http://202.112.157.52:8095',
+          baseURL: 'http://' + global.ip + ':8095',
           url: '/api/perception/edgeLogin?username=' + this.param.username + '&password=' + this.param.password,
           method: 'post',
         }).then(res => {
