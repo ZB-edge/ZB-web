@@ -52,7 +52,7 @@ export default {
       deviceId: '',
       deviceName: '',
       deviceList: [
-        { name: '温湿度传感器' }
+        { name: 'Random-Integer-Generator01' }
       ],
       time: '',
       interval: 1000,
