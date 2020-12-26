@@ -307,7 +307,7 @@ export default {
        const arr = {};
        arr['outcar'] = outcar[i]['license'];
        arr['outtime'] = outcar[i]['date'];
-       arr['status'] = incar[i]['status'];
+       arr['status'] = outcar[i]['status'];
        datas1.push(arr);
       }
       this.org_outfo = datas1;
